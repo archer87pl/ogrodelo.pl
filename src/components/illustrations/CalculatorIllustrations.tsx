@@ -380,6 +380,27 @@ export function ShrubComparatorIllustration() {
   );
 }
 
+export function GardenPlanIllustration() {
+  return (
+    <IllustrationWrapper title="Generator planu ogrodu">
+      <path d="M20 250 L380 250 L380 275 L20 275 Z" fill="#c8e6b8" />
+      <rect x="40" y="180" width="120" height="70" rx="6" fill="#5a9a5a" opacity="0.5" stroke="#2d6a2d" strokeWidth="1" />
+      <text x="100" y="218" textAnchor="middle" fill="#1e4a1e" fontSize="8" fontWeight="600">trawnik</text>
+      <rect x="175" y="195" width="70" height="55" rx="6" fill="#e8c878" opacity="0.6" stroke="#c8a040" strokeWidth="1" />
+      <text x="210" y="225" textAnchor="middle" fill="#6b5020" fontSize="7" fontWeight="600">warzywnik</text>
+      <rect x="260" y="200" width="55" height="50" rx="6" fill="#d878a8" opacity="0.45" stroke="#a84878" strokeWidth="1" />
+      <text x="287" y="228" textAnchor="middle" fill="#6b2040" fontSize="7" fontWeight="600">rabaty</text>
+      <rect x="330" y="210" width="45" height="40" rx="6" fill="#8a8a8a" opacity="0.4" stroke="#5a5a5a" strokeWidth="1" />
+      <text x="352" y="233" textAnchor="middle" fill="#3a3a3a" fontSize="6" fontWeight="600">relaks</text>
+      <g className="hero-float">
+        <rect x="130" y="75" width="140" height="55" rx="10" fill="white" stroke="#d4e4d4" strokeWidth="1.5" />
+        <text x="200" y="98" textAnchor="middle" fill="#2d6a2d" fontSize="9" fontWeight="700">plan + kosztorys</text>
+        <text x="200" y="115" textAnchor="middle" fill="#6b7c6b" fontSize="8">strefy · fazy · PLN</text>
+      </g>
+    </IllustrationWrapper>
+  );
+}
+
 export const CALCULATOR_ILLUSTRATIONS: Record<string, () => React.JSX.Element> = {
   "kalkulator-nawadniania": IrrigationIllustration,
   "kalkulator-zywoplotu": HedgeIllustration,
@@ -390,6 +411,7 @@ export const CALCULATOR_ILLUSTRATIONS: Record<string, () => React.JSX.Element> =
   "kalkulator-wzrostu": GrowthIllustration,
   "porownywarka-drzew": TreeComparatorIllustration,
   "porownywarka-krzewow": ShrubComparatorIllustration,
+  "generator-planu-ogrodu": GardenPlanIllustration,
   "kalkulator-trawnika": LawnIllustration,
   "kalkulator-robota-koszacego": MowerIllustration,
   "alternatywy-dla-tui": TuiAlternativesIllustration,

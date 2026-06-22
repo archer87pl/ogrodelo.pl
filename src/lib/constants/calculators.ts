@@ -148,6 +148,24 @@ export const CALCULATORS: CalculatorMeta[] = [
     icon: "🤖",
   },
   {
+    slug: "generator-planu-ogrodu",
+    title: "Generator planu ogrodu — ankieta i kosztorys",
+    shortTitle: "Plan ogrodu",
+    description:
+      "Spersonalizowany plan ogrodu: ankieta 6 kroków, strefy, rośliny, kosztorys PLN i harmonogram 4 faz. Mały ogród, warzywnik, prywatność i więcej.",
+    keywords: [
+      "generator planu ogrodu",
+      "plan ogrodu online",
+      "projekt ogrodu",
+      "koszt założenia ogrodu",
+      "jak zaplanować ogród",
+      "ankieta ogrodowa",
+      "kosztorys ogrodu",
+    ],
+    icon: "📋",
+    featured: true,
+  },
+  {
     slug: "porownywarka-krzewow",
     title: "Porównywarka krzewów — laurowiśnia vs tuja i więcej",
     shortTitle: "Porównywarka krzewów",

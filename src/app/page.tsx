@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   ...siteMetadata(),
   title: "Ogrodelo.pl — Darmowe kalkulatory ogrodowe",
   description:
-    "12 narzędzi ogrodowych: kalkulatory, porównywarki drzew i krzewów. Nawadnianie, żywopłot, wzrost roślin i więcej — bez rejestracji.",
+    "13 narzędzi ogrodowych — kalkulatory, porównywarki i generator planu ogrodu z kosztorysem.",
   alternates: {
     canonical: "https://ogrodelo.pl",
   },
@@ -40,16 +40,14 @@ export default function HomePage() {
                 <span className="text-primary">mądrze i za darmo</span>
               </h1>
               <p className="mt-6 max-w-xl text-lg text-muted leading-relaxed">
-                12 narzędzi ogrodowych — kalkulatory i porównywarki drzew oraz krzewów.
-                Oblicz nawadnianie, dobierz żywopłot i zaplanuj nasadzenia na podstawie
-                sprawdzonych danych ogrodniczych.
+                13 narzędzi — od ankiety i planu ogrodu po kalkulatory nawadniania i porównywarki drzew.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link
-                  href="/kalkulator-nawadniania"
+                  href="/generator-planu-ogrodu"
                   className="rounded-full bg-primary px-6 py-3 font-medium text-white shadow-sm hover:bg-primary-dark transition-colors"
                 >
-                  Kalkulator nawadniania
+                  Generator planu ogrodu
                 </Link>
                 <Link
                   href="/porownywarka-drzew"

@@ -5,6 +5,7 @@ import { HEDGE_PRESETS } from "@/lib/constants/hedge-presets";
 import { GROWTH_PRESETS } from "@/lib/constants/growth-presets";
 import { TREE_PRESETS } from "@/lib/constants/tree-presets";
 import { SHRUB_PRESETS } from "@/lib/constants/shrub-presets";
+import { GARDEN_PLAN_PRESETS } from "@/lib/constants/garden-plan-presets";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://ogrodelo.pl";
@@ -51,6 +52,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.88,
+    })),
+    ...GARDEN_PLAN_PRESETS.map((p) => ({
+      url: `${base}/generator-planu-ogrodu/${p.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.9,
     })),
   ];
 }

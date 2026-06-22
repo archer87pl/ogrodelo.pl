@@ -26,6 +26,12 @@ export function Header() {
             Żywopłot
           </Link>
           <Link
+            href="/generator-planu-ogrodu"
+            className="hover:text-primary transition-colors font-semibold text-primary-dark"
+          >
+            Plan ogrodu
+          </Link>
+          <Link
             href="/porownywarka-drzew"
             className="hover:text-primary transition-colors"
           >
