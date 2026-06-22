@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ShrubComparator } from "@/components/calculators/ShrubComparator";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { RelatedTools } from "@/components/RelatedTools";
 import { CalculatorHero } from "@/components/CalculatorHero";
 import { getCalculatorBySlug } from "@/lib/constants/calculators";
 import { getShrubPreset, getAllShrubPresetSlugs } from "@/lib/constants/shrub-presets";
@@ -86,6 +87,7 @@ export default async function PresetPage({ params }: PageProps) {
             ))}
           </article>
         )}
+        <RelatedTools currentSlug="porownywarka-krzewow" hidePresets />
       </div>
     </>
   );

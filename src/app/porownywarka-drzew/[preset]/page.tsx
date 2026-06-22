@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { TreeComparator } from "@/components/calculators/TreeComparator";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { RelatedTools } from "@/components/RelatedTools";
 import { CalculatorHero } from "@/components/CalculatorHero";
 import { getCalculatorBySlug } from "@/lib/constants/calculators";
 import { getTreePreset, getAllTreePresetSlugs } from "@/lib/constants/tree-presets";
@@ -90,6 +91,7 @@ export default async function PresetPage({ params }: PageProps) {
             ))}
           </article>
         )}
+        <RelatedTools currentSlug="porownywarka-drzew" hidePresets />
       </div>
     </>
   );

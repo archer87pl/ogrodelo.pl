@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { HedgeCalculator } from "@/components/calculators/HedgeCalculator";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { RelatedTools } from "@/components/RelatedTools";
 import { CalculatorHero } from "@/components/CalculatorHero";
 import { getCalculatorBySlug } from "@/lib/constants/calculators";
 import { HEDGE_PRESETS } from "@/lib/constants/hedge-presets";
@@ -135,6 +136,8 @@ export default function Page() {
             </div>
           </section>
         </article>
+
+        <RelatedTools currentSlug="kalkulator-zywoplotu" />
       </div>
     </>
   );

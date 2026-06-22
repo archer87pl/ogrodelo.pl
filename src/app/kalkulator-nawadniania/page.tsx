@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { IrrigationCalculator } from "@/components/calculators/IrrigationCalculator";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { RelatedTools } from "@/components/RelatedTools";
 import { CalculatorHero } from "@/components/CalculatorHero";
 import { getCalculatorBySlug } from "@/lib/constants/calculators";
 import {
@@ -79,7 +80,15 @@ export default function Page() {
               Kalkulator opiera się na normach ogrodniczych stosowanych w Polsce: zapotrzebowanie
               bazowe w litrach na m² tygodniowo (trawnik 25, kwiaty 30, warzywa 35, krzewy 20,
               drzewa 15), skorygowane o współczynniki gleby, nasłonecznienia, wiatru, mulczu,
-              sezonu i aktualnej pogody. Wynik uwzględnia sprawność systemu nawadniania — kroplówka
+              sezonu i aktualnej pogody. Uzupełnij plan o{" "}
+              <Link href="/kalkulator-deszczowki" className="text-primary hover:underline">
+                zbiornik na deszczówkę
+              </Link>{" "}
+              lub{" "}
+              <Link href="/generator-planu-ogrodu" className="text-primary hover:underline">
+                generator planu ogrodu
+              </Link>
+              . Wynik uwzględnia sprawność systemu nawadniania — kroplówka
               traci tylko 10% wody, zraszacz rotacyjny ok. 25%.
             </p>
           </section>
@@ -179,6 +188,8 @@ export default function Page() {
             </div>
           </section>
         </article>
+
+        <RelatedTools currentSlug="kalkulator-nawadniania" />
       </div>
     </>
   );

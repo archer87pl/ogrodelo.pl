@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CalculatorCard } from "@/components/CalculatorCard";
 import { HeroGardenIllustration } from "@/components/HeroGardenIllustration";
+import { InternalLinkHubs } from "@/components/InternalLinkHubs";
 import { CALCULATORS } from "@/lib/constants/calculators";
 import { siteMetadata, jsonLdCalculatorList } from "@/lib/seo";
 
@@ -94,6 +95,8 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      <InternalLinkHubs />
 
       <section className="mx-auto max-w-6xl px-4 py-12">
         <div className="rounded-2xl border border-border bg-card p-8 sm:p-12 text-center">

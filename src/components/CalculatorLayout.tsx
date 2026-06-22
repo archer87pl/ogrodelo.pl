@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import type { CalculatorMeta } from "@/lib/constants/calculators";
 import { Breadcrumbs, type BreadcrumbItem } from "@/components/Breadcrumbs";
 import { CalculatorHero } from "@/components/CalculatorHero";
+import { RelatedTools } from "@/components/RelatedTools";
 import { jsonLdCalculator, jsonLdBreadcrumb } from "@/lib/seo";
 
 const SITE_URL = "https://ogrodelo.pl";
@@ -70,6 +71,8 @@ export function CalculatorLayout({
             {seoContent}
           </article>
         )}
+
+        <RelatedTools currentSlug={calc.slug} />
       </div>
     </>
   );

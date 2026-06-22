@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ShrubComparator } from "@/components/calculators/ShrubComparator";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { RelatedTools } from "@/components/RelatedTools";
 import { CalculatorHero } from "@/components/CalculatorHero";
 import { getCalculatorBySlug } from "@/lib/constants/calculators";
 import { SHRUB_PRESETS } from "@/lib/constants/shrub-presets";
@@ -113,6 +114,8 @@ export default function Page() {
             </div>
           </section>
         </article>
+
+        <RelatedTools currentSlug="porownywarka-krzewow" />
       </div>
     </>
   );

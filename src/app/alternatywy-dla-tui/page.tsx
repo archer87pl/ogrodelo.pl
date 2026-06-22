@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { CalculatorLayout } from "@/components/CalculatorLayout";
 import { TuiAlternativesCalculator } from "@/components/calculators/TuiAlternativesCalculator";
 import { getCalculatorBySlug } from "@/lib/constants/calculators";
@@ -17,9 +18,19 @@ export default function Page() {
           <h2>Co posadzić zamiast tui?</h2>
           <p>
             Tuje w Polsce masowo padają na chorobę grzybową (Phytophthora).
-            Coraz więcej ogrodników szuka zdrowszych alternatyw. Nasz kalkulator
-            dobiera gatunki na podstawie strefy klimatycznej, docelowej
-            wysokości, zimozieloności i tempa wzrostu.
+            Coraz więcej ogrodników szuka zdrowszych alternatyw. Porównaj{" "}
+            <Link href="/porownywarka-krzewow/laurowisnia-vs-tuja" className="text-primary hover:underline">
+              laurowiśnię z tuią
+            </Link>{" "}
+            i{" "}
+            <Link href="/porownywarka-krzewow/tuja-vs-ostrokrzew" className="text-primary hover:underline">
+              tuię z ostrokrzewem
+            </Link>
+            , a następnie policz koszt żywopłotu w{" "}
+            <Link href="/kalkulator-zywoplotu" className="text-primary hover:underline">
+              kalkulatorze żywopłotu
+            </Link>
+            .
           </p>
           <h3>Najlepsze zamienniki tui</h3>
           <p>

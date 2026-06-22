@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { GardenPlanGenerator } from "@/components/calculators/GardenPlanGenerator";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { RelatedTools } from "@/components/RelatedTools";
 import { CalculatorHero } from "@/components/CalculatorHero";
 import { getCalculatorBySlug } from "@/lib/constants/calculators";
 import { GARDEN_PLAN_PRESETS } from "@/lib/constants/garden-plan-presets";
@@ -99,6 +100,8 @@ export default function Page() {
             </div>
           </section>
         </article>
+
+        <RelatedTools currentSlug="generator-planu-ogrodu" />
       </div>
     </>
   );

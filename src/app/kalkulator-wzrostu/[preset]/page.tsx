@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { GrowthCalculator } from "@/components/calculators/GrowthCalculator";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { RelatedTools } from "@/components/RelatedTools";
 import { CalculatorHero } from "@/components/CalculatorHero";
 import { getCalculatorBySlug } from "@/lib/constants/calculators";
 import {
@@ -97,6 +98,7 @@ export default async function PresetPage({ params }: PageProps) {
             ))}
           </article>
         )}
+        <RelatedTools currentSlug="kalkulator-wzrostu" hidePresets />
       </div>
     </>
   );
