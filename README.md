@@ -1,7 +1,7 @@
 # Ogrodelo.pl
 
 Darmowe kalkulatory ogrodowe — Next.js, SEO, polski klimat.
-
+ 
 ## Kalkulatory
 
 1. **Nawadnianie** — zapotrzebowanie na wodę, harmonogram, pogoda
