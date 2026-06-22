@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CALCULATORS } from "@/lib/constants/calculators";
 import { FOOTER_LINK_GROUPS } from "@/lib/constants/internal-links";
+import { LegalDisclaimer } from "@/components/LegalDisclaimer";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -72,7 +73,12 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm">
+        <LegalDisclaimer
+          variant="inline"
+          className="mt-8 pt-6 border-t border-white/10 text-white/50"
+        />
+
+        <div className="mt-6 pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm">
           <p>© {year} Ogrodelo.pl — Kalkulatory ogrodowe</p>
           <nav className="flex flex-wrap gap-x-4 gap-y-1" aria-label="Szybkie linki">
             <Link href="/porownywarka-drzew/dab-vs-sosna" className="hover:text-white">

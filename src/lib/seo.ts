@@ -35,7 +35,7 @@ export function siteMetadata(): Metadata {
       siteName: SITE_NAME,
       title: "Ogrodelo.pl — Darmowe kalkulatory ogrodowe",
       description:
-        "Planuj ogród mądrze: nawadnianie, żywopłoty, wzrost roślin, nawożenie i 10 innych kalkulatorów ogrodowych.",
+        "Planuj ogród mądrze: kalendarz ogrodnika, nawadnianie, żywopłoty, wzrost roślin i 10 innych narzędzi.",
     },
     twitter: {
       card: "summary_large_image",

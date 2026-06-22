@@ -4,6 +4,7 @@ import {
   getPresetLinks,
   getAllToolsLink,
 } from "@/lib/constants/internal-links";
+import { LegalDisclaimer } from "@/components/LegalDisclaimer";
 
 interface RelatedToolsProps {
   currentSlug: string;
@@ -93,6 +94,8 @@ export function RelatedTools({
           Strona główna Ogrodelo.pl
         </Link>
       </p>
+
+      <LegalDisclaimer />
     </aside>
   );
 }

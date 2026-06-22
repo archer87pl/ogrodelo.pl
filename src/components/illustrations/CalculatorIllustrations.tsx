@@ -401,6 +401,64 @@ export function GardenPlanIllustration() {
   );
 }
 
+export function GardenCalendarIllustration() {
+  return (
+    <IllustrationWrapper title="Kalendarz ogrodnika">
+      <path d="M20 250 L380 250 L380 275 L20 275 Z" fill="#c8e6b8" />
+      <g className="hero-float-slow">
+        <rect x="95" y="70" width="210" height="165" rx="12" fill="white" stroke="#d4e4d4" strokeWidth="2" />
+        <rect x="95" y="70" width="210" height="36" rx="12" fill="#2d6a2d" />
+        <rect x="95" y="94" width="210" height="12" fill="#2d6a2d" />
+        <text x="200" y="93" textAnchor="middle" fill="white" fontSize="11" fontWeight="700">kalendarz ogrodnika</text>
+        {[0, 1, 2, 3, 4, 5].map((col) => (
+          <rect
+            key={`h-${col}`}
+            x={108 + col * 32}
+            y={118}
+            width={24}
+            height={14}
+            rx={3}
+            fill="#e8f5e0"
+          />
+        ))}
+        {[0, 1, 2, 3].map((row) =>
+          [0, 1, 2, 3, 4, 5].map((col) => (
+            <rect
+              key={`c-${row}-${col}`}
+              x={108 + col * 32}
+              y={138 + row * 22}
+              width={24}
+              height={18}
+              rx={3}
+              fill={
+                row === 1 && col === 4
+                  ? "#4a9a4a"
+                  : row === 2 && col === 2
+                    ? "#7bc67b"
+                    : row === 0 && col === 0
+                      ? "#a8d4a8"
+                      : "#f5faf2"
+              }
+              stroke="#d4e4d4"
+              strokeWidth="0.5"
+            />
+          ))
+        )}
+        <circle cx="318" cy="155" r="22" fill="#e8f5e0" stroke="#4a9a4a" strokeWidth="1.5" />
+        <path d="M318 142 L318 168 M305 155 L331 155" stroke="#4a9a4a" strokeWidth="2" strokeLinecap="round" />
+      </g>
+      <g className="hero-float" style={{ animationDelay: "0.3s" }}>
+        <ellipse cx="55" cy="210" rx="18" ry="14" fill="#2d6a2d" />
+        <rect x="52" y="210" width="6" height="25" fill="#6b4c30" />
+      </g>
+      <g className="hero-float" style={{ animationDelay: "0.6s" }}>
+        <ellipse cx="345" cy="215" rx="14" ry="10" fill="#5a9a5a" />
+        <rect x="342" y="215" width="5" height="20" fill="#6b4c30" />
+      </g>
+    </IllustrationWrapper>
+  );
+}
+
 export const CALCULATOR_ILLUSTRATIONS: Record<string, () => React.JSX.Element> = {
   "kalkulator-nawadniania": IrrigationIllustration,
   "kalkulator-zywoplotu": HedgeIllustration,
@@ -415,4 +473,5 @@ export const CALCULATOR_ILLUSTRATIONS: Record<string, () => React.JSX.Element> =
   "kalkulator-trawnika": LawnIllustration,
   "kalkulator-robota-koszacego": MowerIllustration,
   "alternatywy-dla-tui": TuiAlternativesIllustration,
+  "kalendarz-ogrodnika": GardenCalendarIllustration,
 };

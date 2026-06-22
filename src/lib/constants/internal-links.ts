@@ -97,6 +97,14 @@ const RELATED_SLUGS: Record<string, string[]> = {
     "kalkulator-nawadniania",
     "kalkulator-nawozenia",
   ],
+  "kalendarz-ogrodnika": [
+    "kalkulator-nawozenia",
+    "kalkulator-trawnika",
+    "kalkulator-nawadniania",
+    "kalkulator-zywoplotu",
+    "generator-planu-ogrodu",
+    "porownywarka-krzewow",
+  ],
 };
 
 /** Wysokowartościowe podstrony presetów — linkowanie głębokie */
@@ -249,6 +257,28 @@ const PRESET_LINKS: Record<string, InternalLink[]> = {
       description: "Wysokość i sadzonki",
     },
   ],
+  "kalendarz-ogrodnika": [
+    {
+      href: "/kalendarz-ogrodnika/wertykulacja-trawnika",
+      label: "Wertykulacja trawnika — kiedy?",
+      description: "Maj, czerwiec lub wrzesień",
+    },
+    {
+      href: "/kalendarz-ogrodnika/przycinanie-jabloni",
+      label: "Cięcie jabłoni",
+      description: "Styczeń i luty — formujące cięcie",
+    },
+    {
+      href: "/kalendarz-ogrodnika/nawozenie-hortensji",
+      label: "Nawożenie hortensji",
+      description: "Kwiecień, maj, lipiec",
+    },
+    {
+      href: "/kalendarz-ogrodnika/maj",
+      label: "Kalendarz — maj",
+      description: "Wertykulacja i wysadzanie pomidorów",
+    },
+  ],
 };
 
 export const LINK_HUBS: LinkHub[] = [
@@ -269,6 +299,7 @@ export const LINK_HUBS: LinkHub[] = [
       linkFromSlug("kalkulator-deszczowki"),
       linkFromSlug("kalkulator-nawozenia"),
       linkFromSlug("kalkulator-robota-koszacego"),
+      linkFromSlug("kalendarz-ogrodnika"),
     ],
   },
   {
@@ -325,7 +356,7 @@ export function getAllToolsLink(): InternalLink {
   return {
     href: "/#kalkulatory",
     label: "Wszystkie kalkulatory ogrodowe",
-    description: "Pełna lista 13 darmowych narzędzi na Ogrodelo.pl",
+    description: "Pełna lista 14 darmowych narzędzi na Ogrodelo.pl",
     icon: "🌿",
   };
 }
@@ -345,6 +376,7 @@ export const FOOTER_LINK_GROUPS: { title: string; slugs: string[] }[] = [
     title: "Planowanie",
     slugs: [
       "generator-planu-ogrodu",
+      "kalendarz-ogrodnika",
       "kalkulator-prywatnosci",
       "kalkulator-trawnika",
     ],

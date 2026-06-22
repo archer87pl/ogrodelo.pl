@@ -1,13 +1,20 @@
 import type { CalculatorMeta } from "@/lib/constants/calculators";
 import { CalculatorIllustration } from "@/components/CalculatorIllustration";
+import { AdPlaceholder } from "@/components/AdPlaceholder";
 
 interface CalculatorHeroProps {
   calc: CalculatorMeta;
   description?: string;
   title?: string;
+  showAd?: boolean;
 }
 
-export function CalculatorHero({ calc, description, title }: CalculatorHeroProps) {
+export function CalculatorHero({
+  calc,
+  description,
+  title,
+  showAd = true,
+}: CalculatorHeroProps) {
   const desc = description ?? calc.description;
   const heading = title ?? calc.title;
 
@@ -33,6 +40,8 @@ export function CalculatorHero({ calc, description, title }: CalculatorHeroProps
           <CalculatorIllustration slug={calc.slug} />
         </div>
       </div>
+
+      {showAd && <AdPlaceholder className="mt-8" variant="compact" />}
     </header>
   );
 }

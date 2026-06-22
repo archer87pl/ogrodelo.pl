@@ -3,6 +3,8 @@ import Link from "next/link";
 import { CalculatorCard } from "@/components/CalculatorCard";
 import { HeroGardenIllustration } from "@/components/HeroGardenIllustration";
 import { InternalLinkHubs } from "@/components/InternalLinkHubs";
+import { AdPlaceholder } from "@/components/AdPlaceholder";
+import { LegalDisclaimer } from "@/components/LegalDisclaimer";
 import { CALCULATORS } from "@/lib/constants/calculators";
 import { siteMetadata, jsonLdCalculatorList } from "@/lib/seo";
 
@@ -10,7 +12,7 @@ export const metadata: Metadata = {
   ...siteMetadata(),
   title: "Ogrodelo.pl — Darmowe kalkulatory ogrodowe",
   description:
-    "13 narzędzi ogrodowych — kalkulatory, porównywarki i generator planu ogrodu z kosztorysem.",
+    "14 narzędzi ogrodowych — kalkulatory, kalendarz ogrodnika, porównywarki i generator planu ogrodu.",
   alternates: {
     canonical: "https://ogrodelo.pl",
   },
@@ -41,7 +43,7 @@ export default function HomePage() {
                 <span className="text-primary">mądrze i za darmo</span>
               </h1>
               <p className="mt-6 max-w-xl text-lg text-muted leading-relaxed">
-                13 narzędzi — od ankiety i planu ogrodu po kalkulatory nawadniania i porównywarki drzew.
+                14 narzędzi — od kalendarza ogrodnika i planu ogrodu po kalkulatory nawadniania i porównywarki drzew.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link
@@ -71,6 +73,10 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-6xl px-4 pb-4">
+        <AdPlaceholder />
+      </section>
+
       <section className="mx-auto max-w-6xl px-4 py-12">
         <h2 className="text-2xl font-bold text-primary-dark mb-6">
           Najpopularniejsze
@@ -97,6 +103,10 @@ export default function HomePage() {
       </section>
 
       <InternalLinkHubs />
+
+      <section className="mx-auto max-w-6xl px-4 pb-12">
+        <LegalDisclaimer />
+      </section>
 
       <section className="mx-auto max-w-6xl px-4 py-12">
         <div className="rounded-2xl border border-border bg-card p-8 sm:p-12 text-center">

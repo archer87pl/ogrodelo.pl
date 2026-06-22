@@ -215,6 +215,24 @@ export const CALCULATORS: CalculatorMeta[] = [
     icon: "🔄",
     featured: true,
   },
+  {
+    slug: "kalendarz-ogrodnika",
+    title: "Kalendarz ogrodnika — harmonogram prac na cały rok",
+    shortTitle: "Kalendarz",
+    description:
+      "Co robić w ogrodzie miesiąc po miesiącu: cięcie jabłoni, nawożenie hortensji, wertykulacja trawnika. Kalendarz ogrodnika dla polskiego klimatu.",
+    keywords: [
+      "kalendarz ogrodnika",
+      "harmonogram prac ogrodowych",
+      "co robić w ogrodzie",
+      "prace ogrodowe kalendarz",
+      "kalendarz ogrodniczy",
+      "wertykulacja trawnika kiedy",
+      "nawożenie hortensji kiedy",
+    ],
+    icon: "📅",
+    featured: true,
+  },
 ];
 
 export function getCalculatorBySlug(slug: string): CalculatorMeta | undefined {
