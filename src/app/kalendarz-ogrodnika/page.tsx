@@ -54,8 +54,8 @@ export default function Page() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             jsonLdBreadcrumb([
-              { name: "Strona główna", url: "https://ogrodelo.pl" },
-              { name: "Kalendarz ogrodnika", url: "https://ogrodelo.pl/kalendarz-ogrodnika" },
+              { name: "Strona główna", url: "https://www.ogrodelo.pl" },
+              { name: "Kalendarz ogrodnika", url: "https://www.ogrodelo.pl/kalendarz-ogrodnika" },
             ])
           ),
         }}

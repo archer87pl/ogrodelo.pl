@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { CalculatorMeta } from "./constants/calculators";
 import { CALCULATORS } from "./constants/calculators";
 
-const SITE_URL = "https://ogrodelo.pl";
+export const SITE_URL = "https://www.ogrodelo.pl";
 const SITE_NAME = "Ogrodelo.pl";
 
 export function siteMetadata(): Metadata {

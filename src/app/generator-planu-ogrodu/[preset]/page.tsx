@@ -46,14 +46,14 @@ export default async function PresetPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             jsonLdBreadcrumb([
-              { name: "Strona główna", url: "https://ogrodelo.pl" },
+              { name: "Strona główna", url: "https://www.ogrodelo.pl" },
               {
                 name: "Generator planu ogrodu",
-                url: "https://ogrodelo.pl/generator-planu-ogrodu",
+                url: "https://www.ogrodelo.pl/generator-planu-ogrodu",
               },
               {
                 name: preset.title,
-                url: `https://ogrodelo.pl/generator-planu-ogrodu/${slug}`,
+                url: `https://www.ogrodelo.pl/generator-planu-ogrodu/${slug}`,
               },
             ])
           ),

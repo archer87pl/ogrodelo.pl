@@ -41,8 +41,8 @@ export default function Page() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             jsonLdBreadcrumb([
-              { name: "Strona główna", url: "https://ogrodelo.pl" },
-              { name: "Generator planu ogrodu", url: "https://ogrodelo.pl/generator-planu-ogrodu" },
+              { name: "Strona główna", url: "https://www.ogrodelo.pl" },
+              { name: "Generator planu ogrodu", url: "https://www.ogrodelo.pl/generator-planu-ogrodu" },
             ])
           ),
         }}

@@ -33,8 +33,8 @@ export const metadata: Metadata = {
 
 export default function Page() {
   const breadcrumb = jsonLdBreadcrumb([
-    { name: "Strona główna", url: "https://ogrodelo.pl" },
-    { name: "Kalkulator nawadniania", url: "https://ogrodelo.pl/kalkulator-nawadniania" },
+    { name: "Strona główna", url: "https://www.ogrodelo.pl" },
+    { name: "Kalkulator nawadniania", url: "https://www.ogrodelo.pl/kalkulator-nawadniania" },
   ]);
 
   return (

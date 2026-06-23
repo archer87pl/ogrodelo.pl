@@ -33,8 +33,8 @@ export const metadata: Metadata = {
 
 export default function Page() {
   const breadcrumb = jsonLdBreadcrumb([
-    { name: "Strona główna", url: "https://ogrodelo.pl" },
-    { name: "Kalkulator żywopłotu", url: "https://ogrodelo.pl/kalkulator-zywoplotu" },
+    { name: "Strona główna", url: "https://www.ogrodelo.pl" },
+    { name: "Kalkulator żywopłotu", url: "https://www.ogrodelo.pl/kalkulator-zywoplotu" },
   ]);
 
   return (

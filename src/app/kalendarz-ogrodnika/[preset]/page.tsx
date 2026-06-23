@@ -77,14 +77,14 @@ export default async function PresetPage({ params }: PageProps) {
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(
               jsonLdBreadcrumb([
-                { name: "Strona główna", url: "https://ogrodelo.pl" },
+                { name: "Strona główna", url: "https://www.ogrodelo.pl" },
                 {
                   name: "Kalendarz ogrodnika",
-                  url: "https://ogrodelo.pl/kalendarz-ogrodnika",
+                  url: "https://www.ogrodelo.pl/kalendarz-ogrodnika",
                 },
                 {
                   name: task.title,
-                  url: `https://ogrodelo.pl/kalendarz-ogrodnika/${slug}`,
+                  url: `https://www.ogrodelo.pl/kalendarz-ogrodnika/${slug}`,
                 },
               ])
             ),
@@ -139,14 +139,14 @@ export default async function PresetPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             jsonLdBreadcrumb([
-              { name: "Strona główna", url: "https://ogrodelo.pl" },
+              { name: "Strona główna", url: "https://www.ogrodelo.pl" },
               {
                 name: "Kalendarz ogrodnika",
-                url: "https://ogrodelo.pl/kalendarz-ogrodnika",
+                url: "https://www.ogrodelo.pl/kalendarz-ogrodnika",
               },
               {
                 name: month.name,
-                url: `https://ogrodelo.pl/kalendarz-ogrodnika/${slug}`,
+                url: `https://www.ogrodelo.pl/kalendarz-ogrodnika/${slug}`,
               },
             ])
           ),

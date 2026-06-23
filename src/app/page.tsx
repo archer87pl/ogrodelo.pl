@@ -6,7 +6,7 @@ import { InternalLinkHubs } from "@/components/InternalLinkHubs";
 import { AdPlaceholder } from "@/components/AdPlaceholder";
 import { LegalDisclaimer } from "@/components/LegalDisclaimer";
 import { CALCULATORS } from "@/lib/constants/calculators";
-import { siteMetadata, jsonLdCalculatorList } from "@/lib/seo";
+import { siteMetadata, jsonLdCalculatorList, SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   ...siteMetadata(),
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description:
     "14 narzędzi ogrodowych — kalkulatory, kalendarz ogrodnika, porównywarki i generator planu ogrodu.",
   alternates: {
-    canonical: "https://ogrodelo.pl",
+    canonical: SITE_URL,
   },
 };
 

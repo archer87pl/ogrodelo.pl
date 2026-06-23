@@ -49,11 +49,11 @@ export default async function PresetPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             jsonLdBreadcrumb([
-              { name: "Strona główna", url: "https://ogrodelo.pl" },
-              { name: "Porównywarka drzew", url: "https://ogrodelo.pl/porownywarka-drzew" },
+              { name: "Strona główna", url: "https://www.ogrodelo.pl" },
+              { name: "Porównywarka drzew", url: "https://www.ogrodelo.pl/porownywarka-drzew" },
               {
                 name: preset.title,
-                url: `https://ogrodelo.pl/porownywarka-drzew/${slug}`,
+                url: `https://www.ogrodelo.pl/porownywarka-drzew/${slug}`,
               },
             ])
           ),

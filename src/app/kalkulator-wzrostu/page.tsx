@@ -49,8 +49,8 @@ export default function Page() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             jsonLdBreadcrumb([
-              { name: "Strona główna", url: "https://ogrodelo.pl" },
-              { name: "Kalkulator wzrostu", url: "https://ogrodelo.pl/kalkulator-wzrostu" },
+              { name: "Strona główna", url: "https://www.ogrodelo.pl" },
+              { name: "Kalkulator wzrostu", url: "https://www.ogrodelo.pl/kalkulator-wzrostu" },
             ])
           ),
         }}

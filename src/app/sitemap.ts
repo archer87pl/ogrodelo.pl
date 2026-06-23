@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/seo";
 import { CALCULATORS } from "@/lib/constants/calculators";
 import { IRRIGATION_PRESETS } from "@/lib/constants/irrigation-presets";
 import { HEDGE_PRESETS } from "@/lib/constants/hedge-presets";
@@ -10,7 +11,7 @@ import { CALENDAR_MONTHS } from "@/lib/constants/garden-calendar";
 import { CALENDAR_TASK_PRESETS } from "@/lib/constants/calendar-task-presets";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://ogrodelo.pl";
+  const base = SITE_URL;
 
   return [
     {

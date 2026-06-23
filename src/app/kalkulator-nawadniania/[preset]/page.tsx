@@ -44,9 +44,9 @@ export default async function PresetPage({ params }: PageProps) {
   if (!preset) notFound();
 
   const breadcrumb = jsonLdBreadcrumb([
-    { name: "Strona główna", url: "https://ogrodelo.pl" },
-    { name: "Kalkulator nawadniania", url: "https://ogrodelo.pl/kalkulator-nawadniania" },
-    { name: preset.title, url: `https://ogrodelo.pl/kalkulator-nawadniania/${slug}` },
+    { name: "Strona główna", url: "https://www.ogrodelo.pl" },
+    { name: "Kalkulator nawadniania", url: "https://www.ogrodelo.pl/kalkulator-nawadniania" },
+    { name: preset.title, url: `https://www.ogrodelo.pl/kalkulator-nawadniania/${slug}` },
   ]);
 
   return (

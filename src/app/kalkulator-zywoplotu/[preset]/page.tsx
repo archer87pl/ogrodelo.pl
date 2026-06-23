@@ -44,9 +44,9 @@ export default async function PresetPage({ params }: PageProps) {
   if (!preset) notFound();
 
   const breadcrumb = jsonLdBreadcrumb([
-    { name: "Strona główna", url: "https://ogrodelo.pl" },
-    { name: "Kalkulator żywopłotu", url: "https://ogrodelo.pl/kalkulator-zywoplotu" },
-    { name: preset.title, url: `https://ogrodelo.pl/kalkulator-zywoplotu/${slug}` },
+    { name: "Strona główna", url: "https://www.ogrodelo.pl" },
+    { name: "Kalkulator żywopłotu", url: "https://www.ogrodelo.pl/kalkulator-zywoplotu" },
+    { name: preset.title, url: `https://www.ogrodelo.pl/kalkulator-zywoplotu/${slug}` },
   ]);
 
   return (

@@ -5,7 +5,7 @@ import { CalculatorHero } from "@/components/CalculatorHero";
 import { RelatedTools } from "@/components/RelatedTools";
 import { jsonLdCalculator, jsonLdBreadcrumb } from "@/lib/seo";
 
-const SITE_URL = "https://ogrodelo.pl";
+import { SITE_URL } from "@/lib/seo";
 
 interface CalculatorLayoutProps {
   calc: CalculatorMeta;

@@ -56,11 +56,11 @@ export default async function PresetPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             jsonLdBreadcrumb([
-              { name: "Strona główna", url: "https://ogrodelo.pl" },
-              { name: "Kalkulator wzrostu", url: "https://ogrodelo.pl/kalkulator-wzrostu" },
+              { name: "Strona główna", url: "https://www.ogrodelo.pl" },
+              { name: "Kalkulator wzrostu", url: "https://www.ogrodelo.pl/kalkulator-wzrostu" },
               {
                 name: preset.title,
-                url: `https://ogrodelo.pl/kalkulator-wzrostu/${slug}`,
+                url: `https://www.ogrodelo.pl/kalkulator-wzrostu/${slug}`,
               },
             ])
           ),

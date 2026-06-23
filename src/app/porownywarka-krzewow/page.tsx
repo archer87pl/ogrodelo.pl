@@ -46,8 +46,8 @@ export default function Page() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             jsonLdBreadcrumb([
-              { name: "Strona główna", url: "https://ogrodelo.pl" },
-              { name: "Porównywarka krzewów", url: "https://ogrodelo.pl/porownywarka-krzewow" },
+              { name: "Strona główna", url: "https://www.ogrodelo.pl" },
+              { name: "Porównywarka krzewów", url: "https://www.ogrodelo.pl/porownywarka-krzewow" },
             ])
           ),
         }}
