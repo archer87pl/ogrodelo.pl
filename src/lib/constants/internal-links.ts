@@ -105,6 +105,14 @@ const RELATED_SLUGS: Record<string, string[]> = {
     "generator-planu-ogrodu",
     "porownywarka-krzewow",
   ],
+  "katalog-kwitnienia": [
+    "porownywarka-krzewow",
+    "porownywarka-drzew",
+    "kalkulator-wzrostu",
+    "kalendarz-ogrodnika",
+    "generator-planu-ogrodu",
+    "alternatywy-dla-tui",
+  ],
 };
 
 /** Wysokowartościowe podstrony presetów — linkowanie głębokie */
@@ -279,6 +287,28 @@ const PRESET_LINKS: Record<string, InternalLink[]> = {
       description: "Wertykulacja i wysadzanie pomidorów",
     },
   ],
+  "katalog-kwitnienia": [
+    {
+      href: "/katalog-kwitnienia/rosliny-kwitnace-w-maju",
+      label: "Co kwitnie w maju?",
+      description: "Drzewa, krzewy i byliny",
+    },
+    {
+      href: "/katalog-kwitnienia/kwitnace-calym-latem",
+      label: "Kwitnące całe lato",
+      description: "Czerwiec–wrzesień",
+    },
+    {
+      href: "/katalog-kwitnienia/rosliny-dla-pszczol",
+      label: "Rośliny dla pszczół",
+      description: "Miododajne gatunki",
+    },
+    {
+      href: "/katalog-kwitnienia/biale-kwiaty-do-cienia",
+      label: "Białe kwiaty do cienia",
+      description: "Byliny i krzewy",
+    },
+  ],
 };
 
 export const LINK_HUBS: LinkHub[] = [
@@ -310,6 +340,7 @@ export const LINK_HUBS: LinkHub[] = [
       linkFromSlug("kalkulator-wzrostu"),
       linkFromSlug("alternatywy-dla-tui"),
       linkFromSlug("porownywarka-krzewow"),
+      linkFromSlug("katalog-kwitnienia"),
     ],
   },
   {
@@ -356,7 +387,7 @@ export function getAllToolsLink(): InternalLink {
   return {
     href: "/#kalkulatory",
     label: "Wszystkie kalkulatory ogrodowe",
-    description: "Pełna lista 14 darmowych narzędzi na Ogrodelo.pl",
+    description: "Pełna lista 15 darmowych narzędzi na Ogrodelo.pl",
     icon: "🌿",
   };
 }
@@ -395,6 +426,7 @@ export const FOOTER_LINK_GROUPS: { title: string; slugs: string[] }[] = [
     slugs: [
       "kalkulator-zywoplotu",
       "kalkulator-wzrostu",
+      "katalog-kwitnienia",
       "alternatywy-dla-tui",
       "porownywarka-krzewow",
       "porownywarka-drzew",

@@ -233,6 +233,24 @@ export const CALCULATORS: CalculatorMeta[] = [
     icon: "📅",
     featured: true,
   },
+  {
+    slug: "katalog-kwitnienia",
+    title: "Katalog roślin kwitnących — plant finder",
+    shortTitle: "Kwitnienie",
+    description:
+      "Filtruj rośliny po miesiącu kwitnienia, kolorze, zapachu i pszczołach. Co kwitnie w maju, lipcu lub całe lato? Tabela I–XII i 50 gatunków.",
+    keywords: [
+      "rośliny kwitnące",
+      "co kwitnie w maju",
+      "katalog kwiatów",
+      "rośliny kwitnące całe lato",
+      "krzewy kwitnące",
+      "rośliny dla pszczół",
+      "kwitnienie ogród",
+    ],
+    icon: "🌸",
+    featured: true,
+  },
 ];
 
 export function getCalculatorBySlug(slug: string): CalculatorMeta | undefined {

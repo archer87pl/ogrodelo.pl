@@ -459,6 +459,33 @@ export function GardenCalendarIllustration() {
   );
 }
 
+export function FloweringCatalogIllustration() {
+  return (
+    <IllustrationWrapper title="Katalog roślin kwitnących">
+      <path d="M20 250 L380 250 L380 275 L20 275 Z" fill="#c8e6b8" />
+      <g className="hero-float-slow">
+        <rect x="60" y="90" width="280" height="130" rx="12" fill="white" stroke="#d4e4d4" strokeWidth="1.5" />
+        <text x="200" y="115" textAnchor="middle" fill="#2d6a2d" fontSize="10" fontWeight="700">kwitnienie I – XII</text>
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => (
+          <rect key={i} x={72 + i * 22} y="125" width="16" height="18" rx="3" fill={i >= 4 && i <= 8 ? "#e8f5e0" : "#f5faf2"} stroke="#d4e4d4" strokeWidth="0.5" />
+        ))}
+        <text x="80" y="160" fill="#6b7c6b" fontSize="7">Lawenda</text>
+        {[4, 5, 6, 7].map((i) => (
+          <text key={`l-${i}`} x={75 + i * 22} y="175" textAnchor="middle" fontSize="8">🌸</text>
+        ))}
+        <text x="80" y="195" fill="#6b7c6b" fontSize="7">Budleja</text>
+        {[5, 6, 7, 8].map((i) => (
+          <text key={`b-${i}`} x={75 + i * 22} y="210" textAnchor="middle" fontSize="8">🌸</text>
+        ))}
+      </g>
+      <g className="hero-float" style={{ animationDelay: "0.3s" }}>
+        <circle cx="340" cy="120" r="28" fill="#fce7f3" stroke="#f472b6" strokeWidth="1" />
+        <text x="340" y="125" textAnchor="middle" fontSize="16">🌸</text>
+      </g>
+    </IllustrationWrapper>
+  );
+}
+
 export const CALCULATOR_ILLUSTRATIONS: Record<string, () => React.JSX.Element> = {
   "kalkulator-nawadniania": IrrigationIllustration,
   "kalkulator-zywoplotu": HedgeIllustration,
@@ -474,4 +501,5 @@ export const CALCULATOR_ILLUSTRATIONS: Record<string, () => React.JSX.Element> =
   "kalkulator-robota-koszacego": MowerIllustration,
   "alternatywy-dla-tui": TuiAlternativesIllustration,
   "kalendarz-ogrodnika": GardenCalendarIllustration,
+  "katalog-kwitnienia": FloweringCatalogIllustration,
 };

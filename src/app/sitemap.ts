@@ -9,6 +9,7 @@ import { SHRUB_PRESETS } from "@/lib/constants/shrub-presets";
 import { GARDEN_PLAN_PRESETS } from "@/lib/constants/garden-plan-presets";
 import { CALENDAR_MONTHS } from "@/lib/constants/garden-calendar";
 import { CALENDAR_TASK_PRESETS } from "@/lib/constants/calendar-task-presets";
+import { FLOWERING_PRESETS_UNIQUE } from "@/lib/constants/flowering-catalog-presets";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = SITE_URL;
@@ -70,6 +71,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...CALENDAR_TASK_PRESETS.map((t) => ({
       url: `${base}/kalendarz-ogrodnika/${t.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.9,
+    })),
+    ...FLOWERING_PRESETS_UNIQUE.map((p) => ({
+      url: `${base}/katalog-kwitnienia/${p.slug}`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.9,

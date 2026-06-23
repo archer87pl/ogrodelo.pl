@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   ...siteMetadata(),
   title: "Ogrodelo.pl — Darmowe kalkulatory ogrodowe",
   description:
-    "14 narzędzi ogrodowych — kalkulatory, kalendarz ogrodnika, porównywarki i generator planu ogrodu.",
+    "14 narzędzi ogrodowych — katalog kwitnienia, kalendarz, kalkulatory i generator planu ogrodu.",
   alternates: {
     canonical: SITE_URL,
   },
@@ -43,7 +43,7 @@ export default function HomePage() {
                 <span className="text-primary">mądrze i za darmo</span>
               </h1>
               <p className="mt-6 max-w-xl text-lg text-muted leading-relaxed">
-                14 narzędzi — od kalendarza ogrodnika i planu ogrodu po kalkulatory nawadniania i porównywarki drzew.
+                15 narzędzi — katalog kwitnienia, kalendarz ogrodnika, plan ogrodu i kalkulatory nawadniania.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link

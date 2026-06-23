@@ -44,6 +44,12 @@ export function Header() {
             Krzewy
           </Link>
           <Link
+            href="/katalog-kwitnienia"
+            className="hover:text-primary transition-colors"
+          >
+            Kwitnienie
+          </Link>
+          <Link
             href="/kalendarz-ogrodnika"
             className="hover:text-primary transition-colors"
           >
