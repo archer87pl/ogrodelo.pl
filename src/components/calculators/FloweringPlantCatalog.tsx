@@ -17,6 +17,7 @@ import {
   type FloweringPlant,
 } from "@/lib/constants/flowering-plants";
 import type { FloweringCatalogPreset } from "@/lib/constants/flowering-catalog-presets";
+import { plantDetailPath } from "@/lib/flowering-plant-seo";
 
 interface FloweringPlantCatalogProps {
   preset?: FloweringCatalogPreset;
@@ -321,7 +322,12 @@ export function FloweringPlantCatalog({ preset }: FloweringPlantCatalogProps) {
                       className="border-t border-border hover:bg-accent/30 transition-colors"
                     >
                       <td className="p-3 sticky left-0 bg-card z-10">
-                        <p className="font-medium text-foreground">{plant.name}</p>
+                        <Link
+                          href={plantDetailPath(plant.id)}
+                          className="font-medium text-foreground hover:text-primary transition-colors"
+                        >
+                          {plant.name}
+                        </Link>
                         <p className="text-xs text-muted">
                           {PLANT_CATEGORIES[plant.category].icon}{" "}
                           {PLANT_CATEGORIES[plant.category].label} · {plant.height}
@@ -388,7 +394,14 @@ export function FloweringPlantDetails({ plants }: { plants: FloweringPlant[] }) 
           >
             <div className="flex items-start justify-between gap-2 mb-2">
               <div>
-                <h3 className="font-semibold text-foreground">{plant.name}</h3>
+                <h3 className="font-semibold text-foreground">
+                  <Link
+                    href={plantDetailPath(plant.id)}
+                    className="hover:text-primary transition-colors"
+                  >
+                    {plant.name}
+                  </Link>
+                </h3>
                 <p className="text-xs text-muted italic">{plant.latinName}</p>
               </div>
               <span className="text-xs bg-accent px-2 py-0.5 rounded-full shrink-0">
@@ -446,6 +459,12 @@ export function FloweringPlantDetails({ plants }: { plants: FloweringPlant[] }) 
                 {plant.relatedLink.label} →
               </Link>
             )}
+            <Link
+              href={plantDetailPath(plant.id)}
+              className="inline-block mt-2 text-sm text-primary font-medium hover:underline"
+            >
+              Pełna metryka kwitnienia →
+            </Link>
           </article>
         );
       })}

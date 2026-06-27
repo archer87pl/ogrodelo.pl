@@ -29,7 +29,7 @@ const calc = getCalculatorBySlug("katalog-kwitnienia")!;
 export const metadata: Metadata = {
   ...calculatorMetadata(calc),
   description:
-    "Katalog roślin kwitnących: filtruj po miesiącu, kolorze, zapachu i pszczołach. Co kwitnie w maju, lipcu lub całe lato? 50 gatunków z tabelą kwitnienia.",
+    "Katalog roślin kwitnących: filtruj po miesiącu, kolorze, zapachu i pszczołach. Co kwitnie w maju, lipcu lub całe lato? 108 gatunków z tabelą kwitnienia i opisami.",
 };
 
 export default function Page() {

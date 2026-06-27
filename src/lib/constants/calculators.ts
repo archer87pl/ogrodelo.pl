@@ -135,17 +135,23 @@ export const CALCULATORS: CalculatorMeta[] = [
   },
   {
     slug: "kalkulator-robota-koszacego",
-    title: "Kalkulator robota koszącego",
+    title: "Kalkulator robota koszącego — dobór i opłacalność",
     shortTitle: "Robot koszący",
     description:
-      "Dobierz robota koszącego do powierzchni, nachylenia i przeszkód. Porównaj opłacalność z koszeniem ręcznym.",
+      "Dobierz robota koszącego do 200–3000 m². Porównaj Husqvarna, Worx, STIHL, Gardena. Kalkulator kosztów, zwrotu inwestycji i 20 poradników SEO.",
     keywords: [
       "robot koszący",
       "kalkulator robota koszącego",
       "jaki robot koszący",
       "opłacalność robota koszącego",
+      "robot koszący cena",
+      "husqvarna automower",
+      "worx landroid",
+      "montaż robota koszącego",
+      "robot koszący 500 m2",
     ],
     icon: "🤖",
+    featured: true,
   },
   {
     slug: "generator-planu-ogrodu",

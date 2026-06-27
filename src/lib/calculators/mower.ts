@@ -30,7 +30,15 @@ const MOWERS: MowerRecommendation[] = [
     brand: "Husqvarna",
     maxArea: 600,
     price: 4500,
-    features: ["GPS", "do 25% nachylenia", "cicha praca"],
+    features: ["GPS", "do 25% nachylenia", "cicha praca 58 dB"],
+    match: 0,
+  },
+  {
+    name: "Automower 305",
+    brand: "Husqvarna",
+    maxArea: 600,
+    price: 5200,
+    features: ["app Connect", "do 25% nachylenia", "obstacle detection"],
     match: 0,
   },
   {
@@ -38,7 +46,7 @@ const MOWERS: MowerRecommendation[] = [
     brand: "Robomow",
     maxArea: 200,
     price: 2800,
-    features: ["kompaktowy", "łatwy w obsłudze", "niski pobór"],
+    features: ["kompaktowy", "łatwy w obsłudze", "niski pobór prądu"],
     match: 0,
   },
   {
@@ -50,6 +58,14 @@ const MOWERS: MowerRecommendation[] = [
     match: 0,
   },
   {
+    name: "Landroid L2000",
+    brand: "Worx",
+    maxArea: 2000,
+    price: 7500,
+    features: ["WiFi", "duży trawnik", "moduł GPS opcjonalny"],
+    match: 0,
+  },
+  {
     name: "Automower 310 Mark II",
     brand: "Husqvarna",
     maxArea: 1000,
@@ -58,11 +74,43 @@ const MOWERS: MowerRecommendation[] = [
     match: 0,
   },
   {
+    name: "Automower 405X",
+    brand: "Husqvarna",
+    maxArea: 1500,
+    price: 9000,
+    features: ["GPS Connect", "do 35% nachylenia", "4G opcjonalnie"],
+    match: 0,
+  },
+  {
     name: "iMow 422",
     brand: "STIHL",
     maxArea: 800,
     price: 5500,
-    features: ["niemiecka jakość", "cichy", "regulacja wysokości"],
+    features: ["do 24% nachylenia", "cichy", "regulacja wysokości app"],
+    match: 0,
+  },
+  {
+    name: "iMow 5",
+    brand: "STIHL",
+    maxArea: 2000,
+    price: 9500,
+    features: ["do 45% nachylenia", "STIHL connected", "wielostrefowy"],
+    match: 0,
+  },
+  {
+    name: "SILENO city 1000",
+    brand: "Gardena",
+    maxArea: 1000,
+    price: 5800,
+    features: ["prosta obsługa", "cichy life", "smart app"],
+    match: 0,
+  },
+  {
+    name: "SILENO minimo 500",
+    brand: "Gardena",
+    maxArea: 500,
+    price: 3800,
+    features: ["mały ogród", "cichy", "łatwy montaż"],
     match: 0,
   },
   {
@@ -71,6 +119,22 @@ const MOWERS: MowerRecommendation[] = [
     maxArea: 3200,
     price: 12000,
     features: ["duże ogrody", "4G", "AI nawigacja"],
+    match: 0,
+  },
+  {
+    name: "Indego M+700",
+    brand: "Bosch",
+    maxArea: 700,
+    price: 4800,
+    features: ["LogiCut", "app Bosch", "mapowanie"],
+    match: 0,
+  },
+  {
+    name: "McCulloch ROB R1000",
+    brand: "McCulloch",
+    maxArea: 1000,
+    price: 4200,
+    features: ["1000 m²", "przewód", "stacja w zestawie"],
     match: 0,
   },
 ];
@@ -100,7 +164,9 @@ export function calculateMower(input: MowerInput): MowerResult {
     if (m.maxArea < effectiveArea) match -= 40;
     if (m.maxArea > effectiveArea * 3) match -= 20;
     if (slope === "stromy" && m.maxArea < 500) match -= 30;
-    if (obstacles === "duzo" && !m.features.some((f) => f.includes("obstacle")))
+    if (slope === "stromy" && !m.features.some((f) => f.includes("45%") || f.includes("35%") || f.includes("AWD")))
+      match -= 10;
+    if (obstacles === "duzo" && !m.features.some((f) => f.includes("obstacle") || f.includes("GPS") || f.includes("AI")))
       match -= 15;
     match = Math.max(0, Math.min(100, match));
     return { ...m, match };
@@ -116,18 +182,30 @@ export function calculateMower(input: MowerInput): MowerResult {
     avgRobotPrice / (manualCostYearly - robotCostYearly)
   );
 
+  const tips = [
+    `Robot koszący oszczędza ok. ${Math.round(area * 0.06)} godzin rocznie przy ${area} m².`,
+    slope === "stromy"
+      ? "Na stromym terenie wybierz model z min. 35% nachylenia (STIHL iMow 5, Husqvarna 405X)."
+      : slope === "sredni"
+        ? "Przy nachyleniu 15–25% unikaj najtańszych modeli — sprawdź limit slope w specyfikacji."
+        : "Na płaskim terenie wystarczy model podstawowy — nie przepłacaj za AWD.",
+    obstacles === "duzo"
+      ? "Przy wielu przeszkodach rozważ GPS lub model z obstacle detection."
+      : "Ułóż przewód graniczny wokół rabat i drzew — robot nie wjedzie na kwiaty.",
+    area >= 1000
+      ? "Na dużym trawniku wybierz model z zapasem min. 30% powierzchni i pojemną baterią."
+      : area <= 300
+        ? "Mały trawnik? Kompaktowy robot (Gardena minimo, Worx M500) wystarczy."
+        : "Przed zakupem sprawdź autoryzowany serwis marki w Twojej okolicy.",
+    "Mulczowanie przez robota zmniejsza zapotrzebowanie na nawóz — zobacz kalkulator nawożenia.",
+  ];
+
   return {
     recommendations: scored,
     manualCostYearly,
     robotCostYearly,
     paybackYears: Math.max(1, paybackYears),
-    tips: [
-      "Robot koszący oszczędza ok. 100 godzin rocznie.",
-      slope === "stromy"
-        ? "Na stromym terenie wybierz model z dobrym trakcjonowaniem."
-        : "Na płaskim terenie wystarczy model podstawowy.",
-      "Przed zakupem sprawdź, czy producent ma serwis w Polsce.",
-    ],
+    tips,
   };
 }
 

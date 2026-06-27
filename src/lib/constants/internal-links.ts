@@ -248,9 +248,41 @@ const PRESET_LINKS: Record<string, InternalLink[]> = {
       description: "Po założeniu — nawadnianie",
     },
     {
+      href: "/kalkulator-robota-koszacego/trawnik-500m2",
+      label: "Robot na 500 m²",
+      description: "Dobór i opłacalność",
+    },
+    {
       href: "/generator-planu-ogrodu/maly-ogrod",
       label: "Plan małego ogrodu",
       description: "Strefy i kosztorys",
+    },
+  ],
+  "kalkulator-robota-koszacego": [
+    {
+      href: "/kalkulator-robota-koszacego/trawnik-500m2",
+      label: "Robot na 500 m²",
+      description: "Typowy dom jednorodzinny",
+    },
+    {
+      href: "/kalkulator-robota-koszacego/oplacalnosc",
+      label: "Opłacalność robota",
+      description: "Zwrot inwestycji w latach",
+    },
+    {
+      href: "/kalkulator-robota-koszacego/husqvarna-automower",
+      label: "Husqvarna Automower",
+      description: "Dobór modelu",
+    },
+    {
+      href: "/kalkulator-robota-koszacego/montaz-przewod",
+      label: "Montaż przewodu",
+      description: "Instalacja krok po kroku",
+    },
+    {
+      href: "/kalkulator-robota-koszacego/robot-vs-firma",
+      label: "Robot vs firma",
+      description: "Porównanie kosztów",
     },
   ],
   "kalkulator-prywatnosci": [
