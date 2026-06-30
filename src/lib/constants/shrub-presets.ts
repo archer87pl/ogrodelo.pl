@@ -162,6 +162,75 @@ export const SHRUB_PRESETS: ShrubPreset[] = [
     sections: [],
   },
   {
+    slug: "tawula",
+    title: "Tawuła japońska — wzrost, kwitnienie i pielęgnacja",
+    description:
+      "Tawuła japońska: kwitnienie w czerwcu, wzrost, cięcie i zastosowanie na rabatach. Porównanie z berberysen.",
+    keywords: ["tawuła japońska", "tawula kwitnienie", "tawuła ogród", "spiraea japonica"],
+    defaults: { speciesA: "tawula", speciesB: "berberys" },
+    intro:
+      "Tawuła to niski, odporny krzew z różowymi kwiatostanami w maju i czerwcu — idealny na małe ogrody i skarpy.",
+    faq: [
+      {
+        question: "Kiedy kwitnie tawuła japońska?",
+        answer: "Głównie w maju i czerwcu — różowe kwiatostany na końcach pędów. Przycinaj zaraz po kwitnieniu.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Tawuła w ogrodzie",
+        content:
+          "Sadź w pełnym słońcu lub półcieniu. Odmiany „Goldflame” i „Anthony Waterer” różnią się kolorem liści i wysokością (30–120 cm).",
+      },
+    ],
+  },
+  {
+    slug: "kalina",
+    title: "Kalina koralowa — kwitnienie, owoce i uprawa",
+    description:
+      "Kalina koralowa: białe kwiaty w maju, czerwone jagody jesienią, wzrost i wymagania. Porównanie z bezem.",
+    keywords: ["kalina koralowa", "kalina kwitnienie", "viburnum opulus", "kalina ogród"],
+    defaults: { speciesA: "kalina", speciesB: "bez" },
+    intro:
+      "Rodzimy krzew z białymi kwiatami w maju i czerwonymi owocami jesienią — wartościowy dla ptaków i zapylaczy.",
+    faq: [
+      {
+        question: "Kiedy kwitnie kalina koralowa?",
+        answer: "W maju i czerwcu — białe kwiaty w płaskich baldachach. Jagody dojrzewają we wrześniu.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Kalina a gleba",
+        content:
+          "Rośnie na wilgotnych, żyznych glebach — nad wodą, na skrajach lasu. Toleruje półcień.",
+      },
+    ],
+  },
+  {
+    slug: "deren",
+    title: "Deren świdy — kwitnienie, zimowe pędy i żywopłot",
+    description:
+      "Deren świdy: żółte kwiaty w maju, czerwone pędy zimą, wzrost i cięcie. Porównanie z pigwowcem.",
+    keywords: ["deren świdy", "deren kwitnienie", "cornus alba", "deren czerwone pędy"],
+    defaults: { speciesA: "deren", speciesB: "pigwowiec" },
+    intro:
+      "Deren kwitnie dyskretnymi żółtymi kwiatami w maju, a jesienią i zimą dekoruje czerwonymi lub żółtymi pędami.",
+    faq: [
+      {
+        question: "Kiedy kwitnie deren świdy?",
+        answer: "W maju i czerwcu — drobne żółte kwiaty. Największą ozdobą są kolorowe pędy zimą po cięciu.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Cięcie derenia",
+        content:
+          "Co 2–3 lata usuń stare pędy u podstawy — wtedy młode pędy mają intensywniejszy kolor zimą.",
+      },
+    ],
+  },
+  {
     slug: "porownanie",
     title: "Porównaj dowolne krzewy",
     description:

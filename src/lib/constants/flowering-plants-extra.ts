@@ -445,7 +445,7 @@ export const FLOWERING_PLANTS_EXTRA: FloweringPlant[] = [
     description: "Wysokie kłosy wielobarwnych kwiatów — azotofiksujący, do naturalistycznych rabat.",
   },
   {
-    id: "dabrówka",
+    id: "dabrowka",
     name: "Dąbrówka",
     latinName: "Geranium",
     category: "bylina",

@@ -223,6 +223,21 @@ const PRESET_LINKS: Record<string, InternalLink[]> = {
       label: "Ostrokrzew — profil",
       description: "Parametry i wzrost",
     },
+    {
+      href: "/porownywarka-krzewow/tawula",
+      label: "Tawuła — profil",
+      description: "Kwitnienie i pielęgnacja",
+    },
+    {
+      href: "/porownywarka-krzewow/kalina",
+      label: "Kalina — profil",
+      description: "Kwiaty i jagody",
+    },
+    {
+      href: "/porownywarka-krzewow/deren",
+      label: "Deren — profil",
+      description: "Zimowe pędy",
+    },
   ],
   "alternatywy-dla-tui": [
     {
