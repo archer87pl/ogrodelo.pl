@@ -25,7 +25,7 @@ export const GARDEN_PLAN_PRESETS: GardenPlanPreset[] = [
       maintenance: "minimalna",
       wantsTrees: false,
     },
-    intro: "Mały ogród wymaga triage — mniej trawnika, więcej bylin i kompaktowych rozwiązań.",
+    intro: "Mały ogród wymaga priorytetów — mniej trawnika, więcej bylin i kompaktowych rozwiązań.",
     faq: [
       {
         question: "Ile kosztuje mały ogród 120 m²?",
@@ -125,7 +125,7 @@ export const GARDEN_PLAN_PRESETS: GardenPlanPreset[] = [
     title: "Eko-ogród — plan biodiversywny",
     description:
       "Ogród ekologiczny: łąka kwietna, deszczówka, kompost, zapylacze. Plan stref i kosztorys.",
-    keywords: ["eko ogród", "ogród ekologiczny", "łąka kwietna ogród", "biodiversywność ogród"],
+    keywords: ["eko ogród", "ogród ekologiczny", "łąka kwietna ogród", "bioróżnorodność ogród"],
     defaults: {
       areaM2: 400,
       goals: ["biodiversyjnosc", "niska_pielegnacja", "warzywa"],
@@ -149,7 +149,7 @@ export const GARDEN_PLAN_PRESETS: GardenPlanPreset[] = [
       wantsIrrigation: true,
       wantsTrees: false,
     },
-    intro: "Mulcz zamiast trawnika, laurowiśnia zamiast trawniku granicznego, robot koszący.",
+    intro: "Mulcz zamiast trawnika, żywopłot z laurowiśni zamiast płotu, robot koszący.",
     faq: [],
     sections: [],
   },

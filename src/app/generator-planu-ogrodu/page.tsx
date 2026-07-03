@@ -19,13 +19,16 @@ const calc = getCalculatorBySlug("generator-planu-ogrodu")!;
 export const metadata: Metadata = {
   ...calculatorMetadata(calc),
   description:
-    "Darmowy generator planu ogrodu: ankieta 6 kroków, podział na strefy, kosztorys PLN, harmonogram 4 faz i rekomendacje roślin.",
+    "Darmowy generator planu ogrodu z rysunkiem działki 2D: strefy, kosztorys PLN, lista zakupów, kalendarz pielęgnacji 12 miesięcy i harmonogram 4 faz. Wydrukuj lub udostępnij plan.",
   keywords: [
     ...calc.keywords,
     "plan ogrodu online",
     "projekt ogrodu koszt",
     "jak zaplanować ogród",
     "generator ogrodu",
+    "projekt ogrodu online za darmo",
+    "rozplanowanie ogrodu",
+    "plan zagospodarowania działki ogród",
   ],
 };
 
@@ -62,7 +65,7 @@ export default function Page() {
 
         <CalculatorHero
           calc={calc}
-          description="Wypełnij ankietę — otrzymasz podział na strefy, listę roślin, kosztorys w PLN, harmonogram realizacji i linki do kalkulatorów nawadniania, żywopłotu i drzew."
+          description="Wypełnij ankietę — otrzymasz rysunek działki 2D z rozmieszczeniem stref, listę roślin i zakupów z ilościami, kosztorys w PLN, kalendarz pielęgnacji na 12 miesięcy i harmonogram realizacji. Plan wydrukujesz jako PDF lub udostępnisz linkiem."
         />
 
         <GardenPlanGenerator />
@@ -73,11 +76,19 @@ export default function Page() {
               Jak działa generator?
             </h2>
             <p>
-              Algorytm analizuje powierzchnię, cele (trawnik, warzywa, prywatność…), glebę,
-              nasłonecznienie i budżet. Na tej podstawie oblicza proporcje stref, szacuje koszty
-              materiałów w PLN i układa harmonogram 4 faz sezonowych. Rekomendacje łączą plan
+              Algorytm analizuje wymiary działki, ekspozycję względem stron świata, cele (trawnik,
+              warzywa, prywatność…), glebę, nasłonecznienie i budżet. Na tej podstawie rysuje
+              schematyczny plan 2D w skali z rozmieszczeniem stref, oblicza ich proporcje, szacuje
+              koszty materiałów w PLN, tworzy listę zakupów z konkretnymi ilościami oraz układa
+              harmonogram 4 faz i kalendarz pielęgnacji na cały rok. Rekomendacje łączą plan
               z innymi narzędziami Ogrodelo.pl.
             </p>
+            <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+              <li>🗺️ Rysunek działki 2D w skali — strefy, ścieżka, żywopłot, drzewa</li>
+              <li>🛒 Lista zakupów z ilościami: nasiona, sadzonki, kora, grządki</li>
+              <li>📅 Kalendarz pielęgnacji 12 miesięcy dopasowany do planu</li>
+              <li>🔗 Link do udostępnienia planu i wydruk do PDF</li>
+            </ul>
           </section>
 
           <section>

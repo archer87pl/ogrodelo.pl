@@ -1,8 +1,12 @@
+import { buildPlanLayout, treeCountFor, type PlanLayout } from "@/lib/calculators/garden-plan-layout";
+
 export type SoilType = "prochnica" | "glina" | "piasek" | "kwasna" | "nieznam";
 export type SunLevel = "pelne" | "czesciowe" | "zacieniony";
 export type BudgetLevel = "niski" | "sredni" | "wysoki" | "premium";
 export type MaintenanceLevel = "minimalna" | "umiarkowana" | "aktywna";
 export type SlopeLevel = "plaski" | "lekki" | "stromy";
+/** Strona świata, w którą ogród wychodzi od domu. */
+export type Exposure = "poludnie" | "wschod" | "zachod" | "polnoc";
 
 export type GardenGoal =
   | "prywatnosc"
@@ -18,6 +22,9 @@ export type GardenGoal =
 
 export interface GardenPlanInput {
   areaM2: number;
+  plotWidthM: number;
+  plotLengthM: number;
+  exposure: Exposure;
   goals: GardenGoal[];
   soil: SoilType;
   sun: SunLevel;
@@ -69,6 +76,21 @@ export interface PlanRecommendation {
   priority: "wysoki" | "sredni" | "niski";
 }
 
+export interface ShoppingItem {
+  name: string;
+  detail: string;
+  quantity: string;
+  unitCost: number;
+  total: number;
+  optional?: boolean;
+}
+
+export interface MonthPlan {
+  month: string;
+  short: string;
+  tasks: string[];
+}
+
 export interface GardenPlanScores {
   sustainability: number;
   lowMaintenance: number;
@@ -91,6 +113,9 @@ export interface GardenPlanResult {
   treeSuggestions: string[];
   irrigationLitersWeek: number;
   tips: string[];
+  layout: PlanLayout;
+  shopping: ShoppingItem[];
+  monthlyCalendar: MonthPlan[];
 }
 
 interface ZoneWeight {
@@ -111,7 +136,7 @@ const GOAL_LABELS: Record<GardenGoal, string> = {
   kwiaty: "Kwiaty i rabaty",
   relaks: "Strefa relaksu",
   niska_pielegnacja: "Niska pielęgnacja",
-  biodiversyjnosc: "Biodiversywność",
+  biodiversyjnosc: "Bioróżnorodność",
   dzieci: "Bezpieczny dla dzieci",
   zwierzeta: "Przyjazny zwierzętom",
   zywoplot: "Żywopłot",
@@ -141,6 +166,13 @@ export const BUDGET_OPTIONS = [
   { value: "sredni" as const, label: "Standardowy", hint: "~80–150 PLN/m²" },
   { value: "wysoki" as const, label: "Komfortowy", hint: "~150–250 PLN/m²" },
   { value: "premium" as const, label: "Premium", hint: "250+ PLN/m²" },
+];
+
+export const EXPOSURE_OPTIONS = [
+  { value: "poludnie" as const, label: "Południe", hint: "Słońce przez większość dnia — warzywnik i trawnik będą wdzięczne" },
+  { value: "wschod" as const, label: "Wschód", hint: "Słońce rano — dobre dla roślin wrażliwych na upał" },
+  { value: "zachod" as const, label: "Zachód", hint: "Słońce po południu — taras nagrzewa się wieczorem" },
+  { value: "polnoc" as const, label: "Północ", hint: "Więcej cienia — hosty, paprocie, cisy" },
 ];
 
 export const MAINTENANCE_OPTIONS = [
@@ -247,7 +279,7 @@ function computeZoneWeights(input: GardenPlanInput): ZoneWeight[] {
         : ["Mieszanka sportowo-rekreacyjna", "Nawóz jesienny + wiosenny"],
       warzywnik: has("dzieci")
         ? ["Marchew, rzodkiewka, truskawki", "Ziemia kompostowa 30 cm"]
-        : ["Tomaty, papryka, cukinia, sałata", "Podwyższone grządki 80 cm"],
+        : ["Pomidory, papryka, cukinia, sałata", "Podwyższone grządki 80 cm"],
       rabaty: input.sun === "zacieniony"
         ? ["Hosty, paprocie, bergenia, astilbe"]
         : input.soil === "kwasna"
@@ -404,7 +436,7 @@ function buildCosts(input: GardenPlanInput, zones: GardenZone[], weights: ZoneWe
   }
 
   if (input.wantsTrees) {
-    const count = input.areaM2 < 200 ? 1 : input.areaM2 < 500 ? 2 : 3;
+    const count = treeCountFor(input.areaM2);
     const perTree = Math.round(280 * mult);
     lines.push({
       category: "Drzewa",
@@ -503,7 +535,7 @@ function buildPhases(input: GardenPlanInput, costs: CostLine[]): PlanPhase[] {
       title: "Nasadzenia i trawnik",
       season: "Kwiecień–maj",
       tasks: [
-        "Założenie trawniku z rolki lub siew — najlepszy czas: wrzesień/kwiecień",
+        "Założenie trawnika z rolki lub siew — najlepszy czas: wrzesień/kwiecień",
         ...(input.wantsVegetableBed || input.goals.includes("warzywa")
           ? ["Grządki warzywne — kompost + agrowłóknina"]
           : []),
@@ -644,9 +676,248 @@ function estimateIrrigation(input: GardenPlanInput, lawnM2: number): number {
   return Math.round((base + veg) * sunMult);
 }
 
+function buildShoppingList(input: GardenPlanInput, zones: GardenZone[]): ShoppingItem[] {
+  const mult = BUDGET_MULT[input.budget];
+  const items: ShoppingItem[] = [];
+  const area = (id: string) => zones.find((z) => z.id === id)?.areaM2 ?? 0;
+  const price = (base: number) => Math.round(base * mult);
+
+  const lawnM2 = area("trawnik");
+  if (lawnM2 > 5) {
+    if (input.budget === "wysoki" || input.budget === "premium") {
+      items.push({
+        name: "Trawa z rolki",
+        detail: "Natychmiastowy efekt — układanie wiosną lub jesienią",
+        quantity: `${lawnM2} m²`,
+        unitCost: price(14),
+        total: lawnM2 * price(14),
+      });
+    } else {
+      const kg = Math.max(1, Math.ceil((lawnM2 * 3) / 100));
+      items.push({
+        name: "Nasiona trawy (mieszanka uniwersalna)",
+        detail: "Ok. 3 kg na 100 m² — siew: kwiecień lub wrzesień",
+        quantity: `${kg} kg`,
+        unitCost: price(45),
+        total: kg * price(45),
+      });
+    }
+    const fertKg = Math.max(1, Math.ceil(lawnM2 / 40));
+    items.push({
+      name: "Nawóz startowy do trawnika",
+      detail: "Wysoki fosfor na ukorzenienie",
+      quantity: `${fertKg} kg`,
+      unitCost: price(13),
+      total: fertKg * price(13),
+    });
+  }
+
+  const bedM2 = area("rabaty");
+  if (bedM2 > 2) {
+    const perennials = Math.round(bedM2 * 5);
+    items.push({
+      name: "Byliny (sadzonki P9)",
+      detail:
+        input.sun === "zacieniony"
+          ? "Hosty, paprocie, bergenie — ok. 5 szt./m²"
+          : "Lawenda, szałwia, jeżówka — ok. 5 szt./m²",
+      quantity: `${perennials} szt.`,
+      unitCost: price(14),
+      total: perennials * price(14),
+    });
+    const barkBags = Math.ceil((bedM2 * 50) / 80);
+    items.push({
+      name: "Kora sosnowa (worki 80 l)",
+      detail: "Warstwa 5 cm — mniej chwastów i podlewania",
+      quantity: `${barkBags} szt.`,
+      unitCost: price(24),
+      total: barkBags * price(24),
+    });
+  }
+
+  const vegM2 = area("warzywnik");
+  if (vegM2 > 2) {
+    const boxes = Math.max(1, Math.round((vegM2 * 0.35) / 2.9));
+    items.push({
+      name: "Grządka podwyższona 120×240 cm",
+      detail: "Drewno modrzewiowe, wys. 40 cm",
+      quantity: `${boxes} szt.`,
+      unitCost: price(380),
+      total: boxes * price(380),
+    });
+    const soilM3 = Math.max(1, Math.ceil(boxes * 1.2));
+    items.push({
+      name: "Ziemia warzywna luzem",
+      detail: "Wypełnienie grządek — ok. 1,2 m³ na grządkę",
+      quantity: `${soilM3} m³`,
+      unitCost: price(160),
+      total: soilM3 * price(160),
+    });
+    items.push({
+      name: "Nasiona i rozsady warzyw",
+      detail: input.hasChildren
+        ? "Marchew, rzodkiewka, truskawki — łatwe dla dzieci"
+        : "Pomidory, papryka, cukinia, sałata, zioła",
+      quantity: "1 zestaw",
+      unitCost: price(120),
+      total: price(120),
+    });
+  }
+
+  const hedgeLen =
+    input.wantsHedge || input.goals.includes("zywoplot") || input.goals.includes("prywatnosc")
+      ? input.hedgeLengthM || estimatePerimeter(input.areaM2)
+      : 0;
+  if (hedgeLen > 0) {
+    const seedlings = Math.round(hedgeLen * 3);
+    items.push({
+      name: "Sadzonki żywopłotu",
+      detail: `${pickHedgeSpecies(input).split(" — ")[0]} — 3 szt./mb`,
+      quantity: `${seedlings} szt.`,
+      unitCost: price(16),
+      total: seedlings * price(16),
+    });
+  }
+
+  if (input.wantsTrees) {
+    const count = treeCountFor(input.areaM2);
+    items.push({
+      name: "Drzewa (sadzonki z bryłą, 150–200 cm)",
+      detail: "Sadzenie: październik–listopad lub marzec",
+      quantity: `${count} szt.`,
+      unitCost: price(280),
+      total: count * price(280),
+    });
+  }
+
+  const wildM2 = area("dziko");
+  if (wildM2 > 2) {
+    const packs = Math.max(1, Math.ceil(wildM2 / 50));
+    items.push({
+      name: "Mieszanka łąki kwietnej (100 g)",
+      detail: "Gatunki rodzime — 2 g/m², siew IV–V lub IX",
+      quantity: `${packs} opak.`,
+      unitCost: price(65),
+      total: packs * price(65),
+    });
+  }
+
+  if (input.goals.includes("biodiversyjnosc") || input.goals.includes("warzywa")) {
+    items.push({
+      name: "Kompostownik ogrodowy",
+      detail: "Darmowy kompost od przyszłego sezonu",
+      quantity: "1 szt.",
+      unitCost: price(260),
+      total: price(260),
+      optional: true,
+    });
+  }
+
+  if (input.soil === "glina" || input.soil === "piasek") {
+    const compostM3 = Math.max(1, Math.round((input.areaM2 * 0.4 * 0.05) / 1) );
+    items.push({
+      name: "Kompost / ziemia ogrodowa luzem",
+      detail:
+        input.soil === "glina"
+          ? "Rozluźnienie gliny — warstwa 5 cm na 40% działki"
+          : "Poprawa piasku — zatrzyma wodę i składniki",
+      quantity: `${compostM3} m³`,
+      unitCost: price(140),
+      total: compostM3 * price(140),
+    });
+  }
+
+  return items;
+}
+
+function buildMonthlyCalendar(input: GardenPlanInput, zones: GardenZone[]): MonthPlan[] {
+  const has = (g: GardenGoal) => input.goals.includes(g);
+  const lawn = (zones.find((z) => z.id === "trawnik")?.areaM2 ?? 0) > 5;
+  const veg = input.wantsVegetableBed || has("warzywa");
+  const hedge = input.wantsHedge || has("zywoplot") || has("prywatnosc");
+  const beds = (zones.find((z) => z.id === "rabaty")?.areaM2 ?? 0) > 2;
+  const wild = has("biodiversyjnosc");
+
+  const m = (month: string, short: string, tasks: (string | false)[]): MonthPlan => ({
+    month,
+    short,
+    tasks: tasks.filter((t): t is string => Boolean(t)),
+  });
+
+  return [
+    m("Styczeń", "Sty", [
+      "Planowanie zmian i przegląd planu ogrodu",
+      veg && "Zamówienie nasion — najlepszy wybór odmian jest teraz",
+      "Kontrola osłon zimowych po wichurach",
+    ]),
+    m("Luty", "Lut", [
+      input.wantsTrees && "Cięcie drzew w bezmroźne dni",
+      veg && "Wysiew rozsady pomidorów i papryki na parapecie",
+      wild && "Wieszanie budek lęgowych — przed sezonem",
+    ]),
+    m("Marzec", "Mar", [
+      lawn && "Grabienie i pierwsza wertykulacja trawnika",
+      input.soil !== "prochnica" && "Poprawa gleby kompostem przed sezonem",
+      hedge && "Sadzenie żywopłotu (do połowy kwietnia)",
+    ]),
+    m("Kwiecień", "Kwi", [
+      lawn && "Siew trawnika lub dosiewki — gleba min. 10°C",
+      beds && "Sadzenie bylin i dzielenie starych kęp",
+      veg && "Siew marchwi, rzodkiewki i sałaty do gruntu",
+      wild && "Siew łąki kwietnej",
+    ]),
+    m("Maj", "Maj", [
+      veg && "Po zimnych ogrodnikach (15.05) — wysadzanie pomidorów",
+      lawn && "Pierwsze koszenie na wysokość 4–5 cm",
+      input.wantsIrrigation && "Uruchomienie i test instalacji nawadniania",
+    ]),
+    m("Czerwiec", "Cze", [
+      hedge && "Pierwsze cięcie żywopłotu (sprawdź gniazda ptaków)",
+      beds && "Uzupełnienie ściółki na rabatach",
+      "Podlewanie rano lub wieczorem — nie w pełnym słońcu",
+    ]),
+    m("Lipiec", "Lip", [
+      veg && "Zbiory: sałata, cukinia, pierwsze pomidory",
+      lawn && "Koszenie co 7–10 dni, wyżej w upały",
+      input.wantsRainwater && "Podlewanie deszczówką ze zbiornika",
+    ]),
+    m("Sierpień", "Sie", [
+      hedge && "Drugie cięcie żywopłotu",
+      lawn && "Druga połowa miesiąca — idealny siew trawnika",
+      veg && "Wysiew poplonów na puste grządki",
+    ]),
+    m("Wrzesień", "Wrz", [
+      (input.wantsTrees || hedge) && "Najlepszy czas sadzenia drzew i krzewów",
+      lawn && "Nawóz jesienny (potas) — zimotrwałość trawnika",
+      wild && "Jedyne koszenie łąki kwietnej (po wysypie nasion)",
+    ]),
+    m("Październik", "Paź", [
+      "Grabienie liści — na kompost lub pod krzewy",
+      beds && "Sadzenie cebulowych: tulipany, narcyzy, krokusy",
+      input.wantsIrrigation && "Odwodnienie instalacji przed mrozami",
+    ]),
+    m("Listopad", "Lis", [
+      "Zabezpieczenie wrażliwych roślin agrowłókniną",
+      lawn && "Ostatnie koszenie przed zimą",
+      "Czyszczenie i konserwacja narzędzi",
+    ]),
+    m("Grudzień", "Gru", [
+      hedge && "Strząsanie mokrego śniegu z żywopłotu",
+      (wild || input.hasChildren) && "Dokarmianie ptaków — karmnik z dala od okien",
+      "Odpoczynek i przegląd zdjęć ogrodu z sezonu",
+    ]),
+  ];
+}
+
 function buildTips(input: GardenPlanInput): string[] {
   const tips: string[] = [];
 
+  if (input.exposure === "polnoc") {
+    tips.push("Ogród od północy: postaw na rośliny cieniolubne przy domu, a strefy słoneczne planuj w głębi działki.");
+  }
+  if (input.exposure === "zachod") {
+    tips.push("Ekspozycja zachodnia: taras nagrzewa się popołudniu — zaplanuj pergolę lub drzewo dające cień od zachodu.");
+  }
   if (input.slope === "stromy") {
     tips.push("Na stromym terenie stosuj tarasy — zapobiega spływowi wody i erozji gleby.");
   }
@@ -667,9 +938,21 @@ function buildTips(input: GardenPlanInput): string[] {
   return tips;
 }
 
+/** Proponowane wymiary działki (proporcje ~4:3) dla zadanej powierzchni. */
+export function derivePlotDims(areaM2: number): { w: number; l: number } {
+  const w = Math.max(3, Math.round(Math.sqrt(areaM2 * (4 / 3)) * 2) / 2);
+  const l = Math.max(3, Math.round((areaM2 / w) * 2) / 2);
+  return { w, l };
+}
+
 export function getDefaultGardenPlanInput(partial?: Partial<GardenPlanInput>): GardenPlanInput {
+  const areaM2 = partial?.areaM2 ?? 300;
+  const dims = derivePlotDims(areaM2);
   return {
     areaM2: 300,
+    plotWidthM: dims.w,
+    plotLengthM: dims.l,
+    exposure: "poludnie",
     goals: ["trawnik", "relaks"],
     soil: "prochnica",
     sun: "pelne",
@@ -688,7 +971,12 @@ export function getDefaultGardenPlanInput(partial?: Partial<GardenPlanInput>): G
   };
 }
 
-export function generateGardenPlan(input: GardenPlanInput): GardenPlanResult {
+export function generateGardenPlan(rawInput: GardenPlanInput): GardenPlanResult {
+  const dims =
+    rawInput.plotWidthM > 0 && rawInput.plotLengthM > 0
+      ? { w: rawInput.plotWidthM, l: rawInput.plotLengthM }
+      : derivePlotDims(rawInput.areaM2);
+  const input: GardenPlanInput = { ...rawInput, plotWidthM: dims.w, plotLengthM: dims.l };
   const weights = computeZoneWeights(input);
   const zones = buildZones(input, weights);
   const costs = buildCosts(input, zones, weights);
@@ -717,6 +1005,9 @@ export function generateGardenPlan(input: GardenPlanInput): GardenPlanResult {
     treeSuggestions: pickTrees(input),
     irrigationLitersWeek: estimateIrrigation(input, lawnM2),
     tips: buildTips(input),
+    layout: buildPlanLayout(input, zones),
+    shopping: buildShoppingList(input, zones),
+    monthlyCalendar: buildMonthlyCalendar(input, zones),
   };
 }
 
@@ -745,6 +1036,21 @@ export const MAIN_GARDEN_PLAN_FAQ: { question: string; answer: string }[] = [
     question: "Czy plan można realizować etapami?",
     answer:
       "Tak — generator tworzy 4 fazy (przygotowanie → infrastruktura → nasadzenia → wykończenie) z szacunkiem kosztów każdej fazy i harmonogramem sezonowym.",
+  },
+  {
+    question: "Czy zobaczę plan ogrodu na rysunku?",
+    answer:
+      "Tak — generator rysuje schematyczny plan 2D Twojej działki w skali: strefy, żywopłot, taras, ścieżkę i drzewa, z siatką metrów i kierunkami świata. Plan można wydrukować lub zapisać jako PDF.",
+  },
+  {
+    question: "Czy mogę udostępnić lub zapisać swój plan?",
+    answer:
+      "Tak — przycisk „Kopiuj link do planu” tworzy adres URL z Twoimi odpowiedziami. Po otwarciu linku plan wygeneruje się automatycznie. Wersja robocza ankiety zapisuje się też w przeglądarce.",
+  },
+  {
+    question: "Co zawiera lista zakupów?",
+    answer:
+      "Konkretne ilości: kilogramy nasion trawy, liczbę sadzonek żywopłotu i bylin, worki kory i ziemi, grządki podwyższone — wraz z orientacyjnymi cenami dopasowanymi do wybranego budżetu.",
   },
 ];
 

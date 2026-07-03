@@ -1,22 +1,24 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { FormField, inputClass, selectClass } from "@/components/FormField";
 import { ResultCard, TipsList } from "@/components/ResultCard";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { SeasonalBarChart } from "@/components/SeasonalBarChart";
 import { GardenPlanPresetNav } from "@/components/calculators/GardenPlanPresetNav";
+import { GardenPlanVisualization } from "@/components/calculators/GardenPlanVisualization";
 import {
   generateGardenPlan,
   getDefaultGardenPlanInput,
+  derivePlotDims,
   GARDEN_GOAL_OPTIONS,
   SOIL_OPTIONS,
   SUN_OPTIONS,
   BUDGET_OPTIONS,
   MAINTENANCE_OPTIONS,
+  EXPOSURE_OPTIONS,
   MAIN_GARDEN_PLAN_FAQ,
-  estimatePerimeter,
   type GardenGoal,
   type GardenPlanInput,
   type SoilType,
@@ -24,6 +26,7 @@ import {
   type BudgetLevel,
   type MaintenanceLevel,
   type SlopeLevel,
+  type Exposure,
 } from "@/lib/calculators/garden-plan";
 import type { GardenPlanPreset } from "@/lib/constants/garden-plan-presets";
 
@@ -40,13 +43,92 @@ const STEPS = [
   { id: 6, title: "Plan", icon: "📋" },
 ];
 
+const DRAFT_KEY = "ogrodelo:garden-plan:draft:v1";
+
+function estimateHedgeLength(widthM: number, lengthM: number): number {
+  // Żywopłot zwykle wzdłuż 3 granic (bez frontu przy domu).
+  return Math.max(5, Math.round(2 * lengthM + widthM));
+}
+
+function inputToParams(input: GardenPlanInput): URLSearchParams {
+  const p = new URLSearchParams();
+  p.set("a", String(input.areaM2));
+  p.set("w", String(input.plotWidthM));
+  p.set("l", String(input.plotLengthM));
+  p.set("ex", input.exposure);
+  if (input.goals.length) p.set("g", input.goals.join("."));
+  p.set("so", input.soil);
+  p.set("su", input.sun);
+  p.set("sp", input.slope);
+  p.set("b", input.budget);
+  p.set("m", input.maintenance);
+  const flags: [string, boolean][] = [
+    ["pe", input.hasPets],
+    ["ch", input.hasChildren],
+    ["ir", input.wantsIrrigation],
+    ["rw", input.wantsRainwater],
+    ["he", input.wantsHedge],
+    ["tr", input.wantsTrees],
+    ["ve", input.wantsVegetableBed],
+  ];
+  for (const [k, v] of flags) if (v) p.set(k, "1");
+  if (input.wantsHedge && input.hedgeLengthM > 0) p.set("hl", String(input.hedgeLengthM));
+  return p;
+}
+
+function pickOption<T extends string>(raw: string | null, allowed: readonly T[], fallback: T): T {
+  return allowed.includes(raw as T) ? (raw as T) : fallback;
+}
+
+function paramsToInput(sp: URLSearchParams): GardenPlanInput | null {
+  const a = Number(sp.get("a"));
+  if (!Number.isFinite(a) || a < 10 || a > 20000) return null;
+  const base = getDefaultGardenPlanInput({ areaM2: a });
+
+  const w = Number(sp.get("w"));
+  const l = Number(sp.get("l"));
+  const goalValues = GARDEN_GOAL_OPTIONS.map((o) => o.value);
+  const goals = (sp.get("g") ?? "")
+    .split(".")
+    .filter((g): g is GardenGoal => goalValues.includes(g as GardenGoal));
+  const hl = Number(sp.get("hl"));
+
+  return {
+    ...base,
+    areaM2: a,
+    plotWidthM: Number.isFinite(w) && w >= 2 && w <= 500 ? w : base.plotWidthM,
+    plotLengthM: Number.isFinite(l) && l >= 2 && l <= 500 ? l : base.plotLengthM,
+    exposure: pickOption(sp.get("ex"), EXPOSURE_OPTIONS.map((o) => o.value), "poludnie"),
+    goals,
+    soil: pickOption(sp.get("so"), SOIL_OPTIONS.map((o) => o.value), "prochnica"),
+    sun: pickOption(sp.get("su"), SUN_OPTIONS.map((o) => o.value), "pelne"),
+    slope: pickOption(sp.get("sp"), ["plaski", "lekki", "stromy"] as const, "plaski"),
+    budget: pickOption(sp.get("b"), BUDGET_OPTIONS.map((o) => o.value), "sredni"),
+    maintenance: pickOption(sp.get("m"), MAINTENANCE_OPTIONS.map((o) => o.value), "umiarkowana"),
+    hasPets: sp.get("pe") === "1",
+    hasChildren: sp.get("ch") === "1",
+    wantsIrrigation: sp.get("ir") === "1",
+    wantsRainwater: sp.get("rw") === "1",
+    wantsHedge: sp.get("he") === "1",
+    wantsTrees: sp.get("tr") === "1",
+    wantsVegetableBed: sp.get("ve") === "1",
+    hedgeLengthM: Number.isFinite(hl) && hl > 0 && hl <= 1000 ? hl : base.hedgeLengthM,
+  };
+}
+
 export function GardenPlanGenerator({ preset }: GardenPlanGeneratorProps) {
   const defaults = getDefaultGardenPlanInput(preset?.defaults);
 
   const [step, setStep] = useState(1);
   const [generated, setGenerated] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const hydrated = useRef(false);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const [areaM2, setAreaM2] = useState(defaults.areaM2);
+  const [plotWidthM, setPlotWidthM] = useState(defaults.plotWidthM);
+  const [plotLengthM, setPlotLengthM] = useState(defaults.plotLengthM);
+  const [exposure, setExposure] = useState<Exposure>(defaults.exposure);
   const [goals, setGoals] = useState<GardenGoal[]>(defaults.goals);
   const [soil, setSoil] = useState<SoilType>(defaults.soil);
   const [sun, setSun] = useState<SunLevel>(defaults.sun);
@@ -61,12 +143,15 @@ export function GardenPlanGenerator({ preset }: GardenPlanGeneratorProps) {
   const [wantsTrees, setWantsTrees] = useState(defaults.wantsTrees);
   const [wantsVegetableBed, setWantsVegetableBed] = useState(defaults.wantsVegetableBed);
   const [hedgeLengthM, setHedgeLengthM] = useState(
-    defaults.hedgeLengthM || estimatePerimeter(defaults.areaM2)
+    defaults.hedgeLengthM || estimateHedgeLength(defaults.plotWidthM, defaults.plotLengthM)
   );
 
   const input: GardenPlanInput = useMemo(
     () => ({
       areaM2,
+      plotWidthM,
+      plotLengthM,
+      exposure,
       goals,
       soil,
       sun,
@@ -84,6 +169,9 @@ export function GardenPlanGenerator({ preset }: GardenPlanGeneratorProps) {
     }),
     [
       areaM2,
+      plotWidthM,
+      plotLengthM,
+      exposure,
       goals,
       soil,
       sun,
@@ -100,6 +188,62 @@ export function GardenPlanGenerator({ preset }: GardenPlanGeneratorProps) {
       hedgeLengthM,
     ]
   );
+
+  function applyInput(i: GardenPlanInput) {
+    setAreaM2(i.areaM2);
+    setPlotWidthM(i.plotWidthM);
+    setPlotLengthM(i.plotLengthM);
+    setExposure(i.exposure);
+    setGoals(i.goals);
+    setSoil(i.soil);
+    setSun(i.sun);
+    setSlope(i.slope);
+    setBudget(i.budget);
+    setMaintenance(i.maintenance);
+    setHasPets(i.hasPets);
+    setHasChildren(i.hasChildren);
+    setWantsIrrigation(i.wantsIrrigation);
+    setWantsRainwater(i.wantsRainwater);
+    setWantsHedge(i.wantsHedge);
+    setWantsTrees(i.wantsTrees);
+    setWantsVegetableBed(i.wantsVegetableBed);
+    if (i.hedgeLengthM > 0) setHedgeLengthM(i.hedgeLengthM);
+  }
+
+  // Plan z linku (?a=...) lub wersja robocza z przeglądarki.
+  useEffect(() => {
+    try {
+      const sp = new URLSearchParams(window.location.search);
+      const fromUrl = sp.has("a") ? paramsToInput(sp) : null;
+      if (fromUrl) {
+        applyInput(fromUrl);
+        setStep(6);
+        setGenerated(true);
+      } else if (!preset) {
+        const raw = window.localStorage.getItem(DRAFT_KEY);
+        if (raw) {
+          const draft = JSON.parse(raw) as Partial<GardenPlanInput>;
+          if (typeof draft.areaM2 === "number") {
+            applyInput({ ...getDefaultGardenPlanInput(), ...draft });
+          }
+        }
+      }
+    } catch {
+      // Uszkodzony draft/link — startujemy od domyślnych wartości.
+    }
+    hydrated.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Autozapis wersji roboczej.
+  useEffect(() => {
+    if (!hydrated.current || preset) return;
+    try {
+      window.localStorage.setItem(DRAFT_KEY, JSON.stringify(input));
+    } catch {
+      // localStorage niedostępny (tryb prywatny) — pomijamy autozapis.
+    }
+  }, [input, preset]);
 
   const result = useMemo(
     () => (generated ? generateGardenPlan(input) : null),
@@ -120,6 +264,7 @@ export function GardenPlanGenerator({ preset }: GardenPlanGeneratorProps) {
     if (step < 6) setStep(step + 1);
     else {
       setGenerated(true);
+      setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 80);
     }
   }
 
@@ -130,9 +275,53 @@ export function GardenPlanGenerator({ preset }: GardenPlanGeneratorProps) {
     }
   }
 
+  function syncHedge(w: number, l: number) {
+    if (!wantsHedge) setHedgeLengthM(estimateHedgeLength(w, l));
+  }
+
   function handleAreaChange(val: number) {
     setAreaM2(val);
-    if (!wantsHedge) setHedgeLengthM(estimatePerimeter(val));
+    if (val > 0) {
+      const ratio = plotLengthM > 0 ? plotWidthM / plotLengthM : 4 / 3;
+      const dims =
+        ratio > 0.1 && ratio < 10
+          ? (() => {
+              const w = Math.max(2, Math.round(Math.sqrt(val * ratio) * 2) / 2);
+              const l = Math.max(2, Math.round((val / w) * 2) / 2);
+              return { w, l };
+            })()
+          : derivePlotDims(val);
+      setPlotWidthM(dims.w);
+      setPlotLengthM(dims.l);
+      syncHedge(dims.w, dims.l);
+    }
+  }
+
+  function handleWidthChange(val: number) {
+    setPlotWidthM(val);
+    if (val > 0 && plotLengthM > 0) {
+      setAreaM2(Math.round(val * plotLengthM));
+      syncHedge(val, plotLengthM);
+    }
+  }
+
+  function handleLengthChange(val: number) {
+    setPlotLengthM(val);
+    if (val > 0 && plotWidthM > 0) {
+      setAreaM2(Math.round(plotWidthM * val));
+      syncHedge(plotWidthM, val);
+    }
+  }
+
+  async function copyShareLink() {
+    const url = `${window.location.origin}/generator-planu-ogrodu?${inputToParams(input).toString()}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      window.prompt("Skopiuj link do planu:", url);
+    }
   }
 
   const zoneChartData =
@@ -147,20 +336,24 @@ export function GardenPlanGenerator({ preset }: GardenPlanGeneratorProps) {
         { label: "Ekologia", value: result.scores.sustainability },
         { label: "Niska pielęgnacja", value: result.scores.lowMaintenance },
         { label: "Przyjazny rodzinie", value: result.scores.familyFriendly },
-        { label: "Biodiversywność", value: result.scores.biodiversity },
+        { label: "Bioróżnorodność", value: result.scores.biodiversity },
       ]
     : [];
 
+  const shoppingTotal = result?.shopping.reduce((s, i) => s + i.total, 0) ?? 0;
+
   return (
     <div className="space-y-8">
-      <GardenPlanPresetNav currentSlug={preset?.slug} />
+      <div className="print:hidden">
+        <GardenPlanPresetNav currentSlug={preset?.slug} />
+      </div>
 
       {preset?.intro && (
-        <p className="text-muted leading-relaxed max-w-3xl">{preset.intro}</p>
+        <p className="text-muted leading-relaxed max-w-3xl print:hidden">{preset.intro}</p>
       )}
 
       {/* Progress */}
-      <div className="rounded-2xl border border-border bg-card p-4 sm:p-5">
+      <div className="rounded-2xl border border-border bg-card p-4 sm:p-5 print:hidden">
         <div className="flex justify-between gap-1 mb-3">
           {STEPS.map((s) => (
             <button
@@ -194,11 +387,47 @@ export function GardenPlanGenerator({ preset }: GardenPlanGeneratorProps) {
       </div>
 
       {/* Step content */}
-      <div className="rounded-2xl border border-border bg-card p-5 sm:p-8">
+      <div className="rounded-2xl border border-border bg-card p-5 sm:p-8 print:border-0 print:p-0">
         {step === 1 && (
           <div className="space-y-6 max-w-lg">
             <h2 className="text-xl font-bold text-primary-dark">📐 Twoja działka</h2>
-            <FormField label="Powierzchnia ogrodu" htmlFor="area" hint="Zmierz lub sprawdź w dokumentach działki">
+            <div className="grid grid-cols-2 gap-4">
+              <FormField label="Szerokość" htmlFor="plot-w" hint="wzdłuż domu">
+                <div className="flex items-center gap-2">
+                  <input
+                    id="plot-w"
+                    type="number"
+                    min={2}
+                    max={500}
+                    step={0.5}
+                    className={inputClass}
+                    value={plotWidthM}
+                    onChange={(e) => handleWidthChange(Number(e.target.value))}
+                  />
+                  <span className="text-muted shrink-0">m</span>
+                </div>
+              </FormField>
+              <FormField label="Długość" htmlFor="plot-l" hint="w głąb ogrodu">
+                <div className="flex items-center gap-2">
+                  <input
+                    id="plot-l"
+                    type="number"
+                    min={2}
+                    max={500}
+                    step={0.5}
+                    className={inputClass}
+                    value={plotLengthM}
+                    onChange={(e) => handleLengthChange(Number(e.target.value))}
+                  />
+                  <span className="text-muted shrink-0">m</span>
+                </div>
+              </FormField>
+            </div>
+            <FormField
+              label="Powierzchnia ogrodu"
+              htmlFor="area"
+              hint="Możesz też wpisać samą powierzchnię — wymiary dopasują się automatycznie"
+            >
               <div className="flex items-center gap-2">
                 <input
                   id="area"
@@ -214,8 +443,8 @@ export function GardenPlanGenerator({ preset }: GardenPlanGeneratorProps) {
             </FormField>
             <div className="rounded-xl bg-accent/50 p-4 text-sm text-muted">
               <p>
-                <strong className="text-foreground">Szacowany obwód:</strong>{" "}
-                ~{estimatePerimeter(areaM2)} m (do żywopłotu)
+                <strong className="text-foreground">Szacowany żywopłot (3 granice):</strong>{" "}
+                ~{estimateHedgeLength(plotWidthM, plotLengthM)} mb
               </p>
               <p className="mt-1">
                 <strong className="text-foreground">Profil:</strong>{" "}
@@ -228,6 +457,24 @@ export function GardenPlanGenerator({ preset }: GardenPlanGeneratorProps) {
                       : "rozległa posesja"}
               </p>
             </div>
+            <FormField
+              label="W którą stronę świata wychodzi ogród?"
+              htmlFor="exposure"
+              hint={EXPOSURE_OPTIONS.find((o) => o.value === exposure)?.hint}
+            >
+              <select
+                id="exposure"
+                className={selectClass}
+                value={exposure}
+                onChange={(e) => setExposure(e.target.value as Exposure)}
+              >
+                {EXPOSURE_OPTIONS.map((o) => (
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
+                ))}
+              </select>
+            </FormField>
             <FormField label="Nachylenie terenu" htmlFor="slope">
               <select
                 id="slope"
@@ -406,11 +653,11 @@ export function GardenPlanGenerator({ preset }: GardenPlanGeneratorProps) {
           <div className="space-y-6 text-center max-w-md mx-auto py-8">
             <h2 className="text-xl font-bold text-primary-dark">Gotowy do wygenerowania planu?</h2>
             <p className="text-muted">
-              Na podstawie ankiety przygotujemy podział na strefy, kosztorys, harmonogram 4 faz
-              i spersonalizowane rekomendacje.
+              Na podstawie ankiety przygotujemy rysunek działki 2D, podział na strefy, kosztorys,
+              listę zakupów, harmonogram 4 faz i kalendarz pielęgnacji na 12 miesięcy.
             </p>
             <ul className="text-left text-sm text-muted space-y-2">
-              <li>✓ Działka: {areaM2} m²</li>
+              <li>✓ Działka: {plotWidthM} × {plotLengthM} m ({areaM2} m²)</li>
               <li>✓ Cele: {goals.length || "uniwersalny"}</li>
               <li>✓ Budżet: {BUDGET_OPTIONS.find((b) => b.value === budget)?.label}</li>
             </ul>
@@ -418,12 +665,32 @@ export function GardenPlanGenerator({ preset }: GardenPlanGeneratorProps) {
         )}
 
         {step === 6 && generated && result && (
-          <div className="space-y-10">
+          <div className="space-y-10" ref={resultsRef}>
             <div className="rounded-xl bg-accent/60 border border-primary/20 p-5 sm:p-6">
-              <p className="text-sm font-semibold text-primary-dark mb-1">
-                {result.profileLabel} · {areaM2} m²
-              </p>
-              <p className="text-muted leading-relaxed">{result.summary}</p>
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-sm font-semibold text-primary-dark mb-1">
+                    {result.profileLabel} · {plotWidthM} × {plotLengthM} m · {areaM2} m²
+                  </p>
+                  <p className="text-muted leading-relaxed">{result.summary}</p>
+                </div>
+                <div className="flex gap-2 shrink-0 print:hidden">
+                  <button
+                    type="button"
+                    onClick={copyShareLink}
+                    className="rounded-full border border-primary px-4 py-1.5 text-sm font-medium text-primary hover:bg-accent transition-colors"
+                  >
+                    {copied ? "✓ Skopiowano!" : "🔗 Kopiuj link do planu"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => window.print()}
+                    className="rounded-full border border-border px-4 py-1.5 text-sm font-medium text-muted hover:border-primary hover:text-primary transition-colors"
+                  >
+                    🖨️ Drukuj / PDF
+                  </button>
+                </div>
+              </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -448,6 +715,16 @@ export function GardenPlanGenerator({ preset }: GardenPlanGeneratorProps) {
                 value={result.irrigationLitersWeek}
                 unit="l"
               />
+            </div>
+
+            <div>
+              <h3 className="font-semibold text-primary-dark text-lg mb-1">
+                🗺️ Plan Twojej działki
+              </h3>
+              <p className="text-sm text-muted mb-4">
+                Schematyczne rozmieszczenie stref w skali — punkt wyjścia do własnego projektu.
+              </p>
+              <GardenPlanVisualization layout={result.layout} zones={result.zones} />
             </div>
 
             <div className="grid gap-6 lg:grid-cols-2">
@@ -598,7 +875,82 @@ export function GardenPlanGenerator({ preset }: GardenPlanGeneratorProps) {
               </div>
             </div>
 
+            {result.shopping.length > 0 && (
+              <div className="rounded-2xl border border-border overflow-hidden">
+                <div className="p-5 border-b border-border bg-accent/40">
+                  <h3 className="font-semibold text-primary-dark text-lg">🛒 Lista zakupów</h3>
+                  <p className="text-sm text-muted mt-1">
+                    Konkretne ilości do centrum ogrodniczego — ceny orientacyjne dla wybranego budżetu.
+                  </p>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm min-w-[560px]">
+                    <thead className="bg-accent">
+                      <tr>
+                        <th className="text-left p-3 font-semibold">Produkt</th>
+                        <th className="text-left p-3 font-semibold">Ilość</th>
+                        <th className="text-right p-3 font-semibold">Cena jedn.</th>
+                        <th className="text-right p-3 font-semibold">Razem</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {result.shopping.map((item, i) => (
+                        <tr key={i} className={`border-t border-border ${item.optional ? "opacity-70" : ""}`}>
+                          <td className="p-3">
+                            <span className="font-medium text-foreground">
+                              {item.name}
+                              {item.optional && <span className="ml-1 text-xs text-muted">(opcja)</span>}
+                            </span>
+                            <span className="block text-xs text-muted mt-0.5">{item.detail}</span>
+                          </td>
+                          <td className="p-3 text-muted whitespace-nowrap">{item.quantity}</td>
+                          <td className="p-3 text-right text-muted whitespace-nowrap">
+                            {item.unitCost.toLocaleString("pl-PL")} PLN
+                          </td>
+                          <td className="p-3 text-right font-medium whitespace-nowrap">
+                            {item.total.toLocaleString("pl-PL")} PLN
+                          </td>
+                        </tr>
+                      ))}
+                      <tr className="border-t-2 border-primary bg-accent/50 font-semibold">
+                        <td colSpan={3} className="p-3 text-primary-dark">
+                          Orientacyjna wartość koszyka
+                        </td>
+                        <td className="p-3 text-right text-primary-dark whitespace-nowrap">
+                          {shoppingTotal.toLocaleString("pl-PL")} PLN
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
             <div>
+              <h3 className="font-semibold text-primary-dark text-lg mb-1">
+                📅 Kalendarz pielęgnacji — 12 miesięcy
+              </h3>
+              <p className="text-sm text-muted mb-4">
+                Zadania dopasowane do elementów Twojego planu.
+              </p>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {result.monthlyCalendar.map((mo) => (
+                  <div key={mo.month} className="rounded-xl border border-border p-4">
+                    <p className="font-semibold text-primary-dark text-sm mb-2">{mo.month}</p>
+                    <ul className="text-xs text-muted space-y-1.5">
+                      {mo.tasks.map((t) => (
+                        <li key={t} className="flex gap-1.5">
+                          <span className="text-primary shrink-0">•</span>
+                          {t}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="print:hidden">
               <h3 className="font-semibold text-primary-dark text-lg mb-4">
                 Rekomendacje i powiązane narzędzia
               </h3>
@@ -626,7 +978,7 @@ export function GardenPlanGenerator({ preset }: GardenPlanGeneratorProps) {
         )}
 
         {/* Navigation */}
-        <div className="flex justify-between mt-8 pt-6 border-t border-border">
+        <div className="flex justify-between mt-8 pt-6 border-t border-border print:hidden">
           <button
             type="button"
             onClick={prevStep}
@@ -657,6 +1009,11 @@ export function GardenPlanGenerator({ preset }: GardenPlanGeneratorProps) {
               onClick={() => {
                 setGenerated(false);
                 setStep(1);
+                try {
+                  window.localStorage.removeItem(DRAFT_KEY);
+                } catch {
+                  // brak dostępu do localStorage — nic do wyczyszczenia
+                }
               }}
               className="rounded-full border border-primary px-6 py-2 text-sm font-medium text-primary hover:bg-accent transition-colors"
             >
@@ -667,7 +1024,9 @@ export function GardenPlanGenerator({ preset }: GardenPlanGeneratorProps) {
       </div>
 
       {generated && <TipsList tips={result?.tips ?? []} />}
-      <FAQAccordion items={faqItems} />
+      <div className="print:hidden">
+        <FAQAccordion items={faqItems} />
+      </div>
     </div>
   );
 }
