@@ -12,6 +12,7 @@ import {
   jsonLdBreadcrumb,
   jsonLdCalculator,
   jsonLdFAQ,
+  SITE_URL,
 } from "@/lib/seo";
 
 const calc = getCalculatorBySlug("kalkulator-wzrostu")!;
@@ -49,8 +50,8 @@ export default function Page() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             jsonLdBreadcrumb([
-              { name: "Strona główna", url: "https://www.ogrodelo.pl" },
-              { name: "Kalkulator wzrostu", url: "https://www.ogrodelo.pl/kalkulator-wzrostu" },
+              { name: "Strona główna", url: SITE_URL },
+              { name: "Kalkulator wzrostu", url: `${SITE_URL}/kalkulator-wzrostu` },
             ])
           ),
         }}

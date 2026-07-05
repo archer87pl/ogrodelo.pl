@@ -9,11 +9,8 @@ import {
   getHedgePreset,
   getAllHedgePresetSlugs,
 } from "@/lib/constants/hedge-presets";
-import {
-  irrigationPageMetadata,
-  jsonLdBreadcrumb,
-  jsonLdFAQ,
-} from "@/lib/seo";
+import { PresetJsonLd } from "@/components/PresetJsonLd";
+import { irrigationPageMetadata } from "@/lib/seo";
 
 const calc = getCalculatorBySlug("kalkulator-zywoplotu")!;
 
@@ -43,26 +40,16 @@ export default async function PresetPage({ params }: PageProps) {
   const preset = getHedgePreset(slug);
   if (!preset) notFound();
 
-  const breadcrumb = jsonLdBreadcrumb([
-    { name: "Strona główna", url: "https://www.ogrodelo.pl" },
-    { name: "Kalkulator żywopłotu", url: "https://www.ogrodelo.pl/kalkulator-zywoplotu" },
-    { name: preset.title, url: `https://www.ogrodelo.pl/kalkulator-zywoplotu/${slug}` },
-  ]);
-
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+      <PresetJsonLd
+        parentSlug="kalkulator-zywoplotu"
+        parentLabel="Kalkulator żywopłotu"
+        presetTitle={preset.title}
+        presetDescription={preset.description}
+        presetPath={`/kalkulator-zywoplotu/${slug}`}
+        faq={preset.faq.length > 0 ? preset.faq : undefined}
       />
-      {preset.faq.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLdFAQ(preset.faq)),
-          }}
-        />
-      )}
 
       <div className="mx-auto max-w-6xl px-4 py-6 sm:py-8">
         <Breadcrumbs

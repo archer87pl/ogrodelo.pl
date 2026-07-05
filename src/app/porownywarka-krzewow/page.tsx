@@ -12,6 +12,7 @@ import {
   jsonLdBreadcrumb,
   jsonLdCalculator,
   jsonLdFAQ,
+  SITE_URL,
 } from "@/lib/seo";
 
 const calc = getCalculatorBySlug("porownywarka-krzewow")!;
@@ -19,7 +20,7 @@ const calc = getCalculatorBySlug("porownywarka-krzewow")!;
 export const metadata: Metadata = {
   ...calculatorMetadata(calc),
   description:
-    "Porównaj laurowiśnię, tuię, ostrokrzew, berberys i 8 innych krzewów. Wzrost, żywopłot, choroby, woda — wykresy i tabela parametrów.",
+    "Porównaj laurowiśnię, tuię, grab, ostrokrzew, berberys i 9 innych krzewów. Wzrost, żywopłot, choroby, woda — wykresy i tabela parametrów.",
   keywords: [
     ...calc.keywords,
     "laurowiśnia czy tuja",
@@ -46,8 +47,8 @@ export default function Page() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             jsonLdBreadcrumb([
-              { name: "Strona główna", url: "https://www.ogrodelo.pl" },
-              { name: "Porównywarka krzewów", url: "https://www.ogrodelo.pl/porownywarka-krzewow" },
+              { name: "Strona główna", url: SITE_URL },
+              { name: "Porównywarka krzewów", url: `${SITE_URL}/porownywarka-krzewow` },
             ])
           ),
         }}
@@ -62,7 +63,7 @@ export default function Page() {
 
         <CalculatorHero
           calc={calc}
-          description="Laurowiśnia vs tuja, berberys vs bukszpan — porównaj 12 krzewów: wzrost, żywopłot, zimozieloność, choroby i koszt. 4 wykresy i pełna tabela."
+          description="Laurowiśnia vs tuja, grab vs bukszpan, berberys vs bukszpan — porównaj 13 krzewów: wzrost, żywopłot, zimozieloność, choroby i koszt. 4 wykresy i pełna tabela."
         />
 
         <ShrubComparator />
@@ -80,7 +81,7 @@ export default function Page() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-primary-dark mb-4">12 gatunków</h2>
+            <h2 className="text-2xl font-bold text-primary-dark mb-4">13 gatunków</h2>
             <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {SHRUB_SPECIES_OPTIONS.map((s) => (
                 <div

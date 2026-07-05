@@ -2,17 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CalculatorCard } from "@/components/CalculatorCard";
 import { HeroGardenIllustration } from "@/components/HeroGardenIllustration";
+import { FrostCountdownBanner } from "@/components/FrostCountdownBanner";
 import { InternalLinkHubs } from "@/components/InternalLinkHubs";
 import { AdPlaceholder } from "@/components/AdPlaceholder";
 import { LegalDisclaimer } from "@/components/LegalDisclaimer";
 import { CALCULATORS } from "@/lib/constants/calculators";
 import { siteMetadata, jsonLdCalculatorList, SITE_URL } from "@/lib/seo";
+import { TOOL_COUNT } from "@/lib/constants/site-stats";
 
 export const metadata: Metadata = {
   ...siteMetadata(),
   title: "Ogrodelo.pl — Darmowe kalkulatory ogrodowe",
-  description:
-    "14 narzędzi ogrodowych — katalog kwitnienia, kalendarz, kalkulatory i generator planu ogrodu.",
+  description: `${TOOL_COUNT} darmowych narzędzi ogrodowych — katalog kwitnienia, kalendarz ogrodnika, generator planu i kalkulatory nawadniania.`,
   alternates: {
     canonical: SITE_URL,
   },
@@ -43,14 +44,20 @@ export default function HomePage() {
                 <span className="text-primary">mądrze i za darmo</span>
               </h1>
               <p className="mt-6 max-w-xl text-lg text-muted leading-relaxed">
-                15 narzędzi — katalog kwitnienia, kalendarz ogrodnika, plan ogrodu i kalkulatory nawadniania.
+                {TOOL_COUNT} narzędzi — katalog kwitnienia, kalendarz ogrodnika, plan ogrodu i kalkulatory nawadniania.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link
-                  href="/generator-planu-ogrodu"
+                  href="/projektant-ogrodu"
                   className="rounded-full bg-primary px-6 py-3 font-medium text-white shadow-sm hover:bg-primary-dark transition-colors"
                 >
-                  Generator planu ogrodu
+                  Projektant ogrodu
+                </Link>
+                <Link
+                  href="/generator-planu-ogrodu"
+                  className="rounded-full border border-border bg-card px-6 py-3 font-medium text-foreground hover:border-primary transition-colors"
+                >
+                  Generator planu (ankieta)
                 </Link>
                 <Link
                   href="/porownywarka-drzew"
@@ -72,6 +79,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <FrostCountdownBanner />
 
       <section className="mx-auto max-w-6xl px-4 pb-4">
         <AdPlaceholder />

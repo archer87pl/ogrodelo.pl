@@ -6,7 +6,8 @@ import { RelatedTools } from "@/components/RelatedTools";
 import { CalculatorHero } from "@/components/CalculatorHero";
 import { getCalculatorBySlug } from "@/lib/constants/calculators";
 import { getTreePreset, getAllTreePresetSlugs } from "@/lib/constants/tree-presets";
-import { presetPageMetadata, jsonLdBreadcrumb, jsonLdFAQ } from "@/lib/seo";
+import { PresetJsonLd } from "@/components/PresetJsonLd";
+import { presetPageMetadata } from "@/lib/seo";
 
 const calc = getCalculatorBySlug("porownywarka-drzew")!;
 
@@ -44,29 +45,14 @@ export default async function PresetPage({ params }: PageProps) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            jsonLdBreadcrumb([
-              { name: "Strona główna", url: "https://www.ogrodelo.pl" },
-              { name: "Porównywarka drzew", url: "https://www.ogrodelo.pl/porownywarka-drzew" },
-              {
-                name: preset.title,
-                url: `https://www.ogrodelo.pl/porownywarka-drzew/${slug}`,
-              },
-            ])
-          ),
-        }}
+      <PresetJsonLd
+        parentSlug="porownywarka-drzew"
+        parentLabel="Porównywarka drzew"
+        presetTitle={preset.title}
+        presetDescription={preset.description}
+        presetPath={`/porownywarka-drzew/${slug}`}
+        faq={preset.faq.length > 0 ? preset.faq : undefined}
       />
-      {preset.faq.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLdFAQ(preset.faq)),
-          }}
-        />
-      )}
 
       <div className="mx-auto max-w-6xl px-4 py-6 sm:py-8">
         <Breadcrumbs items={breadcrumbs} />

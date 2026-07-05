@@ -14,8 +14,18 @@ import {
   getPlantSeoParagraphs,
   getRelatedFloweringPlants,
   getPlantMonthCatalogLinks,
+  getPlantCalculatorLinks,
+  getPlantCareTips,
   plantDetailPath,
 } from "@/lib/flowering-plant-seo";
+import {
+  formatHardinessZones,
+  getPlantGrowthSpecies,
+  getPlantHardinessZones,
+  getPlantPetSafety,
+  isPetSafeLevel,
+} from "@/lib/constants/plant-encyclopedia-meta";
+import { PlantGrowthPreview } from "@/components/calculators/PlantGrowthPreview";
 
 interface FloweringPlantDetailProps {
   plant: FloweringPlant;
@@ -28,6 +38,18 @@ export function FloweringPlantDetail({ plant }: FloweringPlantDetailProps) {
   const seoParagraphs = getPlantSeoParagraphs(plant);
   const related = getRelatedFloweringPlants(plant);
   const monthLinks = getPlantMonthCatalogLinks(plant);
+  const calculatorLinks = getPlantCalculatorLinks(plant);
+  const careTips = getPlantCareTips(plant);
+  const hardinessZones = getPlantHardinessZones(plant);
+  const petSafety = getPlantPetSafety(plant.id);
+  const growthSpecies = getPlantGrowthSpecies(plant.id);
+
+  const toxicityLabel: Record<string, string> = {
+    bezpieczna: "Bezpieczna",
+    lagodna: "Łagodna",
+    umiarkowana: "Umiarkowana",
+    wysoka: "Wysoka toksyczność",
+  };
 
   const metrics: { label: string; value: string }[] = [
     { label: "Rodzaj", value: `${cat.icon} ${cat.label}` },
@@ -44,6 +66,7 @@ export function FloweringPlantDetail({ plant }: FloweringPlantDetailProps) {
     { label: "Zapach", value: getPlantScentLabel(plant) },
     { label: "Wysokość", value: plant.height },
     { label: "Nasłonecznienie", value: plant.light.map((l) => LIGHT_LABELS[l]).join(", ") },
+    { label: "Mrozoodporność", value: formatHardinessZones(hardinessZones) },
   ];
 
   return (
@@ -101,12 +124,77 @@ export function FloweringPlantDetail({ plant }: FloweringPlantDetailProps) {
         </p>
       </section>
 
+      {petSafety && (
+        <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
+          <h2 className="text-lg font-bold text-primary-dark mb-4">Bezpieczeństwo dla zwierząt i dzieci</h2>
+          <dl className="grid gap-3 sm:grid-cols-3">
+            {(["dog", "cat", "child"] as const).map((who) => {
+              const level = petSafety[who];
+              if (!level) return null;
+              const safe = isPetSafeLevel(level);
+              return (
+                <div key={who} className="rounded-xl bg-accent/40 px-4 py-3">
+                  <dt className="text-xs font-semibold uppercase tracking-wide text-muted">
+                    {who === "dog" ? "Psy" : who === "cat" ? "Koty" : "Dzieci"}
+                  </dt>
+                  <dd
+                    className={`mt-1 text-sm font-medium ${safe ? "text-primary-dark" : "text-red-700"}`}
+                  >
+                    {toxicityLabel[level]}
+                  </dd>
+                </div>
+              );
+            })}
+          </dl>
+          {petSafety.note && <p className="text-xs text-muted mt-3">{petSafety.note}</p>}
+          <Link
+            href="/rosliny-dla-zwierzat"
+            className="inline-block mt-3 text-sm text-primary font-medium hover:underline"
+          >
+            Pełna lista roślin dla zwierząt →
+          </Link>
+        </section>
+      )}
+
+      {growthSpecies && (plant.category === "drzewo" || plant.category === "krzew") && (
+        <PlantGrowthPreview plantId={plant.id} species={growthSpecies} plantName={plant.name} />
+      )}
+
       <section className="prose prose-sm max-w-none text-muted leading-relaxed space-y-4">
         <h2 className="text-lg font-bold text-primary-dark not-prose">Opis i uprawa</h2>
         {seoParagraphs.map((p, i) => (
           <p key={i}>{p}</p>
         ))}
       </section>
+
+      <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
+        <h2 className="text-lg font-bold text-primary-dark mb-4">Pielęgnacja i sadzenie</h2>
+        <ul className="space-y-2 text-sm text-muted">
+          {careTips.map((tip, i) => (
+            <li key={i} className="flex gap-2">
+              <span className="text-primary shrink-0">•</span>
+              <span>{tip}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {calculatorLinks.length > 0 && (
+        <section>
+          <h2 className="text-lg font-bold text-primary-dark mb-3">Powiązane kalkulatory</h2>
+          <div className="flex flex-wrap gap-2">
+            {calculatorLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-full border border-border bg-card px-4 py-2 text-sm hover:border-primary transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {monthLinks.length > 0 && (
         <section>

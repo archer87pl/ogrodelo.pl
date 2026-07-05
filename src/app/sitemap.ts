@@ -9,6 +9,8 @@ import { SHRUB_PRESETS } from "@/lib/constants/shrub-presets";
 import { GARDEN_PLAN_PRESETS } from "@/lib/constants/garden-plan-presets";
 import { CALENDAR_MONTHS } from "@/lib/constants/garden-calendar";
 import { CALENDAR_TASK_PRESETS } from "@/lib/constants/calendar-task-presets";
+import { GARDEN_PROBLEMS } from "@/lib/constants/garden-problems";
+import { SEASONAL_GUIDES } from "@/lib/constants/seasonal-guides";
 import { FLOWERING_PRESETS_UNIQUE } from "@/lib/constants/flowering-catalog-presets";
 import { MOWER_PRESETS } from "@/lib/constants/mower-presets";
 import { FLOWERING_PLANTS_LIST } from "@/lib/constants/flowering-plants";
@@ -95,5 +97,65 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.9,
     })),
+    {
+      url: `${base}/polityka-prywatnosci`,
+      lastModified: new Date(),
+      changeFrequency: "yearly" as const,
+      priority: 0.3,
+    },
+    {
+      url: `${base}/kalkulatory`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.85,
+    },
+    {
+      url: `${base}/porownywarki`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.85,
+    },
+    {
+      url: `${base}/rosliny`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.85,
+    },
+    {
+      url: `${base}/problemy-ogrodowe`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.9,
+    },
+    ...GARDEN_PROBLEMS.map((p) => ({
+      url: `${base}/problemy-ogrodowe/${p.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.88,
+    })),
+    ...SEASONAL_GUIDES.map((g) => ({
+      url: `${base}/ogrod-w/${g.pathSlug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.88,
+    })),
+    {
+      url: `${base}/ogrod-teraz`,
+      lastModified: new Date(),
+      changeFrequency: "daily" as const,
+      priority: 0.92,
+    },
+    {
+      url: `${base}/feed.xml`,
+      lastModified: new Date(),
+      changeFrequency: "daily" as const,
+      priority: 0.3,
+    },
+    {
+      url: `${base}/mapa-stref-mrozoodpornosci`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.92,
+    },
   ];
 }

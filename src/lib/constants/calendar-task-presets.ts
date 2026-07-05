@@ -1,5 +1,9 @@
 import type { CalendarCategory } from "./garden-calendar";
 import { getAllCalendarMonthSlugs, getCalendarMonth } from "./garden-calendar";
+import {
+  getAllRegionalCalendarSlugs,
+  parseRegionalCalendarSlug,
+} from "./garden-calendar-regions";
 
 export interface CalendarTaskPreset {
   slug: string;
@@ -623,12 +627,19 @@ export function getAllCalendarTaskSlugs(): string[] {
 export function getCalendarPreset(slug: string):
   | { type: "month"; slug: string }
   | { type: "task"; slug: string }
+  | { type: "region"; regionId: string; monthSlug: string }
   | undefined {
+  const regional = parseRegionalCalendarSlug(slug);
+  if (regional) return { type: "region", ...regional };
   if (getCalendarMonth(slug)) return { type: "month", slug };
   if (getCalendarTask(slug)) return { type: "task", slug };
   return undefined;
 }
 
 export function getAllCalendarPresetSlugs(): string[] {
-  return [...getAllCalendarMonthSlugs(), ...getAllCalendarTaskSlugs()];
+  return [
+    ...getAllCalendarMonthSlugs(),
+    ...getAllCalendarTaskSlugs(),
+    ...getAllRegionalCalendarSlugs(),
+  ];
 }

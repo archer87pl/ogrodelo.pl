@@ -143,6 +143,142 @@ export const TREE_PRESETS: TreePreset[] = [
     sections: [],
   },
   {
+    slug: "grab-vs-buk",
+    title: "Grab czy buk? Liściaste do ogrodu",
+    description:
+      "Grab vs buk: wzrost, korona, żywopłot vs aleja, korzenie, cień i koszt sadzonki. Porównanie z wykresem.",
+    keywords: [
+      "grab czy buk",
+      "grab vs buk",
+      "grab pospolity buk",
+      "drzewo czy żywopłot grab",
+    ],
+    defaults: { speciesA: "grab", speciesB: "buk" },
+    intro:
+      "Oba liściaste i rodzime — grab tańszy, łatwiejszy w formowaniu na żywopłot, buk majestatyczny ale wolniejszy start.",
+    faq: [
+      {
+        question: "Grab czy buk — który szybciej rośnie?",
+        answer: "Podobne tempo ok. 30 cm/rok, ale grab szybciej daje efekt żywopłotowy dzięki gęstemu cięciu. Buk lepszy jako pojedyncze drzewo alejowe.",
+      },
+      {
+        question: "Czy grab można sadzić bliżej domu niż buk?",
+        answer: "Tak — grab min. 4 m od budynku vs 6 m buk. Korzenie grabu mniej agresywne.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Grab — kiedy wybrać?",
+        content:
+          "Żywopłot, ekran przy ogrodzeniu, ograniczony budżet. Zdrowy, tani, formowany. Liście zimują brązowe na gałęziach.",
+      },
+      {
+        heading: "Buk — kiedy wybrać?",
+        content:
+          "Aleja, duży ogród, drzewo na pokolenia. Gęsta korona, imponująca wysokość — ale wolniejszy efekt i większe wymagania przestrzenne.",
+      },
+    ],
+  },
+  {
+    slug: "grab-vs-lipa",
+    title: "Grab czy lipa? Formowany vs alejowy",
+    description:
+      "Grab vs lipa: żywopłot vs drzewo alejowe, wzrost, cień, korzenie i bezpieczeństwo przy domu.",
+    keywords: ["grab czy lipa", "grab vs lipa", "grab pospolity lipa"],
+    defaults: { speciesA: "grab", speciesB: "lipa" },
+    intro: "Grab na bliskim ogrodzeniu i żywopłot, lipa na aleję i głęboki cień — różne skale ogrodu.",
+    faq: [],
+    sections: [],
+  },
+  {
+    slug: "dab-vs-klon",
+    title: "Dąb czy klon? Liściaste olbrzymy",
+    description:
+      "Dąb vs klon jawor: wzrost, korona, bałagan, korzenie i dopasowanie do ogrodu miejskiego.",
+    keywords: ["dąb czy klon", "dab vs klon", "klon jawor dąb porównanie"],
+    defaults: { speciesA: "dab", speciesB: "klon" },
+    intro: "Klon szybszy w młodości i bardziej toleruje miasto, dąb dłuższy wiek i głębszy cień.",
+    faq: [],
+    sections: [],
+  },
+  {
+    slug: "dab-vs-wierzba",
+    title: "Dąb czy wierzba? Wolny olbrzym vs szybki wzrost",
+    description:
+      "Dąb vs wierzba: tempo wzrostu, korzenie, woda, bezpieczeństwo przy domu i żywotność.",
+    keywords: ["dąb czy wierzba", "dab vs wierzba", "wierzba dąb porównanie"],
+    defaults: { speciesA: "dab", speciesB: "wierzba" },
+    intro: "Wierzba rośnie 3× szybciej, ale agresywne korzenie — dąb wolny, ale bezpieczniejszy długoterminowo.",
+    faq: [],
+    sections: [],
+  },
+  {
+    slug: "sosna-vs-swierk",
+    title: "Sosna czy świerk? Iglasta do ogrodu",
+    description:
+      "Sosna vs świerk: susza, mróz, wzrost, kształt korony i wymagania glebowe w Polsce.",
+    keywords: ["sosna czy świerk", "sosna vs swierk", "iglate drzewo ogród"],
+    defaults: { speciesA: "sosna", speciesB: "swierk" },
+    intro: "Sosna znosi suszę lepiej, świerk wymaga wilgotniejszego stanowiska — oba szybko rosną.",
+    faq: [],
+    sections: [],
+  },
+  {
+    slug: "klon-vs-brzoza",
+    title: "Klon czy brzoza? Drzewa miejskie",
+    description:
+      "Klon vs brzoza: wzrost, cień, bałagan, korzenie i dopasowanie do małego ogrodu.",
+    keywords: ["klon czy brzoza", "klon vs brzoza", "drzewo do małego ogrodu"],
+    defaults: { speciesA: "klon", speciesB: "brzoza" },
+    intro: "Brzoza szybsza i lżejsza korona, klon gęstszy cień i dłuższy wiek — oba popularne w miastach.",
+    faq: [],
+    sections: [],
+  },
+  {
+    slug: "kasztan-vs-dab",
+    title: "Kasztanowiec czy dąb? Alejowe olbrzymy",
+    description:
+      "Kasztan vs dąb: kwiaty, cień, choroby (minszczyk), wzrost i bezpieczeństwo sadzenia.",
+    keywords: ["kasztanowiec czy dąb", "kasztan vs dab", "drzewo alejowe porównanie"],
+    defaults: { speciesA: "kasztan", speciesB: "dab" },
+    intro: "Kasztan efektowny w maju, dąb trwalszy i mniej podatny na minszczyka kasztanowca.",
+    faq: [],
+    sections: [],
+  },
+  {
+    slug: "jesion-vs-klon",
+    title: "Jesion czy klon? Szybkie liściaste",
+    description:
+      "Jesion vs klon: tempo wzrostu, choroby (zgorzel jesionowca), korona i bezpieczeństwo przy domu.",
+    keywords: ["jesion czy klon", "jesion vs klon", "szybkie drzewo liściaste"],
+    defaults: { speciesA: "jesion", speciesB: "klon" },
+    intro: "Jesion rośnie szybciej, ale choroba zgorzel — klon bezpieczniejszy wybór do ogrodu miejskiego.",
+    faq: [],
+    sections: [],
+  },
+  {
+    slug: "orzech-vs-dab",
+    title: "Orzech włoski czy dąb? Liściaste z owocami",
+    description:
+      "Orzech vs dąb: juglon, cień, owoce, korzenie i wpływ na sąsiednie rośliny.",
+    keywords: ["orzech czy dąb", "orzech włoski vs dąb", "juglon ogród"],
+    defaults: { speciesA: "orzech", speciesB: "dab" },
+    intro: "Orzech daje jadalne orzechy, ale juglon hamuje sąsiadów. Dąb bezpieczniejszy w mieszanych nasadzeniach.",
+    faq: [],
+    sections: [],
+  },
+  {
+    slug: "modrzew-vs-jodla",
+    title: "Modrzew czy jodła? Iglasta liściasta vs iglasta",
+    description:
+      "Modrzew vs jodła: jesienna żółć, wzrost, mróz, woda i wymagania glebowe.",
+    keywords: ["modrzew czy jodła", "modrzew vs jodla", "iglate liściaste"],
+    defaults: { speciesA: "modrzew", speciesB: "jodla" },
+    intro: "Modrzew szybki i suszoodporny, jodła wolniejsza ale zimozielona — oba wymagają wilgotnego startu.",
+    faq: [],
+    sections: [],
+  },
+  {
     slug: "dab",
     title: "Dąb — parametry, wzrost i porównanie",
     description:
@@ -258,10 +394,33 @@ export const TREE_PRESETS: TreePreset[] = [
     sections: [],
   },
   {
+    slug: "grab",
+    title: "Grab — wzrost, żywopłot i porównanie",
+    description:
+      "Grab pospolity: tempo wzrostu, formowanie żywopłotu, odległość od domu. Porównaj grab z bukiem i lipą.",
+    keywords: [
+      "grab wzrost",
+      "grab pospolity ogród",
+      "grab drzewo",
+      "grab vs buk",
+      "sadzenie grabu",
+    ],
+    defaults: { speciesA: "grab", speciesB: "buk" },
+    intro: "Profil grabu jako drzewa i żywopłotu — zdrowy, rodzimy, porównany z bukiem.",
+    faq: [
+      {
+        question: "Grab jako drzewo czy żywopłot?",
+        answer:
+          "Grab sprawdza się w obu rolach — formowany co 2 cięcia daje gęsty ekran, pojedyncze drzewo rośnie do ok. 20 m.",
+      },
+    ],
+    sections: [],
+  },
+  {
     slug: "porownanie",
     title: "Porównaj dowolne drzewa",
     description:
-      "Wybierz dwa gatunki i porównaj wzrost, wodę, korzenie, cień i koszt. 16 drzew, wykresy i tabela parametrów.",
+      "Wybierz dwa gatunki i porównaj wzrost, wodę, korzenie, cień i koszt. 17 drzew, wykresy i tabela parametrów.",
     keywords: ["porównanie drzew", "porównywarka drzew", "które drzewo wybrać", "ranking drzew ogrodowych"],
     defaults: {},
     intro: "Wybierz dwa gatunki z listy — zobacz pełną tabelę, wykres wzrostu na 50 lat i dopasowanie do ogrodu.",

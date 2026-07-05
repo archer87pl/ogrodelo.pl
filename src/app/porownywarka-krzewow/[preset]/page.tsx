@@ -6,7 +6,8 @@ import { RelatedTools } from "@/components/RelatedTools";
 import { CalculatorHero } from "@/components/CalculatorHero";
 import { getCalculatorBySlug } from "@/lib/constants/calculators";
 import { getShrubPreset, getAllShrubPresetSlugs } from "@/lib/constants/shrub-presets";
-import { presetPageMetadata, jsonLdBreadcrumb, jsonLdFAQ } from "@/lib/seo";
+import { PresetJsonLd } from "@/components/PresetJsonLd";
+import { presetPageMetadata } from "@/lib/seo";
 
 const calc = getCalculatorBySlug("porownywarka-krzewow")!;
 
@@ -44,27 +45,14 @@ export default async function PresetPage({ params }: PageProps) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            jsonLdBreadcrumb([
-              { name: "Strona główna", url: "https://www.ogrodelo.pl" },
-              { name: "Porównywarka krzewów", url: "https://www.ogrodelo.pl/porownywarka-krzewow" },
-              {
-                name: preset.title,
-                url: `https://www.ogrodelo.pl/porownywarka-krzewow/${slug}`,
-              },
-            ])
-          ),
-        }}
+      <PresetJsonLd
+        parentSlug="porownywarka-krzewow"
+        parentLabel="Porównywarka krzewów"
+        presetTitle={preset.title}
+        presetDescription={preset.description}
+        presetPath={`/porownywarka-krzewow/${slug}`}
+        faq={preset.faq.length > 0 ? preset.faq : undefined}
       />
-      {preset.faq.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFAQ(preset.faq)) }}
-        />
-      )}
 
       <div className="mx-auto max-w-6xl px-4 py-6 sm:py-8">
         <Breadcrumbs items={breadcrumbs} />

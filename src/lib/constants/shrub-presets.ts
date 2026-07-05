@@ -129,6 +129,152 @@ export const SHRUB_PRESETS: ShrubPreset[] = [
     sections: [],
   },
   {
+    slug: "grab-vs-bukszpan",
+    title: "Grab czy bukszpan? Klasyczny vs elegancki żywopłot",
+    description:
+      "Grab vs bukszpan: wzrost, cięcie, choroby, koszt sadzonki i czas do pełnego żywopłotu. Który wybrać?",
+    keywords: [
+      "grab czy bukszpan",
+      "grab vs bukszpan",
+      "żywopłot grab bukszpan",
+      "bukszpan czy grab",
+    ],
+    defaults: { speciesA: "grab", speciesB: "bukszpan" },
+    intro:
+      "Dwa popularne liściaste żywopłoty — grab szybszy i tańszy, bukszpan wolniejszy ale gęstszy po latach. Bukszpan podatny na pielistę.",
+    faq: [
+      {
+        question: "Grab czy bukszpan — który zdrowszy?",
+        answer:
+          "Grab jest znacznie zdrowszy — ocena chorób 1/5 vs 4/5 u bukszpanu (pielista bukszpanowa). Grab to bezpieczniejszy wybór długoterminowy.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Grab — kiedy wybrać?",
+        content:
+          "Szybki efekt, niski koszt, liście brązowieją zimą na gałęziach (prywatność zimą). Wymaga 2 cięć rocznie.",
+      },
+      {
+        heading: "Bukszpan — kiedy wybrać?",
+        content:
+          "Formalny, gęsty żywopłot formowy — ale wolny wzrost (15 cm/rok) i ryzyko chorób. Lepszy na niskie obwódki.",
+      },
+    ],
+  },
+  {
+    slug: "grab-vs-berberys",
+    title: "Grab czy berberys? Żywopłot liściasty",
+    description:
+      "Grab vs berberys: wysokość, gęstość, kolce, wzrost i zastosowanie na małym ogrodzie.",
+    keywords: ["grab czy berberys", "grab vs berberys", "żywopłot grab berberys"],
+    defaults: { speciesA: "grab", speciesB: "berberys" },
+    intro: "Grab na wysoki ekran (do 4 m), berberys na niski, kolczasty żywopłot (do 1,5 m). Oba zdrowe i tanie.",
+    faq: [],
+    sections: [],
+  },
+  {
+    slug: "grab-vs-laurowisnia",
+    title: "Grab czy laurowiśnia? Liściasty vs zimozielony",
+    description:
+      "Grab vs laurowiśnia: zimozieloność, wzrost, cień, koszt i prywatność zimą. Porównanie żywopłotów.",
+    keywords: [
+      "grab czy laurowiśnia",
+      "grab vs laurowisnia",
+      "żywopłot grab laurowiśnia",
+      "laurowiśnia czy grab",
+    ],
+    defaults: { speciesA: "grab", speciesB: "laurowisnia" },
+    intro:
+      "Laurowiśnia zimozielona i szybsza, grab tańszy i zdrowszy — liście brązowieją zimą, ale zostają na gałęziach.",
+    faq: [
+      {
+        question: "Który żywopłot tańszy — grab czy laurowiśnia?",
+        answer: "Grab — sadzonka od ok. 12 zł vs 18 zł laurowiśni. Przy 10 mb żywopłotu różnica to ok. 60–100 zł.",
+      },
+    ],
+    sections: [],
+  },
+  {
+    slug: "grab-vs-tuja",
+    title: "Grab czy tuja? Zdrowa alternatywa",
+    description:
+      "Grab vs tuja: choroby, wzrost, zimozieloność, koszt i czas do pełnego żywopłotu. Zamiennik tui.",
+    keywords: ["grab czy tuja", "grab vs tuja", "zamiennik tui grab", "żywopłot zamiast tui"],
+    defaults: { speciesA: "grab", speciesB: "tuja" },
+    intro:
+      "Grab to najpopularniejsza zdrowa alternatywa dla tui — brak chorób grzybowych, podobny czas do pełnego ekranu.",
+    faq: [],
+    sections: [],
+  },
+  {
+    slug: "hortensja-vs-tuja",
+    title: "Hortensja czy tuja? Krzew kwiatowy vs żywopłot",
+    description:
+      "Hortensja vs tuja: cel w ogrodzie, wzrost, woda, prywatność i choroby. Kiedy kwiaty, kiedy ekran?",
+    keywords: ["hortensja czy tuja", "hortensja vs tuja", "krzew czy żywopłot"],
+    defaults: { speciesA: "hortensja", speciesB: "tuja" },
+    intro:
+      "Różne cele — hortensja ozdobna z kwiatami, tuja ekran zielony. Hortensja nie zastąpi gęstego żywopłotu.",
+    faq: [],
+    sections: [],
+  },
+  {
+    slug: "ostrokrzew-vs-berberys",
+    title: "Ostrokrzew czy berberys? Kolczaste krzewy",
+    description:
+      "Ostrokrzew vs berberys: zimozieloność, kolce, wzrost, wysokość i zastosowanie przy ogrodzeniu.",
+    keywords: ["ostrokrzew czy berberys", "ostrokrzew vs berberys", "krzew kolczasty"],
+    defaults: { speciesA: "ostrokrzew", speciesB: "berberys" },
+    intro: "Oba kolczaste i zdrowe — ostrokrzew wyższy i zimozielony, berberys niższy z jesiennymi barwami.",
+    faq: [],
+    sections: [],
+  },
+  {
+    slug: "bukszpan-vs-laurowisnia",
+    title: "Bukszpan czy laurowiśnia? Zimozielone żywopłoty",
+    description:
+      "Bukszpan vs laurowiśnia: wzrost, cięcie, choroby, cena i efekt po 5 latach. Porównanie parametrów.",
+    keywords: ["bukszpan czy laurowiśnia", "bukszpan vs laurowisnia", "zimozielony żywopłot"],
+    defaults: { speciesA: "bukszpan", speciesB: "laurowisnia" },
+    intro: "Laurowiśnia szybsza i łatwiejsza w uprawie, bukszpan wolniejszy ale gęstszy formowo — oba wymagają cięcia.",
+    faq: [],
+    sections: [],
+  },
+  {
+    slug: "forsycja-vs-pigwowiec",
+    title: "Forsycja czy pigwowiec? Wczesnowiosenne kwitnienie",
+    description:
+      "Forsycja vs pigwowiec: termin kwitnienia, wzrost, pielęgnacja i efekt w małym ogrodzie.",
+    keywords: ["forsycja czy pigwowiec", "forsycja vs pigwowiec", "krzew kwitnący wiosną"],
+    defaults: { speciesA: "forsycja", speciesB: "pigwowiec" },
+    intro: "Pigwowiec kwitnie najwcześniej (marzec), forsycja żółtymi kwiatami w kwietniu — oba kompaktowe.",
+    faq: [],
+    sections: [],
+  },
+  {
+    slug: "kalina-vs-deren",
+    title: "Kalina czy deren? Krzewy ozdobne",
+    description:
+      "Kalina vs deren: kwiaty, jesienne owoce, zimowe pędy, wzrost i wymagania glebowe.",
+    keywords: ["kalina czy deren", "kalina vs deren", "krzew ozdobny ogród"],
+    defaults: { speciesA: "kalina", speciesB: "deren" },
+    intro: "Kalina białe kwiaty i czerwone jagody, deren czerwone pędy zimą — oba rodzime i odporne.",
+    faq: [],
+    sections: [],
+  },
+  {
+    slug: "bez-vs-hortensja",
+    title: "Bez czy hortensja? Pachnące vs letnie kwiaty",
+    description:
+      "Lilak (bez) vs hortensja: zapach, okres kwitnienia, woda, wzrost i pielęgnacja.",
+    keywords: ["bez czy hortensja", "lilak vs hortensja", "krzew kwitnący lato"],
+    defaults: { speciesA: "bez", speciesB: "hortensja" },
+    intro: "Bez pachnie w maju, hortensja kwitnie całe lato — różne potrzeby wodne i stanowisko.",
+    faq: [],
+    sections: [],
+  },
+  {
     slug: "laurowisnia",
     title: "Laurowiśnia — parametry, wzrost i żywopłot",
     description:
@@ -231,10 +377,38 @@ export const SHRUB_PRESETS: ShrubPreset[] = [
     ],
   },
   {
+    slug: "grab",
+    title: "Grab — parametry, wzrost i żywopłot",
+    description:
+      "Grab pospolity: wzrost, cięcie, choroby, odległość od płotu. Porównanie z bukszpanem i laurowiśnią.",
+    keywords: [
+      "grab wzrost",
+      "grab żywopłot",
+      "grab pospolity ogród",
+      "ile rośnie grab",
+      "grab vs bukszpan",
+    ],
+    defaults: { speciesA: "grab", speciesB: "bukszpan" },
+    intro: "Pełny profil grabu — najzdrowszy polski klasyk na liściasty żywopłot. Porównany z bukszpanem.",
+    faq: [
+      {
+        question: "Ile cm rocznie rośnie grab?",
+        answer: "Średnio 25–35 cm rocznie w żywoplocie. Pełny ekran 180 cm uzyskasz w ok. 4–5 lat.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Grab jako żywopłot",
+        content:
+          "Grab pospolity to najpopularniejszy liściasty żywopłot w Polsce. Liście zimują brązowe na gałęziach — więcej prywatności zimą niż u opadających liściastych.",
+      },
+    ],
+  },
+  {
     slug: "porownanie",
     title: "Porównaj dowolne krzewy",
     description:
-      "Wybierz dwa krzewy i porównaj wzrost, wodę, żywopłot, choroby i koszt. 12 gatunków, wykresy i tabela.",
+      "Wybierz dwa krzewy i porównaj wzrost, wodę, żywopłot, choroby i koszt. 13 gatunków, wykresy i tabela.",
     keywords: ["porównanie krzewów", "porównywarka krzewów", "który krzew do ogrodu", "krzewy ogrodowe ranking"],
     defaults: {},
     intro: "Wybierz dwa gatunki — pełna tabela, wykres wzrostu na 20 lat i dopasowanie do ogrodu.",

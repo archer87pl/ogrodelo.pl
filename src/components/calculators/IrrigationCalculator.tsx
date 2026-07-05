@@ -54,7 +54,7 @@ const RECOMMENDATION_LABELS = {
 export function IrrigationCalculator({ preset }: IrrigationCalculatorProps) {
   const d = preset?.defaults ?? {};
 
-  const [location, setLocation] = useState("Warszawa");
+  const [location, setLocation] = useState(preset?.defaultLocation ?? "Warszawa");
   const [area, setArea] = useState(d.area ?? 100);
   const [soil, setSoil] = useState<SoilType>(d.soil ?? "prochnica");
   const [plants, setPlants] = useState<PlantType>(d.plants ?? "trawnik");

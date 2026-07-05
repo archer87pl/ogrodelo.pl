@@ -12,6 +12,7 @@ import {
   jsonLdBreadcrumb,
   jsonLdCalculator,
   jsonLdFAQ,
+  SITE_URL,
 } from "@/lib/seo";
 
 const calc = getCalculatorBySlug("porownywarka-drzew")!;
@@ -19,7 +20,7 @@ const calc = getCalculatorBySlug("porownywarka-drzew")!;
 export const metadata: Metadata = {
   ...calculatorMetadata(calc),
   description:
-    "Porównaj dąb, sosnę, kasztanowiec, modrzew i 12 innych drzew. Wzrost na 50 lat, woda, korzenie, cień, koszt sadzonki — wykresy i tabela parametrów.",
+    "Porównaj dąb, sosnę, grab, kasztanowiec, modrzew i 12 innych drzew. Wzrost na 50 lat, woda, korzenie, cień, koszt sadzonki — wykresy i tabela parametrów.",
   keywords: [
     ...calc.keywords,
     "dąb czy sosna",
@@ -49,8 +50,8 @@ export default function Page() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             jsonLdBreadcrumb([
-              { name: "Strona główna", url: "https://www.ogrodelo.pl" },
-              { name: "Porównywarka drzew", url: "https://www.ogrodelo.pl/porownywarka-drzew" },
+              { name: "Strona główna", url: SITE_URL },
+              { name: "Porównywarka drzew", url: `${SITE_URL}/porownywarka-drzew` },
             ])
           ),
         }}
@@ -67,7 +68,7 @@ export default function Page() {
 
         <CalculatorHero
           calc={calc}
-          description="Dąb vs sosna, kasztan vs lipa, modrzew vs sosna — porównaj 16 drzew: wzrost, wodę, korzenie, cień i koszt. 4 wykresy, pełna tabela 25+ parametrów."
+          description="Dąb vs sosna, grab vs buk, kasztan vs lipa, modrzew vs sosna — porównaj 17 drzew: wzrost, wodę, korzenie, cień i koszt. 4 wykresy, pełna tabela 25+ parametrów."
         />
 
         <TreeComparator />

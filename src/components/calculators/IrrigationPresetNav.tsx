@@ -25,35 +25,37 @@ export function IrrigationPresetNav({ currentSlug }: IrrigationPresetNavProps) {
         >
           Ogólny
         </Link>
-        {IRRIGATION_PRESETS.map((p) => (
-          <Link
-            key={p.slug}
-            href={`/kalkulator-nawadniania/${p.slug}`}
-            className={`rounded-full px-3 py-1 text-sm transition-colors ${
-              currentSlug === p.slug
-                ? "bg-primary text-white"
-                : "bg-card border border-border hover:border-primary text-muted hover:text-primary"
-            }`}
-          >
-            {p.slug === "trawnik"
-              ? "Trawnik"
-              : p.slug === "warzywnik"
-                ? "Warzywnik"
-                : p.slug === "kroplowanie"
-                  ? "Kroplówka"
-                  : p.slug === "ile-litrow"
-                    ? "Ile litrów?"
-                    : p.slug === "koszt-wody"
-                      ? "Koszt wody"
-                      : p.slug === "harmonogram"
-                        ? "Harmonogram"
-                        : p.slug === "gleba-piaszczysta"
-                          ? "Piasek"
-                          : p.slug === "gleba-gliniasta"
-                            ? "Glina"
-                            : p.slug.charAt(0).toUpperCase() + p.slug.slice(1)}
-          </Link>
-        ))}
+        {IRRIGATION_PRESETS.map((p) => {
+          const labels: Record<string, string> = {
+            trawnik: "Trawnik",
+            warzywnik: "Warzywnik",
+            kroplowanie: "Kroplówka",
+            "ile-litrow": "Ile litrów?",
+            "koszt-wody": "Koszt wody",
+            harmonogram: "Harmonogram",
+            "gleba-piaszczysta": "Piasek",
+            "gleba-gliniasta": "Glina",
+            warszawa: "Warszawa",
+            krakow: "Kraków",
+            wroclaw: "Wrocław",
+            gdansk: "Gdańsk",
+            poznan: "Poznań",
+            lodz: "Łódź",
+          };
+          return (
+            <Link
+              key={p.slug}
+              href={`/kalkulator-nawadniania/${p.slug}`}
+              className={`rounded-full px-3 py-1 text-sm transition-colors ${
+                currentSlug === p.slug
+                  ? "bg-primary text-white"
+                  : "bg-card border border-border hover:border-primary text-muted hover:text-primary"
+              }`}
+            >
+              {labels[p.slug] ?? p.slug.charAt(0).toUpperCase() + p.slug.slice(1)}
+            </Link>
+          );
+        })}
       </div>
     </nav>
   );

@@ -12,6 +12,7 @@ import {
   jsonLdBreadcrumb,
   jsonLdCalculator,
   jsonLdFAQ,
+  SITE_URL,
 } from "@/lib/seo";
 
 const calc = getCalculatorBySlug("generator-planu-ogrodu")!;
@@ -44,8 +45,8 @@ export default function Page() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             jsonLdBreadcrumb([
-              { name: "Strona główna", url: "https://www.ogrodelo.pl" },
-              { name: "Generator planu ogrodu", url: "https://www.ogrodelo.pl/generator-planu-ogrodu" },
+              { name: "Strona główna", url: SITE_URL },
+              { name: "Generator planu ogrodu", url: `${SITE_URL}/generator-planu-ogrodu` },
             ])
           ),
         }}
@@ -89,6 +90,20 @@ export default function Page() {
               <li>📅 Kalendarz pielęgnacji 12 miesięcy dopasowany do planu</li>
               <li>🔗 Link do udostępnienia planu i wydruk do PDF</li>
             </ul>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold text-primary-dark mb-4">
+              Wolisz rysować plan?
+            </h2>
+            <p>
+              Użyj{" "}
+              <Link href="/projektant-ogrodu" className="text-primary font-medium hover:underline">
+                projektanta ogrodu
+              </Link>{" "}
+              — przeciągnij dom, ścieżki, ogrodzenie i rośliny na siatce, zapisz projekt i wygeneruj
+              listę materiałów.
+            </p>
           </section>
 
           <section>

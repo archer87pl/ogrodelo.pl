@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CalculatorLayout } from "@/components/CalculatorLayout";
 import { TuiAlternativesCalculator } from "@/components/calculators/TuiAlternativesCalculator";
+import { TUI_ALTERNATIVES_FAQ } from "@/lib/calculators/simple-calculator-faqs";
 import { getCalculatorBySlug } from "@/lib/constants/calculators";
 import { calculatorMetadata } from "@/lib/seo";
 
@@ -13,6 +14,7 @@ export default function Page() {
   return (
     <CalculatorLayout
       calc={calc}
+      faqs={TUI_ALTERNATIVES_FAQ}
       seoContent={
         <>
           <h2>Co posadzić zamiast tui?</h2>

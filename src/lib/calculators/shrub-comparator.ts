@@ -10,7 +10,8 @@ export type ShrubSpecies =
   | "pigwowiec"
   | "tawula"
   | "deren"
-  | "kalina";
+  | "kalina"
+  | "grab";
 
 export type SunExposure = "pelne" | "polcień" | "cien";
 export type FoundationRisk = "niskie" | "srednie" | "wysokie";
@@ -536,6 +537,41 @@ export const SHRUBS: Record<ShrubSpecies, ShrubSpeciesData> = {
     gardenFit: { smallGarden: 8, largeGarden: 6, nearHouse: 8, nearFence: 8, fastEffect: 8 },
     description:
       "Białe kwiaty (maj–czerwiec), czerwone jagody — rodzimy krzew, dobry na żywopłot i dla ptaków.",
+  },
+  grab: {
+    name: "Grab",
+    latinName: "Carpinus betulus",
+    growthPerYearCm: 30,
+    initialHeightM: 0.35,
+    maxHeightM: 4,
+    maxCrownWidthM: 2,
+    yearsToFullMaturity: 8,
+    sun: "pelne",
+    sunLabel: SUN_LABELS.pelne,
+    droughtResistance: 4,
+    frostZone: "4a–8a",
+    soilRequirements: "Praktycznie każda gleba; toleruje cięcie i formowanie",
+    rootAggressiveness: 2,
+    foundationRisk: "niskie",
+    shadePercentAtMaturity: 12,
+    messiness: 2,
+    messinessLabel: "Liście (brązowe zimą na gałęziach)",
+    waterNeed: 2,
+    maintenanceFrequency: 2,
+    diseaseSusceptibility: 1,
+    minDistHouseM: 1,
+    minDistFenceM: 0.3,
+    lifespanYears: 80,
+    saplingCostPln: 12,
+    yearsToShade: 4,
+    yearsToPrivacy: 4,
+    privacyScreeningRate: 32,
+    evergreen: false,
+    hedgeSuitable: true,
+    flowering: false,
+    gardenFit: { smallGarden: 9, largeGarden: 8, nearHouse: 9, nearFence: 10, fastEffect: 7 },
+    description:
+      "Polski klasyk żywopłotowy — tani, zdrowy, gęsty. Liście brązowieją zimą na gałęziach (marcescentny).",
   },
 };
 

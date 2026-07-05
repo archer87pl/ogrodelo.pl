@@ -1,19 +1,43 @@
 import type { Metadata } from "next";
 import type { CalculatorMeta } from "./constants/calculators";
 import { CALCULATORS } from "./constants/calculators";
+import { TOOL_COUNT } from "./constants/site-stats";
 
 export const SITE_URL = "https://www.ogrodelo.pl";
 const SITE_NAME = "Ogrodelo.pl";
 
-export function siteMetadata(): Metadata {
+const DEFAULT_OG_IMAGE = {
+  url: "/opengraph-image",
+  width: 1200,
+  height: 630,
+  alt: `${SITE_NAME} — Darmowe kalkulatory ogrodowe`,
+};
+
+function withSocialImages(metadata: Metadata): Metadata {
+  const ogImages = metadata.openGraph?.images ?? [DEFAULT_OG_IMAGE];
   return {
+    ...metadata,
+    openGraph: {
+      ...metadata.openGraph,
+      images: ogImages,
+    },
+    twitter: {
+      card: "summary_large_image",
+      ...metadata.twitter,
+      images: metadata.twitter?.images ?? [DEFAULT_OG_IMAGE.url],
+    },
+  };
+}
+
+export function siteMetadata(): Metadata {
+  return withSocialImages({
     metadataBase: new URL(SITE_URL),
     title: {
       default: "Ogrodelo.pl — Darmowe kalkulatory ogrodowe",
       template: "%s | Ogrodelo.pl",
     },
     description:
-      "Darmowe kalkulatory ogrodowe online: nawadnianie, żywopłot, wzrost roślin, nawożenie, deszczówka i więcej. Obliczenia dla polskiego klimatu — bez rejestracji.",
+      "Darmowe kalkulatory ogrodowe online: nawadnianie, żywopłot, wzrost roślin, katalog kwitnienia, kalendarz ogrodnika i więcej. Obliczenia dla polskiego klimatu — bez rejestracji.",
     keywords: [
       "kalkulator ogrodowy",
       "kalkulatory ogrodowe",
@@ -23,6 +47,7 @@ export function siteMetadata(): Metadata {
       "ogród kalkulator",
       "ogrodelo",
       "planowanie ogrodu",
+      "katalog roślin kwitnących",
     ],
     authors: [{ name: SITE_NAME, url: SITE_URL }],
     creator: SITE_NAME,
@@ -34,11 +59,9 @@ export function siteMetadata(): Metadata {
       url: SITE_URL,
       siteName: SITE_NAME,
       title: "Ogrodelo.pl — Darmowe kalkulatory ogrodowe",
-      description:
-        "Planuj ogród mądrze: kalendarz ogrodnika, nawadnianie, żywopłoty, wzrost roślin i 10 innych narzędzi.",
+      description: `Planuj ogród mądrze: ${TOOL_COUNT} darmowych narzędzi — kalendarz, katalog kwitnienia, nawadnianie, żywopłoty i generator planu.`,
     },
     twitter: {
-      card: "summary_large_image",
       title: "Ogrodelo.pl — Kalkulatory ogrodowe",
       description:
         "Darmowe kalkulatory ogrodowe dla polskich ogrodników — nawadnianie, żywopłot, wzrost roślin i więcej.",
@@ -55,13 +78,19 @@ export function siteMetadata(): Metadata {
     },
     alternates: {
       canonical: SITE_URL,
+      types: {
+        "application/rss+xml": `${SITE_URL}/feed.xml`,
+      },
     },
-  };
+    icons: {
+      icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    },
+  });
 }
 
 export function calculatorMetadata(calc: CalculatorMeta): Metadata {
   const url = `${SITE_URL}/${calc.slug}`;
-  return {
+  return withSocialImages({
     title: calc.title,
     description: calc.description,
     keywords: calc.keywords,
@@ -74,14 +103,13 @@ export function calculatorMetadata(calc: CalculatorMeta): Metadata {
       siteName: SITE_NAME,
     },
     twitter: {
-      card: "summary",
       title: calc.title,
       description: calc.description,
     },
     alternates: {
       canonical: url,
     },
-  };
+  });
 }
 
 export function presetPageMetadata(
@@ -91,7 +119,7 @@ export function presetPageMetadata(
   path: string
 ): Metadata {
   const url = `${SITE_URL}${path}`;
-  return {
+  return withSocialImages({
     title,
     description,
     keywords,
@@ -104,14 +132,38 @@ export function presetPageMetadata(
       siteName: SITE_NAME,
     },
     twitter: {
-      card: "summary",
       title,
       description,
     },
     alternates: {
       canonical: url,
     },
-  };
+  });
+}
+
+export function privacyPageMetadata(): Metadata {
+  const url = `${SITE_URL}/polityka-prywatnosci`;
+  return withSocialImages({
+    title: "Polityka prywatności",
+    description:
+      "Polityka prywatności serwisu Ogrodelo.pl — informacje o plikach cookies, analityce i przetwarzaniu danych.",
+    robots: { index: true, follow: true },
+    openGraph: {
+      title: "Polityka prywatności | Ogrodelo.pl",
+      description: "Zasady przetwarzania danych i cookies w serwisie Ogrodelo.pl.",
+      url,
+      type: "website",
+      locale: "pl_PL",
+      siteName: SITE_NAME,
+    },
+    twitter: {
+      title: "Polityka prywatności | Ogrodelo.pl",
+      description: "Zasady przetwarzania danych i cookies w serwisie Ogrodelo.pl.",
+    },
+    alternates: {
+      canonical: url,
+    },
+  });
 }
 
 /** @deprecated Use presetPageMetadata */
@@ -126,14 +178,6 @@ export function jsonLdWebSite() {
     description:
       "Darmowe kalkulatory ogrodowe do planowania nawadniania, żywopłotów, wzrostu roślin i więcej.",
     inLanguage: "pl-PL",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${SITE_URL}/#kalkulatory`,
-      },
-      "query-input": "required name=search_term_string",
-    },
   };
 }
 
@@ -184,6 +228,50 @@ export function jsonLdCalculator(calc: CalculatorMeta) {
     inLanguage: "pl-PL",
     isAccessibleForFree: true,
   };
+}
+
+export function jsonLdPresetWebApplication(
+  parentCalc: CalculatorMeta,
+  presetTitle: string,
+  presetDescription: string,
+  path: string
+) {
+  const url = `${SITE_URL}${path}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: presetTitle,
+    description: presetDescription,
+    url,
+    applicationCategory: "UtilityApplication",
+    operatingSystem: "Any",
+    browserRequirements: "Requires JavaScript",
+    isAccessibleForFree: true,
+    inLanguage: "pl-PL",
+    isPartOf: {
+      "@type": "WebApplication",
+      name: parentCalc.title,
+      url: `${SITE_URL}/${parentCalc.slug}`,
+    },
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "PLN",
+    },
+  };
+}
+
+export function presetBreadcrumbJsonLd(
+  parentSlug: string,
+  parentLabel: string,
+  presetTitle: string,
+  path: string
+) {
+  return jsonLdBreadcrumb([
+    { name: "Strona główna", url: SITE_URL },
+    { name: parentLabel, url: `${SITE_URL}/${parentSlug}` },
+    { name: presetTitle, url: `${SITE_URL}${path}` },
+  ]);
 }
 
 export function jsonLdFAQ(faqs: { question: string; answer: string }[]) {

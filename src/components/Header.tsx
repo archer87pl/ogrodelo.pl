@@ -12,7 +12,7 @@ export function Header() {
             Ogrodelo<span className="text-primary">.pl</span>
           </span>
         </Link>
-        <nav className="hidden sm:flex items-center gap-6 text-sm font-medium text-muted">
+        <nav className="hidden sm:flex items-center gap-6 text-sm font-medium text-muted" aria-label="Menu główne">
           <Link
             href="/kalkulator-nawadniania"
             className="hover:text-primary transition-colors"
@@ -26,8 +26,14 @@ export function Header() {
             Żywopłot
           </Link>
           <Link
-            href="/generator-planu-ogrodu"
+            href="/projektant-ogrodu"
             className="hover:text-primary transition-colors font-semibold text-primary-dark"
+          >
+            Projektant
+          </Link>
+          <Link
+            href="/generator-planu-ogrodu"
+            className="hover:text-primary transition-colors"
           >
             Plan ogrodu
           </Link>

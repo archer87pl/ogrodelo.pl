@@ -10,6 +10,7 @@ import {
   jsonLdBreadcrumb,
   jsonLdCalculator,
   jsonLdFAQ,
+  SITE_URL,
 } from "@/lib/seo";
 import { MAIN_IRRIGATION_FAQ } from "@/lib/calculators/irrigation";
 import { IRRIGATION_PRESETS } from "@/lib/constants/irrigation-presets";
@@ -33,8 +34,8 @@ export const metadata: Metadata = {
 
 export default function Page() {
   const breadcrumb = jsonLdBreadcrumb([
-    { name: "Strona główna", url: "https://www.ogrodelo.pl" },
-    { name: "Kalkulator nawadniania", url: "https://www.ogrodelo.pl/kalkulator-nawadniania" },
+    { name: "Strona główna", url: SITE_URL },
+    { name: "Kalkulator nawadniania", url: `${SITE_URL}/kalkulator-nawadniania` },
   ]);
 
   return (

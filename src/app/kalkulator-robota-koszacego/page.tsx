@@ -27,7 +27,7 @@ const calc = getCalculatorBySlug("kalkulator-robota-koszacego")!;
 export const metadata: Metadata = {
   ...calculatorMetadata(calc),
   description:
-    "Dobierz robota koszącego do trawnika 200–3000 m². Porównaj Husqvarna, Worx, STIHL, Gardena. Kalkulator opłacalności, kosztów rocznych i zwrotu inwestycji — 20 poradników SEO.",
+    "Dobierz robota koszącego do trawnika 200–3000 m². Porównaj Husqvarna, Worx, STIHL, Gardena. Kalkulator opłacalności, kosztów rocznych i zwrotu inwestycji — 20 gotowych scenariuszy.",
   keywords: [
     ...calc.keywords,
     "husqvarna automower",

@@ -1,3 +1,7 @@
+import { FLOWERING_PLANTS_LIST } from "./flowering-plants";
+
+const FLOWERING_PLANT_COUNT = FLOWERING_PLANTS_LIST.length;
+
 export interface CalculatorMeta {
   slug: string;
   title: string;
@@ -138,7 +142,7 @@ export const CALCULATORS: CalculatorMeta[] = [
     title: "Kalkulator robota koszącego — dobór i opłacalność",
     shortTitle: "Robot koszący",
     description:
-      "Dobierz robota koszącego do 200–3000 m². Porównaj Husqvarna, Worx, STIHL, Gardena. Kalkulator kosztów, zwrotu inwestycji i 20 poradników SEO.",
+      "Dobierz robota koszącego do 200–3000 m². Porównaj Husqvarna, Worx, STIHL, Gardena. Kalkulator kosztów, zwrotu inwestycji i 20 gotowych scenariuszy.",
     keywords: [
       "robot koszący",
       "kalkulator robota koszącego",
@@ -151,6 +155,23 @@ export const CALCULATORS: CalculatorMeta[] = [
       "robot koszący 500 m2",
     ],
     icon: "🤖",
+    featured: true,
+  },
+  {
+    slug: "projektant-ogrodu",
+    title: "Projektant ogrodu — rysuj plan i listę materiałów",
+    shortTitle: "Projektant",
+    description:
+      "Narysuj plan działki na siatce: dom, altana, ścieżki, ogrodzenie, drzewa i tuje. Zapisz projekt i wygeneruj listę potrzebnych materiałów.",
+    keywords: [
+      "projektant ogrodu",
+      "plan ogrodu online",
+      "rysowanie ogrodu",
+      "projekt ogrodu narzędzie",
+      "lista materiałów ogród",
+      "układ ogrodu",
+    ],
+    icon: "✏️",
     featured: true,
   },
   {
@@ -241,10 +262,9 @@ export const CALCULATORS: CalculatorMeta[] = [
   },
   {
     slug: "katalog-kwitnienia",
-    title: "Katalog roślin kwitnących — plant finder",
+    title: "Katalog roślin kwitnących — wyszukiwarka po miesiącu",
     shortTitle: "Kwitnienie",
-    description:
-      "Filtruj rośliny po miesiącu kwitnienia, kolorze, zapachu i pszczołach. Co kwitnie w maju, lipcu lub całe lato? Tabela I–XII i 50 gatunków.",
+    description: `Filtruj rośliny po miesiącu kwitnienia, kolorze, zapachu i pszczołach. Co kwitnie w maju, lipcu lub całe lato? Tabela I–XII i ${FLOWERING_PLANT_COUNT} gatunków.`,
     keywords: [
       "rośliny kwitnące",
       "co kwitnie w maju",
@@ -255,6 +275,255 @@ export const CALCULATORS: CalculatorMeta[] = [
       "kwitnienie ogród",
     ],
     icon: "🌸",
+    featured: true,
+  },
+  {
+    slug: "kalkulator-ziemi-i-kory",
+    title: "Kalkulator ziemi i kory",
+    shortTitle: "Ziemia i kora",
+    description:
+      "Policz ile m³ i worków ziemi, kory lub żwiru potrzebujesz na rabatę, trawnik czy podwyższenie terenu. Liczba worków i koszt w PLN.",
+    keywords: [
+      "ile kory na m2",
+      "kalkulator ziemi",
+      "ile ziemi do podniesienia terenu",
+      "kalkulator kory",
+      "ile worków ziemi",
+      "m3 ziemi ile worków",
+      "ile żwiru na m2",
+    ],
+    icon: "🪴",
+  },
+  {
+    slug: "kalkulator-kostki-brukowej",
+    title: "Kalkulator kostki brukowej i ścieżek",
+    shortTitle: "Kostka brukowa",
+    description:
+      "Oblicz ilość kostki brukowej, podbudowy, piasku i obrzeży na ścieżkę, podjazd lub taras. Kosztorys materiałów w PLN.",
+    keywords: [
+      "kalkulator kostki brukowej",
+      "ile kostki na m2",
+      "podbudowa pod kostkę",
+      "koszt podjazdu z kostki",
+      "ścieżka w ogrodzie",
+      "obrzeża do kostki",
+    ],
+    icon: "🧱",
+  },
+  {
+    slug: "kalkulator-ogrodzenia",
+    title: "Kalkulator ogrodzenia — panele, siatka, sztachety",
+    shortTitle: "Ogrodzenie",
+    description:
+      "Policz liczbę paneli, słupków i koszt ogrodzenia działki. Porównaj ogrodzenie panelowe, siatkę i sztachety za metr bieżący.",
+    keywords: [
+      "kalkulator ogrodzenia",
+      "koszt ogrodzenia za metr",
+      "ile paneli ogrodzeniowych",
+      "ogrodzenie panelowe cena",
+      "siatka ogrodzeniowa kalkulator",
+      "ogrodzenie działki koszt",
+    ],
+    icon: "🚧",
+  },
+  {
+    slug: "kalkulator-oczka-wodnego",
+    title: "Kalkulator oczka wodnego",
+    shortTitle: "Oczko wodne",
+    description:
+      "Oblicz objętość oczka wodnego, wymiar folii, moc pompy i liczbę roślin wodnych. Kosztorys budowy stawu w ogrodzie.",
+    keywords: [
+      "oczko wodne kalkulator",
+      "folia na oczko wodne wymiar",
+      "pompa do oczka wodnego jaka",
+      "budowa oczka wodnego koszt",
+      "rośliny do oczka wodnego",
+    ],
+    icon: "🪷",
+  },
+  {
+    slug: "kalkulator-kompostownika",
+    title: "Kalkulator kompostownika",
+    shortTitle: "Kompostownik",
+    description:
+      "Dobierz wielkość kompostownika do domu i działki. Co wrzucać, czego unikać i kiedy kompost będzie gotowy — z harmonogramem.",
+    keywords: [
+      "kompostownik jaki rozmiar",
+      "kalkulator kompostownika",
+      "co wrzucać do kompostownika",
+      "kiedy kompost gotowy",
+      "kompostownik na działkę",
+    ],
+    icon: "♻️",
+  },
+  {
+    slug: "kalkulator-siewu-warzyw",
+    title: "Kalkulator siewu warzyw",
+    shortTitle: "Siew warzyw",
+    description:
+      "Policz ile nasion i rozsady na zagon: rozstawy, terminy siewu i szacunkowy plon dla kilkunastu popularnych warzyw.",
+    keywords: [
+      "ile nasion na m2",
+      "rozstawa warzyw",
+      "kalkulator siewu",
+      "kiedy siać warzywa",
+      "plan warzywnika",
+      "ile rozsady pomidorów",
+    ],
+    icon: "🥕",
+  },
+  {
+    slug: "kalkulator-wapnowania",
+    title: "Kalkulator wapnowania i pH gleby",
+    shortTitle: "Wapnowanie",
+    description:
+      "Oblicz dawkę wapna na podstawie pH i rodzaju gleby. Kiedy wapnować trawnik i warzywnik, jaki nawóz wapniowy wybrać.",
+    keywords: [
+      "wapnowanie trawnika dawka",
+      "kalkulator wapnowania",
+      "ph gleby jak podnieść",
+      "ile wapna na m2",
+      "wapnowanie gleby kiedy",
+    ],
+    icon: "🧪",
+  },
+  {
+    slug: "kalkulator-kosztow-ogrodu",
+    title: "Kalkulator kosztów utrzymania ogrodu",
+    shortTitle: "Koszty ogrodu",
+    description:
+      "Roczny koszt Twojego ogrodu: woda, nawozy, paliwo i prąd, usługi. Zobacz, gdzie oszczędzisz najwięcej.",
+    keywords: [
+      "koszt utrzymania ogrodu",
+      "ile kosztuje ogród rocznie",
+      "koszty ogrodu kalkulator",
+      "oszczędzanie w ogrodzie",
+    ],
+    icon: "💰",
+  },
+  {
+    slug: "wycinka-drzewa",
+    title: "Czy mogę wyciąć drzewo? Kalkulator wycinki",
+    shortTitle: "Wycinka drzewa",
+    description:
+      "Sprawdź, czy wycinka drzewa wymaga zgłoszenia lub zezwolenia. Obwód pnia, gatunek, cel — plus szacunkowa opłata za wycinkę.",
+    keywords: [
+      "czy mogę wyciąć drzewo",
+      "wycinka drzewa przepisy",
+      "zgłoszenie wycinki drzewa",
+      "obwód pnia wycinka",
+      "opłata za wycinkę drzewa",
+      "wycinka drzew na własnej działce",
+    ],
+    icon: "🪓",
+    featured: true,
+  },
+  {
+    slug: "odleglosc-sadzenia-od-granicy",
+    title: "Odległość sadzenia drzew i krzewów od granicy działki",
+    shortTitle: "Odległość od granicy",
+    description:
+      "Policz, jak daleko od płotu posadzić drzewo, krzew lub żywopłot, aby uniknąć sporu z sąsiadem. Gałęzie, korzenie i przepisy.",
+    keywords: [
+      "odległość drzewa od granicy działki",
+      "w jakiej odległości od płotu sadzić tuje",
+      "żywopłot przy granicy przepisy",
+      "gałęzie sąsiada nad moją działką",
+      "krzewy przy ogrodzeniu odległość",
+    ],
+    icon: "📏",
+    featured: true,
+  },
+  {
+    slug: "dotacja-moja-woda",
+    title: "Kalkulator dotacji Moja Woda",
+    shortTitle: "Moja Woda",
+    description:
+      "Policz dofinansowanie do zbiornika na deszczówkę z programu Moja Woda i sprawdź, kiedy inwestycja się zwróci.",
+    keywords: [
+      "moja woda dotacja",
+      "dofinansowanie do zbiornika na deszczówkę",
+      "program moja woda kalkulator",
+      "dotacja na deszczówkę",
+    ],
+    icon: "🏦",
+  },
+  {
+    slug: "kalkulator-laki-kwietnej",
+    title: "Kalkulator łąki kwietnej",
+    shortTitle: "Łąka kwietna",
+    description:
+      "Ile nasion łąki kwietnej na m², koszt założenia i ile wody oraz koszenia oszczędzisz w porównaniu z trawnikiem.",
+    keywords: [
+      "łąka kwietna ile nasion",
+      "łąka kwietna zamiast trawnika",
+      "kalkulator łąki kwietnej",
+      "łąka kwietna koszt",
+      "kiedy siać łąkę kwietną",
+    ],
+    icon: "🦋",
+    featured: true,
+  },
+  {
+    slug: "rosliny-bezpieczne-dla-zwierzat",
+    title: "Rośliny bezpieczne i trujące dla psa i kota",
+    shortTitle: "Bezpieczne dla zwierząt",
+    description:
+      "Sprawdź, które rośliny ogrodowe są trujące dla psa, kota lub dzieci, a które bezpieczne. Wyszukiwarka z filtrami.",
+    keywords: [
+      "rośliny trujące dla psa",
+      "rośliny trujące dla kota",
+      "rośliny bezpieczne dla psa",
+      "czy tuja jest trująca dla psa",
+      "trujące rośliny ogrodowe",
+    ],
+    icon: "🐕",
+    featured: true,
+  },
+  {
+    slug: "kalkulator-budek-legowych",
+    title: "Kalkulator budek lęgowych i karmników",
+    shortTitle: "Budki lęgowe",
+    description:
+      "Ile budek lęgowych i poidełek zmieści Twoja działka, jakie ptaki przyciągniesz i kiedy wieszać oraz czyścić budki.",
+    keywords: [
+      "budki lęgowe kiedy wieszać",
+      "jaka budka dla sikorki",
+      "ile budek na działkę",
+      "karmnik dla ptaków zimą",
+      "ptaki w ogrodzie",
+    ],
+    icon: "🐦",
+  },
+  {
+    slug: "kalkulator-plonow-warzywnika",
+    title: "Kalkulator plonów warzywnika",
+    shortTitle: "Plony warzywnika",
+    description:
+      "Ile kg pomidorów, ogórków i innych warzyw zbierzesz z X m² i ile to warte w sklepie. Policz roczne oszczędności.",
+    keywords: [
+      "ile pomidorów z jednego krzaka",
+      "plon z warzywnika",
+      "ile warzyw z m2",
+      "warzywnik oszczędności",
+      "opłacalność warzywnika",
+    ],
+    icon: "🍅",
+  },
+  {
+    slug: "zgadnij-rosline",
+    title: "Zgadnij roślinę — codzienna gra ogrodnicza",
+    shortTitle: "Zgadnij roślinę",
+    description:
+      "Codzienna zagadka: odgadnij roślinę w 6 próbach. Podpowiedzi o wysokości, kwitnieniu i kolorze. Nowa roślina każdego dnia!",
+    keywords: [
+      "gra roślinna",
+      "zgadnij roślinę",
+      "quiz ogrodniczy",
+      "gra ogrodnicza online",
+      "zagadka roślinna",
+    ],
+    icon: "🎯",
     featured: true,
   },
 ];

@@ -1,4 +1,7 @@
 import { FLOWERING_PLANTS_EXTRA } from "./flowering-plants-extra";
+import { FLOWERING_PLANTS_PHASE2 } from "./flowering-plants-phase2";
+import { FLOWERING_PLANTS_PHASE3 } from "./flowering-plants-phase3";
+import type { HardinessZone } from "./hardiness-zones";
 
 export type PlantCategory =
   | "drzewo"
@@ -56,6 +59,10 @@ export interface FloweringCatalogFilters {
   ornamentalFruit?: boolean;
   autumnColor?: boolean;
   light?: LightNeed[];
+  hardinessZones?: HardinessZone[];
+  petSafeDog?: boolean;
+  petSafeCat?: boolean;
+  petSafeChild?: boolean;
 }
 
 export const MONTH_LABELS = [
@@ -1027,6 +1034,8 @@ const FLOWERING_PLANTS_BASE: FloweringPlant[] = [
 export const FLOWERING_PLANTS: FloweringPlant[] = [
   ...FLOWERING_PLANTS_BASE,
   ...FLOWERING_PLANTS_EXTRA,
+  ...FLOWERING_PLANTS_PHASE2,
+  ...FLOWERING_PLANTS_PHASE3,
 ];
 
 export const FLOWERING_PLANTS_LIST: FloweringPlant[] = FLOWERING_PLANTS;

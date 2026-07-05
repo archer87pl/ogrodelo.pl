@@ -9,11 +9,8 @@ import {
   getGrowthPreset,
   getAllGrowthPresetSlugs,
 } from "@/lib/constants/growth-presets";
-import {
-  presetPageMetadata,
-  jsonLdBreadcrumb,
-  jsonLdFAQ,
-} from "@/lib/seo";
+import { PresetJsonLd } from "@/components/PresetJsonLd";
+import { presetPageMetadata } from "@/lib/seo";
 
 const calc = getCalculatorBySlug("kalkulator-wzrostu")!;
 
@@ -51,29 +48,14 @@ export default async function PresetPage({ params }: PageProps) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            jsonLdBreadcrumb([
-              { name: "Strona główna", url: "https://www.ogrodelo.pl" },
-              { name: "Kalkulator wzrostu", url: "https://www.ogrodelo.pl/kalkulator-wzrostu" },
-              {
-                name: preset.title,
-                url: `https://www.ogrodelo.pl/kalkulator-wzrostu/${slug}`,
-              },
-            ])
-          ),
-        }}
+      <PresetJsonLd
+        parentSlug="kalkulator-wzrostu"
+        parentLabel="Kalkulator wzrostu"
+        presetTitle={preset.title}
+        presetDescription={preset.description}
+        presetPath={`/kalkulator-wzrostu/${slug}`}
+        faq={preset.faq.length > 0 ? preset.faq : undefined}
       />
-      {preset.faq.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLdFAQ(preset.faq)),
-          }}
-        />
-      )}
 
       <div className="mx-auto max-w-6xl px-4 py-6 sm:py-8">
         <Breadcrumbs items={breadcrumbs} />

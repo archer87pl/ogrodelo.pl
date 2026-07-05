@@ -13,11 +13,9 @@ import {
   getAllCalendarPresetSlugs,
   getCalendarPreset,
 } from "@/lib/constants/calendar-task-presets";
-import {
-  presetPageMetadata,
-  jsonLdBreadcrumb,
-  jsonLdFAQ,
-} from "@/lib/seo";
+import { getRegionalCalendarMonth } from "@/lib/constants/garden-calendar-regions";
+import { PresetJsonLd } from "@/components/PresetJsonLd";
+import { presetPageMetadata } from "@/lib/seo";
 
 const calc = getCalculatorBySlug("kalendarz-ogrodnika")!;
 
@@ -36,6 +34,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (preset.type === "month") {
     const month = getCalendarMonth(slug);
+    if (!month) return {};
+    return presetPageMetadata(
+      month.title,
+      month.description,
+      month.keywords,
+      `/kalendarz-ogrodnika/${slug}`
+    );
+  }
+
+  if (preset.type === "region") {
+    const month = getRegionalCalendarMonth(preset.regionId as "polnoc" | "centrum" | "poludnie" | "gory", preset.monthSlug);
     if (!month) return {};
     return presetPageMetadata(
       month.title,
@@ -72,32 +81,14 @@ export default async function PresetPage({ params }: PageProps) {
 
     return (
       <>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              jsonLdBreadcrumb([
-                { name: "Strona główna", url: "https://www.ogrodelo.pl" },
-                {
-                  name: "Kalendarz ogrodnika",
-                  url: "https://www.ogrodelo.pl/kalendarz-ogrodnika",
-                },
-                {
-                  name: task.title,
-                  url: `https://www.ogrodelo.pl/kalendarz-ogrodnika/${slug}`,
-                },
-              ])
-            ),
-          }}
+        <PresetJsonLd
+          parentSlug="kalendarz-ogrodnika"
+          parentLabel="Kalendarz ogrodnika"
+          presetTitle={task.title}
+          presetDescription={task.description}
+          presetPath={`/kalendarz-ogrodnika/${slug}`}
+          faq={task.faq.length > 0 ? task.faq : undefined}
         />
-        {task.faq.length > 0 && (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(jsonLdFAQ(task.faq)),
-            }}
-          />
-        )}
 
         <div className="mx-auto max-w-6xl px-4 py-6 sm:py-8">
           <Breadcrumbs items={breadcrumbs} />
@@ -123,6 +114,68 @@ export default async function PresetPage({ params }: PageProps) {
     );
   }
 
+  if (preset.type === "region") {
+    const regionalMonth = getRegionalCalendarMonth(
+      preset.regionId as "polnoc" | "centrum" | "poludnie" | "gory",
+      preset.monthSlug
+    );
+    if (!regionalMonth) notFound();
+
+    const breadcrumbs = [
+      { label: "Strona główna", href: "/" },
+      { label: "Kalendarz ogrodnika", href: "/kalendarz-ogrodnika" },
+      { label: regionalMonth.name, href: `/kalendarz-ogrodnika/${preset.monthSlug}` },
+      { label: regionalMonth.title.split("—").pop()?.trim() ?? regionalMonth.name },
+    ];
+
+    return (
+      <>
+        <PresetJsonLd
+          parentSlug="kalendarz-ogrodnika"
+          parentLabel="Kalendarz ogrodnika"
+          presetTitle={regionalMonth.title}
+          presetDescription={regionalMonth.description}
+          presetPath={`/kalendarz-ogrodnika/${slug}`}
+          faq={regionalMonth.faq.length > 0 ? regionalMonth.faq : undefined}
+        />
+
+        <div className="mx-auto max-w-6xl px-4 py-6 sm:py-8">
+          <Breadcrumbs items={breadcrumbs} />
+
+          <CalculatorHero
+            calc={calc}
+            title={regionalMonth.h1 ?? regionalMonth.title}
+            description={regionalMonth.description}
+          />
+
+          <GardenCalendar preset={regionalMonth} />
+
+          {regionalMonth.sections.length > 0 && (
+            <article className="mt-12 sm:mt-16 border-t border-border pt-8 sm:pt-12 space-y-8 text-muted leading-relaxed">
+              {regionalMonth.sections.map((s) => (
+                <section key={s.heading}>
+                  <h2 className="text-xl font-bold text-primary-dark mb-3">{s.heading}</h2>
+                  <p>{s.content}</p>
+                </section>
+              ))}
+            </article>
+          )}
+
+          {regionalMonth.faq.length > 0 && (
+            <section className="mt-10">
+              <h2 className="text-xl font-bold text-primary-dark mb-4">
+                Pytania o prace ogrodowe w {regionalMonth.nameGenitive}
+              </h2>
+              <FAQAccordion items={regionalMonth.faq} />
+            </section>
+          )}
+
+          <RelatedTools currentSlug="kalendarz-ogrodnika" hidePresets />
+        </div>
+      </>
+    );
+  }
+
   const month = getCalendarMonth(slug);
   if (!month) notFound();
 
@@ -134,32 +187,14 @@ export default async function PresetPage({ params }: PageProps) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            jsonLdBreadcrumb([
-              { name: "Strona główna", url: "https://www.ogrodelo.pl" },
-              {
-                name: "Kalendarz ogrodnika",
-                url: "https://www.ogrodelo.pl/kalendarz-ogrodnika",
-              },
-              {
-                name: month.name,
-                url: `https://www.ogrodelo.pl/kalendarz-ogrodnika/${slug}`,
-              },
-            ])
-          ),
-        }}
+      <PresetJsonLd
+        parentSlug="kalendarz-ogrodnika"
+        parentLabel="Kalendarz ogrodnika"
+        presetTitle={month.title}
+        presetDescription={month.description}
+        presetPath={`/kalendarz-ogrodnika/${slug}`}
+        faq={month.faq.length > 0 ? month.faq : undefined}
       />
-      {month.faq.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLdFAQ(month.faq)),
-          }}
-        />
-      )}
 
       <div className="mx-auto max-w-6xl px-4 py-6 sm:py-8">
         <Breadcrumbs items={breadcrumbs} />

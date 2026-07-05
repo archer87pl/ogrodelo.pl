@@ -8,6 +8,7 @@ import {
   type FloweringPlant,
   type FlowerColor,
 } from "@/lib/constants/flowering-plants";
+import { getPlantGrowthPresetSlug } from "@/lib/constants/plant-encyclopedia-meta";
 
 export function plantDetailPath(id: string): string {
   return `/katalog-kwitnienia/roslina/${id}`;
@@ -165,6 +166,103 @@ export function getRelatedFloweringPlants(
     .sort((a, b) => b.score - a.score)
     .slice(0, limit)
     .map((x) => x.plant);
+}
+
+export function getPlantCalculatorLinks(
+  plant: FloweringPlant
+): { href: string; label: string }[] {
+  const links: { href: string; label: string }[] = [];
+  const name = plant.name.toLowerCase();
+
+  links.push({
+    href: "/kalkulator-nawadniania",
+    label: `Ile wody potrzebuje ${name}?`,
+  });
+
+  if (plant.category === "drzewo" || plant.category === "krzew") {
+    const growthSlug = getPlantGrowthPresetSlug(plant.id);
+    links.push({
+      href: growthSlug ? `/kalkulator-wzrostu/${growthSlug}` : "/kalkulator-wzrostu",
+      label: `Wzrost ${name} rok po roku`,
+    });
+  }
+
+  if (plant.category === "krzew") {
+    links.push({
+      href: "/kalkulator-zywoplotu",
+      label: `Żywopłot z ${name}`,
+    });
+    links.push({
+      href: "/porownywarka-krzewow",
+      label: `Porównaj ${name} z innymi krzewami`,
+    });
+  }
+
+  if (plant.category === "drzewo") {
+    links.push({
+      href: "/kalkulator-cienia",
+      label: `Ile cienia daje ${name}?`,
+    });
+    links.push({
+      href: "/porownywarka-drzew",
+      label: `Porównaj ${name} z innymi drzewami`,
+    });
+  }
+
+  if (plant.light.includes("cien") || plant.light.includes("polcien")) {
+    links.push({
+      href: "/kalkulator-nawadniania/cien",
+      label: "Nawadnianie w cieniu",
+    });
+  }
+
+  if (plant.beeFriendly) {
+    links.push({
+      href: "/kalkulator-laki-kwietnej",
+      label: "Łąka kwietna dla pszczół",
+    });
+  }
+
+  return links.slice(0, 5);
+}
+
+export function getPlantCareTips(plant: FloweringPlant): string[] {
+  const light = plant.light.map((l) => LIGHT_LABELS[l].toLowerCase()).join(" lub ");
+  const tips: string[] = [`Stanowisko: ${light}. Wysokość dorosła: ${plant.height}.`];
+
+  if (plant.category === "krzew" || plant.category === "drzewo") {
+    tips.push(
+      "Sadzenie najlepiej wiosną lub jesienią — unikaj suszy letniej przy świeżo posadzonych okazach."
+    );
+  }
+
+  if (plant.category === "krzew") {
+    tips.push(
+      "Formujące cięcie po kwitnieniu — nie przycinaj zimą roślin kwitnących na zeszłorocznych pędach."
+    );
+  }
+
+  if (plant.light.includes("pelne-slonce")) {
+    tips.push("W pełnym słońcu zapewnij regularne podlewanie w pierwszym sezonie po sadzeniu.");
+  }
+
+  if (plant.light.includes("cien")) {
+    tips.push("W głębokim cieniu kwitnienie bywa słabsze — wybierz stanowisko z porannym słońcem.");
+  }
+
+  if (plant.beeFriendly) {
+    tips.push("Nie stosuj insektycydów w okresie kwitnienia — roślina jest cenna dla zapylaczy.");
+  }
+
+  if (plant.winterBloom) {
+    tips.push("Kwitnienie zimowe — osłoń korzenie ściółką, unikaj wietrznych miejsc.");
+  }
+
+  if (plant.autumnColor) {
+    tips.push("Jesienne przebarwienie liści — warto sadzić w widocznym miejscu rabaty.");
+  }
+
+  return tips;
 }
 
 export function getPlantMonthCatalogLinks(plant: FloweringPlant) {

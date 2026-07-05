@@ -9,10 +9,9 @@ import {
   getIrrigationPreset,
   getAllIrrigationPresetSlugs,
 } from "@/lib/constants/irrigation-presets";
+import { PresetJsonLd } from "@/components/PresetJsonLd";
 import {
   irrigationPageMetadata,
-  jsonLdBreadcrumb,
-  jsonLdFAQ,
 } from "@/lib/seo";
 
 const calc = getCalculatorBySlug("kalkulator-nawadniania")!;
@@ -43,23 +42,15 @@ export default async function PresetPage({ params }: PageProps) {
   const preset = getIrrigationPreset(slug);
   if (!preset) notFound();
 
-  const breadcrumb = jsonLdBreadcrumb([
-    { name: "Strona główna", url: "https://www.ogrodelo.pl" },
-    { name: "Kalkulator nawadniania", url: "https://www.ogrodelo.pl/kalkulator-nawadniania" },
-    { name: preset.title, url: `https://www.ogrodelo.pl/kalkulator-nawadniania/${slug}` },
-  ]);
-
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLdFAQ(preset.faq)),
-        }}
+      <PresetJsonLd
+        parentSlug="kalkulator-nawadniania"
+        parentLabel="Kalkulator nawadniania"
+        presetTitle={preset.title}
+        presetDescription={preset.description}
+        presetPath={`/kalkulator-nawadniania/${slug}`}
+        faq={preset.faq}
       />
 
       <div className="mx-auto max-w-6xl px-4 py-6 sm:py-8">

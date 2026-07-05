@@ -1,4 +1,5 @@
 import { CALCULATORS, getCalculatorBySlug } from "./calculators";
+import { TOOL_COUNT } from "./site-stats";
 
 export interface InternalLink {
   href: string;
@@ -16,6 +17,7 @@ export interface LinkHub {
 /** Semantyczne powiązania między narzędziami (SEO topical clusters) */
 const RELATED_SLUGS: Record<string, string[]> = {
   "generator-planu-ogrodu": [
+    "projektant-ogrodu",
     "kalkulator-zywoplotu",
     "kalkulator-nawadniania",
     "porownywarka-drzew",
@@ -29,6 +31,7 @@ const RELATED_SLUGS: Record<string, string[]> = {
     "kalkulator-nawozenia",
     "generator-planu-ogrodu",
     "kalkulator-robota-koszacego",
+    "mapa-stref-mrozoodpornosci",
   ],
   "kalkulator-zywoplotu": [
     "kalkulator-wzrostu",
@@ -43,6 +46,7 @@ const RELATED_SLUGS: Record<string, string[]> = {
     "kalkulator-zywoplotu",
     "kalkulator-cienia",
     "kalkulator-prywatnosci",
+    "mapa-stref-mrozoodpornosci",
   ],
   "porownywarka-drzew": [
     "porownywarka-krzewow",
@@ -63,6 +67,7 @@ const RELATED_SLUGS: Record<string, string[]> = {
     "kalkulator-zywoplotu",
     "kalkulator-wzrostu",
     "porownywarka-drzew",
+    "mapa-stref-mrozoodpornosci",
   ],
   "kalkulator-prywatnosci": [
     "kalkulator-zywoplotu",
@@ -105,17 +110,151 @@ const RELATED_SLUGS: Record<string, string[]> = {
     "generator-planu-ogrodu",
     "porownywarka-krzewow",
   ],
+  "problemy-ogrodowe": [
+    "alternatywy-dla-tui",
+    "kalkulator-nawadniania",
+    "kalkulator-trawnika",
+    "porownywarka-krzewow",
+    "kalkulator-wapnowania",
+    "kalendarz-ogrodnika",
+  ],
   "katalog-kwitnienia": [
     "porownywarka-krzewow",
     "porownywarka-drzew",
     "kalkulator-wzrostu",
     "kalendarz-ogrodnika",
     "generator-planu-ogrodu",
+    "projektant-ogrodu",
     "alternatywy-dla-tui",
+  ],
+  "projektant-ogrodu": [
+    "generator-planu-ogrodu",
+    "kalkulator-zywoplotu",
+    "kalkulator-trawnika",
+    "porownywarka-drzew",
+    "kalkulator-nawadniania",
+  ],
+  "kalkulator-ziemi-i-kory": [
+    "kalkulator-trawnika",
+    "kalkulator-kostki-brukowej",
+    "kalkulator-laki-kwietnej",
+    "generator-planu-ogrodu",
+  ],
+  "kalkulator-kostki-brukowej": [
+    "kalkulator-ziemi-i-kory",
+    "kalkulator-ogrodzenia",
+    "projektant-ogrodu",
+    "kalkulator-kosztow-ogrodu",
+  ],
+  "kalkulator-ogrodzenia": [
+    "kalkulator-zywoplotu",
+    "kalkulator-prywatnosci",
+    "kalkulator-kostki-brukowej",
+    "odleglosc-sadzenia-od-granicy",
+  ],
+  "kalkulator-oczka-wodnego": [
+    "kalkulator-deszczowki",
+    "projektant-ogrodu",
+    "generator-planu-ogrodu",
+    "kalkulator-budek-legowych",
+  ],
+  "kalkulator-kompostownika": [
+    "kalkulator-nawozenia",
+    "kalkulator-siewu-warzyw",
+    "kalkulator-plonow-warzywnika",
+    "kalkulator-laki-kwietnej",
+  ],
+  "kalkulator-siewu-warzyw": [
+    "kalkulator-plonow-warzywnika",
+    "kalkulator-kompostownika",
+    "kalkulator-nawadniania",
+    "kalendarz-ogrodnika",
+  ],
+  "kalkulator-wapnowania": [
+    "kalkulator-nawozenia",
+    "kalkulator-trawnika",
+    "kalkulator-siewu-warzyw",
+    "kalendarz-ogrodnika",
+  ],
+  "kalkulator-kosztow-ogrodu": [
+    "kalkulator-nawadniania",
+    "kalkulator-robota-koszacego",
+    "kalkulator-deszczowki",
+    "kalkulator-laki-kwietnej",
+  ],
+  "wycinka-drzewa": [
+    "odleglosc-sadzenia-od-granicy",
+    "porownywarka-drzew",
+    "kalkulator-cienia",
+    "kalkulator-wzrostu",
+  ],
+  "odleglosc-sadzenia-od-granicy": [
+    "wycinka-drzewa",
+    "kalkulator-zywoplotu",
+    "kalkulator-cienia",
+    "kalkulator-prywatnosci",
+    "kalkulator-ogrodzenia",
+  ],
+  "dotacja-moja-woda": [
+    "kalkulator-deszczowki",
+    "kalkulator-nawadniania",
+    "kalkulator-kosztow-ogrodu",
+  ],
+  "kalkulator-laki-kwietnej": [
+    "kalkulator-trawnika",
+    "katalog-kwitnienia",
+    "kalkulator-ziemi-i-kory",
+    "kalkulator-budek-legowych",
+  ],
+  "rosliny-bezpieczne-dla-zwierzat": [
+    "katalog-kwitnienia",
+    "porownywarka-krzewow",
+    "alternatywy-dla-tui",
+    "generator-planu-ogrodu",
+  ],
+  "kalkulator-budek-legowych": [
+    "kalkulator-laki-kwietnej",
+    "katalog-kwitnienia",
+    "kalkulator-oczka-wodnego",
+    "kalendarz-ogrodnika",
+  ],
+  "kalkulator-plonow-warzywnika": [
+    "kalkulator-siewu-warzyw",
+    "kalkulator-kompostownika",
+    "kalkulator-nawadniania",
+    "generator-planu-ogrodu",
+  ],
+  "zgadnij-rosline": [
+    "katalog-kwitnienia",
+    "porownywarka-krzewow",
+    "porownywarka-drzew",
+    "kalendarz-ogrodnika",
   ],
 };
 
 /** Wysokowartościowe podstrony presetów — linkowanie głębokie */
+/** Strony treściowe spoza rejestru kalkulatorów */
+const STATIC_RELATED: Record<string, InternalLink> = {
+  "mapa-stref-mrozoodpornosci": {
+    href: "/mapa-stref-mrozoodpornosci",
+    label: "Mapa stref mrozoodporności USDA",
+    description: "Interaktywna mapa stref klimatycznych dla 16 województw Polski",
+    icon: "🗺️",
+  },
+  "problemy-ogrodowe": {
+    href: "/problemy-ogrodowe",
+    label: "Problemy ogrodowe — diagnoza",
+    description: "Choroby, szkodniki i kreator diagnozy objawów",
+    icon: "🔍",
+  },
+  "ogrod-teraz": {
+    href: "/ogrod-teraz",
+    label: "Co robić w ogrodzie teraz",
+    description: "Aktualne prace ogrodowe na bieżący miesiąc",
+    icon: "📅",
+  },
+};
+
 const PRESET_LINKS: Record<string, InternalLink[]> = {
   "generator-planu-ogrodu": [
     {
@@ -174,6 +313,11 @@ const PRESET_LINKS: Record<string, InternalLink[]> = {
     },
   ],
   "kalkulator-wzrostu": [
+    {
+      href: "/mapa-stref-mrozoodpornosci",
+      label: "Mapa stref USDA",
+      description: "Sprawdź strefę mrozoodporności w swoim regionie",
+    },
     {
       href: "/kalkulator-wzrostu/grab",
       label: "Wzrost grabu",
@@ -363,6 +507,7 @@ export const LINK_HUBS: LinkHub[] = [
     title: "Zaplanuj ogród",
     description: "Od koncepcji do kosztorysu",
     links: [
+      linkFromSlug("projektant-ogrodu"),
       linkFromSlug("generator-planu-ogrodu"),
       linkFromSlug("kalkulator-trawnika"),
       linkFromSlug("kalkulator-prywatnosci"),
@@ -396,6 +541,31 @@ export const LINK_HUBS: LinkHub[] = [
     links: [
       linkFromSlug("porownywarka-drzew"),
       linkFromSlug("kalkulator-cienia"),
+      linkFromSlug("wycinka-drzewa"),
+      linkFromSlug("odleglosc-sadzenia-od-granicy"),
+    ],
+  },
+  {
+    title: "Budowa i materiały",
+    description: "Nawierzchnie, ogrodzenia i grunt",
+    links: [
+      linkFromSlug("kalkulator-ziemi-i-kory"),
+      linkFromSlug("kalkulator-kostki-brukowej"),
+      linkFromSlug("kalkulator-ogrodzenia"),
+      linkFromSlug("kalkulator-oczka-wodnego"),
+      linkFromSlug("kalkulator-kosztow-ogrodu"),
+    ],
+  },
+  {
+    title: "Eko-ogród i warzywnik",
+    description: "Natura, plony i oszczędności",
+    links: [
+      linkFromSlug("kalkulator-laki-kwietnej"),
+      linkFromSlug("kalkulator-siewu-warzyw"),
+      linkFromSlug("kalkulator-plonow-warzywnika"),
+      linkFromSlug("kalkulator-kompostownika"),
+      linkFromSlug("rosliny-bezpieczne-dla-zwierzat"),
+      linkFromSlug("kalkulator-budek-legowych"),
     ],
   },
 ];
@@ -414,6 +584,11 @@ export function getRelatedTools(currentSlug: string): InternalLink[] {
   const slugs = RELATED_SLUGS[currentSlug] ?? [];
   const links: InternalLink[] = [];
   for (const slug of slugs) {
+    const staticLink = STATIC_RELATED[slug];
+    if (staticLink) {
+      links.push(staticLink);
+      continue;
+    }
     const calc = getCalculatorBySlug(slug);
     if (!calc) continue;
     links.push({
@@ -434,7 +609,7 @@ export function getAllToolsLink(): InternalLink {
   return {
     href: "/#kalkulatory",
     label: "Wszystkie kalkulatory ogrodowe",
-    description: "Pełna lista 15 darmowych narzędzi na Ogrodelo.pl",
+    description: `Pełna lista ${TOOL_COUNT} darmowych narzędzi na Ogrodelo.pl`,
     icon: "🌿",
   };
 }
@@ -453,6 +628,7 @@ export const FOOTER_LINK_GROUPS: { title: string; slugs: string[] }[] = [
   {
     title: "Planowanie",
     slugs: [
+      "projektant-ogrodu",
       "generator-planu-ogrodu",
       "kalendarz-ogrodnika",
       "kalkulator-prywatnosci",
@@ -478,6 +654,32 @@ export const FOOTER_LINK_GROUPS: { title: string; slugs: string[] }[] = [
       "porownywarka-krzewow",
       "porownywarka-drzew",
       "kalkulator-cienia",
+    ],
+  },
+  {
+    title: "Budowa i prawo",
+    slugs: [
+      "kalkulator-ziemi-i-kory",
+      "kalkulator-kostki-brukowej",
+      "kalkulator-ogrodzenia",
+      "kalkulator-oczka-wodnego",
+      "wycinka-drzewa",
+      "odleglosc-sadzenia-od-granicy",
+      "dotacja-moja-woda",
+    ],
+  },
+  {
+    title: "Eko i warzywnik",
+    slugs: [
+      "kalkulator-laki-kwietnej",
+      "kalkulator-siewu-warzyw",
+      "kalkulator-plonow-warzywnika",
+      "kalkulator-kompostownika",
+      "kalkulator-wapnowania",
+      "kalkulator-kosztow-ogrodu",
+      "rosliny-bezpieczne-dla-zwierzat",
+      "kalkulator-budek-legowych",
+      "zgadnij-rosline",
     ],
   },
 ];

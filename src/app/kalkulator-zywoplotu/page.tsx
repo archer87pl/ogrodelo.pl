@@ -12,6 +12,7 @@ import {
   jsonLdBreadcrumb,
   jsonLdCalculator,
   jsonLdFAQ,
+  SITE_URL,
 } from "@/lib/seo";
 
 const calc = getCalculatorBySlug("kalkulator-zywoplotu")!;
@@ -33,8 +34,8 @@ export const metadata: Metadata = {
 
 export default function Page() {
   const breadcrumb = jsonLdBreadcrumb([
-    { name: "Strona główna", url: "https://www.ogrodelo.pl" },
-    { name: "Kalkulator żywopłotu", url: "https://www.ogrodelo.pl/kalkulator-zywoplotu" },
+    { name: "Strona główna", url: SITE_URL },
+    { name: "Kalkulator żywopłotu", url: `${SITE_URL}/kalkulator-zywoplotu` },
   ]);
 
   return (

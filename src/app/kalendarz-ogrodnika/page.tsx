@@ -12,13 +12,21 @@ import {
 } from "@/lib/constants/garden-calendar";
 import { CALENDAR_TASK_PRESETS } from "@/lib/constants/calendar-task-presets";
 import {
+  CALENDAR_REGIONS,
+  getRegionalCalendarSlug,
+} from "@/lib/constants/garden-calendar-regions";
+import { MONTH_LABELS } from "@/lib/constants/flowering-plants";
+import {
   calculatorMetadata,
   jsonLdBreadcrumb,
   jsonLdCalculator,
   jsonLdFAQ,
+  SITE_URL,
 } from "@/lib/seo";
 
 const calc = getCalculatorBySlug("kalendarz-ogrodnika")!;
+
+const calendarYear = new Date().getFullYear();
 
 export const metadata: Metadata = {
   ...calculatorMetadata(calc),
@@ -26,7 +34,7 @@ export const metadata: Metadata = {
     "Kalendarz ogrodnika na cały rok: cięcie jabłoni w styczniu, nawożenie hortensji w maju, wertykulacja trawnika. Harmonogram prac w ogrodzie dla polskiego klimatu.",
   keywords: [
     ...calc.keywords,
-    "kalendarz ogrodnika 2026",
+    `kalendarz ogrodnika ${calendarYear}`,
     "harmonogram prac ogrodowych",
     "co robić w ogrodzie",
     "wertykulacja trawnika kiedy",
@@ -54,8 +62,8 @@ export default function Page() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             jsonLdBreadcrumb([
-              { name: "Strona główna", url: "https://www.ogrodelo.pl" },
-              { name: "Kalendarz ogrodnika", url: "https://www.ogrodelo.pl/kalendarz-ogrodnika" },
+              { name: "Strona główna", url: SITE_URL },
+              { name: "Kalendarz ogrodnika", url: `${SITE_URL}/kalendarz-ogrodnika` },
             ])
           ),
         }}
@@ -100,6 +108,39 @@ export default function Page() {
                   <p className="text-sm mt-1 line-clamp-2">{month.description}</p>
                 </Link>
               ))}
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold text-primary-dark mb-4">
+              Kalendarz według regionu
+            </h2>
+            <p className="text-muted mb-6 max-w-2xl">
+              Północ, centrum, południe i góry — inne daty przymrozków i terminy siewu.
+              Każdy region ma 12 stron miesięcznych.
+            </p>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {CALENDAR_REGIONS.map((region) => {
+                const currentMonth = MONTH_LABELS[new Date().getMonth()];
+                const href = `/kalendarz-ogrodnika/${getRegionalCalendarSlug(region.id, currentMonth.slug)}`;
+                return (
+                  <Link
+                    key={region.id}
+                    href={href}
+                    className="rounded-xl border border-border bg-card p-4 hover:border-primary transition-colors group"
+                  >
+                    <p className="font-semibold text-foreground group-hover:text-primary">
+                      {region.name}
+                    </p>
+                    <p className="text-sm text-muted mt-1">
+                      Strefa {region.zone} · ostatnie przymrozki: {region.avgLastFrost}
+                    </p>
+                    <p className="text-xs text-primary mt-2 font-medium">
+                      {currentMonth.name} w regionie →
+                    </p>
+                  </Link>
+                );
+              })}
             </div>
           </section>
 

@@ -14,7 +14,8 @@ export type TreeSpecies =
   | "modrzew"
   | "topola"
   | "orzech"
-  | "akacja";
+  | "akacja"
+  | "grab";
 
 export type SunExposure = "pelne" | "polcień" | "cien";
 export type FoundationRisk = "niskie" | "srednie" | "wysokie";
@@ -725,6 +726,44 @@ export const TREES: Record<TreeSpecies, TreeSpeciesData> = {
     },
     description:
       "Bardzo odporna na suszę i ubogie gleby. Szybki wzrost, ale wysyła odrostki i wymaga kontroli.",
+  },
+  grab: {
+    name: "Grab",
+    latinName: "Carpinus betulus",
+    growthPerYearCm: 30,
+    initialHeightM: 1.0,
+    maxHeightM: 22,
+    maxCrownWidthM: 10,
+    yearsToFullMaturity: 40,
+    sun: "pelne",
+    sunLabel: SUN_LABELS.pelne,
+    droughtResistance: 4,
+    frostZone: "4a–8a",
+    soilRequirements: "Żyzna, przepuszczalna; toleruje formowanie i cięcie",
+    rootAggressiveness: 2,
+    foundationRisk: "niskie",
+    shadePercentAtMaturity: 28,
+    messiness: 2,
+    messinessLabel: "Liście (zimują brązowe — mniej bałaganu niż liściaste opadające)",
+    waterNeed: 2,
+    maintenanceFrequency: 2,
+    diseaseSusceptibility: 1,
+    minDistHouseM: 4,
+    minDistFenceM: 2,
+    lifespanYears: 150,
+    saplingCostPln: 12,
+    yearsToShade: 8,
+    yearsToPrivacy: 10,
+    privacyScreeningRate: 28,
+    gardenFit: {
+      smallGarden: 6,
+      largeGarden: 9,
+      nearHouse: 7,
+      nearFence: 9,
+      fastEffect: 6,
+    },
+    description:
+      "Rodzime drzewo i żywopłot w jednym — zdrowe, odporne, liście zimują na gałęziach. Idealny na formowany ekran.",
   },
 };
 

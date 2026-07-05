@@ -81,6 +81,30 @@ export function Footer() {
         <div className="mt-6 pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm">
           <p>© {year} Ogrodelo.pl — Kalkulatory ogrodowe</p>
           <nav className="flex flex-wrap gap-x-4 gap-y-1" aria-label="Szybkie linki">
+            <Link href="/kalkulatory" className="hover:text-white">
+              Kalkulatory
+            </Link>
+            <Link href="/porownywarki" className="hover:text-white">
+              Porównywarki
+            </Link>
+            <Link href="/rosliny" className="hover:text-white">
+              Rośliny
+            </Link>
+            <Link href="/problemy-ogrodowe" className="hover:text-white">
+              Problemy ogrodowe
+            </Link>
+            <Link href="/ogrod-teraz" className="hover:text-white">
+              Co robić teraz
+            </Link>
+            <Link href="/mapa-stref-mrozoodpornosci" className="hover:text-white">
+              Strefy USDA
+            </Link>
+            <Link href="/feed.xml" className="hover:text-white">
+              RSS
+            </Link>
+            <Link href="/polityka-prywatnosci" className="hover:text-white">
+              Polityka prywatności
+            </Link>
             <Link href="/porownywarka-drzew/dab-vs-sosna" className="hover:text-white">
               Dąb vs sosna
             </Link>

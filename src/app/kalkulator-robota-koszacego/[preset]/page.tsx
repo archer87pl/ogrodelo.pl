@@ -12,12 +12,8 @@ import {
   getAllMowerPresetSlugs,
   MOWER_PRESETS,
 } from "@/lib/constants/mower-presets";
-import {
-  presetPageMetadata,
-  jsonLdBreadcrumb,
-  jsonLdFAQ,
-  SITE_URL,
-} from "@/lib/seo";
+import { PresetJsonLd } from "@/components/PresetJsonLd";
+import { presetPageMetadata } from "@/lib/seo";
 
 const calc = getCalculatorBySlug("kalkulator-robota-koszacego")!;
 
@@ -57,32 +53,14 @@ export default async function PresetPage({ params }: PageProps) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            jsonLdBreadcrumb([
-              { name: "Strona główna", url: SITE_URL },
-              {
-                name: "Robot koszący",
-                url: `${SITE_URL}/kalkulator-robota-koszacego`,
-              },
-              {
-                name: preset.title,
-                url: `${SITE_URL}/kalkulator-robota-koszacego/${slug}`,
-              },
-            ])
-          ),
-        }}
+      <PresetJsonLd
+        parentSlug="kalkulator-robota-koszacego"
+        parentLabel="Robot koszący"
+        presetTitle={preset.title}
+        presetDescription={preset.description}
+        presetPath={`/kalkulator-robota-koszacego/${slug}`}
+        faq={preset.faq.length > 0 ? preset.faq : undefined}
       />
-      {preset.faq.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLdFAQ(preset.faq)),
-          }}
-        />
-      )}
 
       <div className="mx-auto max-w-6xl px-4 py-6 sm:py-8">
         <Breadcrumbs

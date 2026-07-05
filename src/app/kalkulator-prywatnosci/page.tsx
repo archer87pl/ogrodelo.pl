@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { CalculatorLayout } from "@/components/CalculatorLayout";
 import { PrivacyCalculator } from "@/components/calculators/PrivacyCalculator";
+import { PRIVACY_FAQ } from "@/lib/calculators/simple-calculator-faqs";
 import { getCalculatorBySlug } from "@/lib/constants/calculators";
 import { calculatorMetadata } from "@/lib/seo";
 
@@ -12,6 +13,7 @@ export default function Page() {
   return (
     <CalculatorLayout
       calc={calc}
+      faqs={PRIVACY_FAQ}
       seoContent={
         <>
           <h2>Jak zasłonić widok sąsiada w ogrodzie?</h2>

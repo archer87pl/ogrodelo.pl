@@ -486,6 +486,26 @@ export function FloweringCatalogIllustration() {
   );
 }
 
+export function GardenDesignerIllustration() {
+  return (
+    <IllustrationWrapper title="Projektant ogrodu">
+      <path d="M20 250 L380 250 L380 275 L20 275 Z" fill="#c8e6b8" />
+      <g className="hero-float-slow">
+        <rect x="50" y="70" width="300" height="170" rx="8" fill="#f0fdf4" stroke="#16a34a" strokeWidth="1.5" />
+        {[0, 1, 2, 3, 4, 5, 6].map((i) => (
+          <line key={`v${i}`} x1={80 + i * 40} y1={70} x2={80 + i * 40} y2={240} stroke="#d4e4d4" strokeWidth="0.5" />
+        ))}
+        <rect x="90" y="100" width="80" height="60" rx="4" fill="#e2e8f0" stroke="#64748b" />
+        <text x="130" y="135" textAnchor="middle" fontSize="14">🏠</text>
+        <rect x="200" y="160" width="100" height="50" rx="4" fill="#bbf7d0" fillOpacity="0.8" stroke="#16a34a" />
+        <text x="250" y="190" textAnchor="middle" fontSize="12">🟩</text>
+        <circle cx="310" cy="120" r="22" fill="#86efac" stroke="#15803d" />
+        <text x="310" y="125" textAnchor="middle" fontSize="14">🌳</text>
+      </g>
+    </IllustrationWrapper>
+  );
+}
+
 export const CALCULATOR_ILLUSTRATIONS: Record<string, () => React.JSX.Element> = {
   "kalkulator-nawadniania": IrrigationIllustration,
   "kalkulator-zywoplotu": HedgeIllustration,
@@ -497,6 +517,7 @@ export const CALCULATOR_ILLUSTRATIONS: Record<string, () => React.JSX.Element> =
   "porownywarka-drzew": TreeComparatorIllustration,
   "porownywarka-krzewow": ShrubComparatorIllustration,
   "generator-planu-ogrodu": GardenPlanIllustration,
+  "projektant-ogrodu": GardenDesignerIllustration,
   "kalkulator-trawnika": LawnIllustration,
   "kalkulator-robota-koszacego": MowerIllustration,
   "alternatywy-dla-tui": TuiAlternativesIllustration,

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { CalculatorLayout } from "@/components/CalculatorLayout";
 import { FertilizationCalculator } from "@/components/calculators/FertilizationCalculator";
+import { FERTILIZATION_FAQ } from "@/lib/calculators/simple-calculator-faqs";
 import { getCalculatorBySlug } from "@/lib/constants/calculators";
 import { calculatorMetadata } from "@/lib/seo";
 
@@ -12,6 +13,7 @@ export default function Page() {
   return (
     <CalculatorLayout
       calc={calc}
+      faqs={FERTILIZATION_FAQ}
       seoContent={
         <>
           <h2>Ile nawozu na trawnik?</h2>

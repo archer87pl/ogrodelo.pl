@@ -12,12 +12,8 @@ import {
   getAllFloweringPresetSlugs,
   FLOWERING_PRESETS_UNIQUE,
 } from "@/lib/constants/flowering-catalog-presets";
-import {
-  presetPageMetadata,
-  jsonLdBreadcrumb,
-  jsonLdFAQ,
-  SITE_URL,
-} from "@/lib/seo";
+import { PresetJsonLd } from "@/components/PresetJsonLd";
+import { presetPageMetadata } from "@/lib/seo";
 
 const calc = getCalculatorBySlug("katalog-kwitnienia")!;
 
@@ -59,29 +55,14 @@ export default async function PresetPage({ params }: PageProps) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            jsonLdBreadcrumb([
-              { name: "Strona główna", url: SITE_URL },
-              { name: "Katalog kwitnienia", url: `${SITE_URL}/katalog-kwitnienia` },
-              {
-                name: preset.title,
-                url: `${SITE_URL}/katalog-kwitnienia/${slug}`,
-              },
-            ])
-          ),
-        }}
+      <PresetJsonLd
+        parentSlug="katalog-kwitnienia"
+        parentLabel="Katalog kwitnienia"
+        presetTitle={preset.title}
+        presetDescription={preset.description}
+        presetPath={`/katalog-kwitnienia/${slug}`}
+        faq={preset.faq.length > 0 ? preset.faq : undefined}
       />
-      {preset.faq.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLdFAQ(preset.faq)),
-          }}
-        />
-      )}
 
       <div className="mx-auto max-w-6xl px-4 py-6 sm:py-8">
         <Breadcrumbs items={breadcrumbs} />

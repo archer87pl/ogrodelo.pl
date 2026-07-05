@@ -18,6 +18,11 @@ import {
 } from "@/lib/constants/flowering-plants";
 import type { FloweringCatalogPreset } from "@/lib/constants/flowering-catalog-presets";
 import { plantDetailPath } from "@/lib/flowering-plant-seo";
+import {
+  applyExtendedPlantFilters,
+  HARDINESS_ZONE_OPTIONS,
+} from "@/lib/constants/plant-encyclopedia-meta";
+import type { HardinessZone } from "@/lib/constants/hardiness-zones";
 
 interface FloweringPlantCatalogProps {
   preset?: FloweringCatalogPreset;
@@ -63,6 +68,16 @@ export function FloweringPlantCatalog({ preset }: FloweringPlantCatalogProps) {
     })
   );
 
+  const [selectedLight, setSelectedLight] = useState<LightNeed[]>(initial.light ?? []);
+  const [selectedZones, setSelectedZones] = useState<HardinessZone[]>(
+    initial.hardinessZones ?? []
+  );
+  const [petSafe, setPetSafe] = useState({
+    dog: initial.petSafeDog ?? false,
+    cat: initial.petSafeCat ?? false,
+    child: initial.petSafeChild ?? false,
+  });
+
   useEffect(() => {
     if (!preset) return;
     const f = preset.filters;
@@ -79,6 +94,13 @@ export function FloweringPlantCatalog({ preset }: FloweringPlantCatalogProps) {
       ornamentalFruit: f.ornamentalFruit,
       autumnColor: f.autumnColor,
     });
+    setSelectedLight(f.light ?? []);
+    setSelectedZones(f.hardinessZones ?? []);
+    setPetSafe({
+      dog: f.petSafeDog ?? false,
+      cat: f.petSafeCat ?? false,
+      child: f.petSafeChild ?? false,
+    });
   }, [preset]);
 
   const activeFilters: FloweringCatalogFilters = useMemo(
@@ -94,15 +116,19 @@ export function FloweringPlantCatalog({ preset }: FloweringPlantCatalogProps) {
       winterBloom: traits.winterBloom || undefined,
       ornamentalFruit: traits.ornamentalFruit || undefined,
       autumnColor: traits.autumnColor || undefined,
-      light: preset?.filters.light,
+      light: selectedLight.length ? selectedLight : preset?.filters.light,
+      hardinessZones: selectedZones.length ? selectedZones : undefined,
+      petSafeDog: petSafe.dog || undefined,
+      petSafeCat: petSafe.cat || undefined,
+      petSafeChild: petSafe.child || undefined,
     }),
-    [selectedMonths, monthsMatch, selectedColors, selectedCategories, scent, traits, preset]
+    [selectedMonths, monthsMatch, selectedColors, selectedCategories, scent, traits, preset, selectedLight, selectedZones, petSafe]
   );
 
-  const results = useMemo(
-    () => sortPlantsByBloomStart(filterFloweringPlants(FLOWERING_PLANTS_LIST, activeFilters)),
-    [activeFilters]
-  );
+  const results = useMemo(() => {
+    const filtered = filterFloweringPlants(FLOWERING_PLANTS_LIST, activeFilters);
+    return sortPlantsByBloomStart(applyExtendedPlantFilters(filtered, activeFilters));
+  }, [activeFilters]);
 
   const toggleMonth = (num: number) => {
     setSelectedMonths((prev) =>
@@ -126,6 +152,18 @@ export function FloweringPlantCatalog({ preset }: FloweringPlantCatalogProps) {
     setTraits((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const toggleLight = (l: LightNeed) => {
+    setSelectedLight((prev) =>
+      prev.includes(l) ? prev.filter((x) => x !== l) : [...prev, l]
+    );
+  };
+
+  const toggleZone = (z: HardinessZone) => {
+    setSelectedZones((prev) =>
+      prev.includes(z) ? prev.filter((x) => x !== z) : [...prev, z]
+    );
+  };
+
   const resetFilters = () => {
     setSelectedMonths([]);
     setMonthsMatch("any");
@@ -133,6 +171,9 @@ export function FloweringPlantCatalog({ preset }: FloweringPlantCatalogProps) {
     setSelectedCategories([]);
     setScent("any");
     setTraits({});
+    setSelectedLight([]);
+    setSelectedZones([]);
+    setPetSafe({ dog: false, cat: false, child: false });
   };
 
   return (
@@ -255,6 +296,84 @@ export function FloweringPlantCatalog({ preset }: FloweringPlantCatalogProps) {
               </button>
             ))}
           </div>
+        </div>
+
+        <div>
+          <p className="text-sm font-semibold text-foreground mb-3">Stanowisko</p>
+          <div className="flex flex-wrap gap-2">
+            {(Object.keys(LIGHT_LABELS) as LightNeed[]).map((l) => (
+              <button
+                key={l}
+                type="button"
+                onClick={() => toggleLight(l)}
+                className={`rounded-full px-3 py-1.5 text-xs font-medium border transition-colors ${
+                  selectedLight.includes(l)
+                    ? "border-primary bg-primary/10 text-primary-dark"
+                    : "border-border bg-background text-muted hover:border-primary"
+                }`}
+              >
+                {LIGHT_LABELS[l]}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <p className="text-sm font-semibold text-foreground mb-3">Strefa mrozoodporności (USDA)</p>
+          <div className="flex flex-wrap gap-2">
+            {HARDINESS_ZONE_OPTIONS.map(({ zone, label }) => (
+              <button
+                key={zone}
+                type="button"
+                onClick={() => toggleZone(zone)}
+                className={`rounded-full px-3 py-1.5 text-xs font-medium border transition-colors ${
+                  selectedZones.includes(zone)
+                    ? "border-primary bg-primary text-white"
+                    : "border-border bg-background text-muted hover:border-primary"
+                }`}
+              >
+                {zone}
+              </button>
+            ))}
+          </div>
+          <p className="text-xs text-muted mt-2">
+            <Link href="/mapa-stref-mrozoodpornosci" className="text-primary hover:underline">
+              Sprawdź swoją strefę na mapie →
+            </Link>
+          </p>
+        </div>
+
+        <div>
+          <p className="text-sm font-semibold text-foreground mb-3">Bezpieczne dla</p>
+          <div className="flex flex-wrap gap-2">
+            {(
+              [
+                ["dog", "🐕 Psów", "dog"],
+                ["cat", "🐈 Kotów", "cat"],
+                ["child", "👶 Dzieci", "child"],
+              ] as const
+            ).map(([key, label]) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setPetSafe((prev) => ({ ...prev, [key]: !prev[key] }))}
+                className={`rounded-full px-3 py-1.5 text-xs font-medium border transition-colors ${
+                  petSafe[key]
+                    ? "border-primary bg-accent text-primary-dark"
+                    : "border-border bg-background text-muted hover:border-primary"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <p className="text-xs text-muted mt-2">
+            Na podstawie bazy{" "}
+            <Link href="/rosliny-dla-zwierzat" className="text-primary hover:underline">
+              roślin dla zwierząt
+            </Link>
+            . Brak wpisu = roślina nie jest w filtrze.
+          </p>
         </div>
 
         <div>
