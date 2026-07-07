@@ -157,7 +157,7 @@ export const GARDEN_PROBLEMS: GardenProblem[] = [
     ],
     relatedTools: [
       { href: "/alternatywy-dla-tui", label: "Alternatywy dla tui" },
-      { href: "/porownywarka-krzewow/tuja-vs-laurowisnia", label: "Tuja vs laurowiśnia" },
+      { href: "/porownywarka-krzewow/laurowisnia-vs-tuja", label: "Tuja vs laurowiśnia" },
     ],
     faq: [
       {
@@ -212,7 +212,7 @@ export const GARDEN_PROBLEMS: GardenProblem[] = [
     ],
     relatedTools: [
       { href: "/katalog-kwitnienia", label: "Katalog kwitnienia" },
-      { href: "/kalkulator-nawadniania/cien", label: "Nawadnianie w cieniu" },
+      { href: "/kalkulator-cienia", label: "Kalkulator cienia" },
     ],
     faq: [
       {
@@ -438,7 +438,7 @@ export const GARDEN_PROBLEMS: GardenProblem[] = [
     ],
     relatedTools: [
       { href: "/katalog-kwitnienia", label: "Katalog kwitnienia" },
-      { href: "/kalendarz-ogrodnika/ciecie-roz", label: "Cięcie róż w kalendarzu" },
+      { href: "/kalendarz-ogrodnika/przycinanie-roz", label: "Cięcie róż w kalendarzu" },
     ],
     faq: [
       {
@@ -652,7 +652,7 @@ export const GARDEN_PROBLEMS: GardenProblem[] = [
       "Rotacja — nie kompostuj chorych liści.",
     ],
     relatedTools: [
-      { href: "/kalendarz-ogrodnika/ciecie-jabloni", label: "Cięcie jabłoni" },
+      { href: "/kalendarz-ogrodnika/przycinanie-jabloni", label: "Cięcie jabłoni" },
       { href: "/kalkulator-wzrostu", label: "Kalkulator wzrostu drzew" },
     ],
     faq: [
@@ -813,7 +813,7 @@ export const GARDEN_PROBLEMS: GardenProblem[] = [
     ],
     relatedTools: [
       { href: "/katalog-kwitnienia", label: "Katalog kwitnienia" },
-      { href: "/kalendarz-ogrodnika/ciecie-roz", label: "Cięcie róż" },
+      { href: "/kalendarz-ogrodnika/przycinanie-roz", label: "Cięcie róż" },
     ],
     faq: [
       {

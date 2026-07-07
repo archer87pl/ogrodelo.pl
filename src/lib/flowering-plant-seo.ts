@@ -211,8 +211,8 @@ export function getPlantCalculatorLinks(
 
   if (plant.light.includes("cien") || plant.light.includes("polcien")) {
     links.push({
-      href: "/kalkulator-nawadniania/cien",
-      label: "Nawadnianie w cieniu",
+      href: "/kalkulator-cienia",
+      label: "Kalkulator cienia",
     });
   }
 

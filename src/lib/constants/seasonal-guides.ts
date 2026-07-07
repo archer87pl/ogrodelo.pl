@@ -59,7 +59,7 @@ function guideFromMonth(month: CalendarMonth): SeasonalGuide {
     ],
     8: [
       { href: "/kalkulator-plonow-warzywnika", label: "Plony warzywnika" },
-      { href: "/kalkulator-kompostu", label: "Kalkulator kompostu" },
+      { href: "/kalkulator-kompostownika", label: "Kalkulator kompostownika" },
     ],
     9: [
       { href: "/kalkulator-wzrostu", label: "Kalkulator wzrostu" },

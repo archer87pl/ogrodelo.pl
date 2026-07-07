@@ -148,7 +148,7 @@ export function FloweringPlantDetail({ plant }: FloweringPlantDetailProps) {
           </dl>
           {petSafety.note && <p className="text-xs text-muted mt-3">{petSafety.note}</p>}
           <Link
-            href="/rosliny-dla-zwierzat"
+            href="/rosliny-bezpieczne-dla-zwierzat"
             className="inline-block mt-3 text-sm text-primary font-medium hover:underline"
           >
             Pełna lista roślin dla zwierząt →

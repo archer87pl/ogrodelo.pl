@@ -369,7 +369,7 @@ export function FloweringPlantCatalog({ preset }: FloweringPlantCatalogProps) {
           </div>
           <p className="text-xs text-muted mt-2">
             Na podstawie bazy{" "}
-            <Link href="/rosliny-dla-zwierzat" className="text-primary hover:underline">
+            <Link href="/rosliny-bezpieczne-dla-zwierzat" className="text-primary hover:underline">
               roślin dla zwierząt
             </Link>
             . Brak wpisu = roślina nie jest w filtrze.

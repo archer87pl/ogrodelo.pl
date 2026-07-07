@@ -11,7 +11,7 @@ interface PlantGrowthPreviewProps {
 
 export function PlantGrowthPreview({ plantId, species, plantName }: PlantGrowthPreviewProps) {
   const result = calculateGrowth({ species, saplingSize: "srednia" });
-  const presetSlug = getPlantGrowthPresetSlug(plantId) ?? (species === "tui" ? "tuja" : species);
+  const presetSlug = getPlantGrowthPresetSlug(plantId);
   const milestones = result.milestones.filter((m) => [1, 2, 5, 10].includes(m.years));
 
   return (
@@ -46,7 +46,7 @@ export function PlantGrowthPreview({ plantId, species, plantName }: PlantGrowthP
         </table>
       </div>
       <Link
-        href={`/kalkulator-wzrostu/${presetSlug}`}
+        href={presetSlug ? `/kalkulator-wzrostu/${presetSlug}` : "/kalkulator-wzrostu"}
         className="inline-block mt-4 text-sm text-primary font-medium hover:underline"
       >
         Pełny kalkulator wzrostu {plantName.toLowerCase()} →

@@ -1,4 +1,5 @@
 import type { GrowthSpecies } from "@/lib/calculators/growth";
+import { getGrowthPreset } from "./growth-presets";
 import type { FloweringPlant, FloweringCatalogFilters, PlantCategory } from "./flowering-plants";
 import { PET_PLANTS, type PetPlant, type ToxicityLevel } from "./pet-plants";
 import type { HardinessZone } from "./hardiness-zones";
@@ -105,7 +106,8 @@ export function getPlantGrowthSpecies(plantId: string): GrowthSpecies | undefine
 export function getPlantGrowthPresetSlug(plantId: string): string | undefined {
   const species = getPlantGrowthSpecies(plantId);
   if (!species) return undefined;
-  return species === "tui" ? "tuja" : species;
+  const slug = species === "tui" ? "tuja" : species;
+  return getGrowthPreset(slug) ? slug : undefined;
 }
 
 export function applyExtendedPlantFilters(
