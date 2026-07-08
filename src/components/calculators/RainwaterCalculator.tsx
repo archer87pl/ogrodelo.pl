@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FormField, inputClass } from "@/components/FormField";
 import { ResultCard, TipsList } from "@/components/ResultCard";
 import { calculateRainwater } from "@/lib/calculators/rainwater";
+import { fetchAnnualPrecipForCity } from "@/lib/weather-client";
 
 export function RainwaterCalculator() {
   const [roofArea, setRoofArea] = useState(80);
@@ -19,14 +20,9 @@ export function RainwaterCalculator() {
   async function fetchPrecipitation() {
     setLoading(true);
     try {
-      const res = await fetch(
-        `/api/weather?city=${encodeURIComponent(location)}&annual=true`
-      );
-      if (res.ok) {
-        const data = await res.json();
-        if (data.annualPrecipitation) {
-          setAnnualPrecip(data.annualPrecipitation);
-        }
+      const data = await fetchAnnualPrecipForCity(location);
+      if (data?.annualPrecipitation) {
+        setAnnualPrecip(data.annualPrecipitation);
       }
     } finally {
       setLoading(false);

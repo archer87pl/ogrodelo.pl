@@ -31,6 +31,29 @@ npm run build
 npm start
 ```
 
+## GitHub Pages
+
+Statyczny export (542 strony) z workflow CI:
+
+```bash
+# lokalnie
+$env:GITHUB_PAGES="true"
+$env:NEXT_PUBLIC_SITE_URL="https://archer87pl.github.io/ogrodelo.pl"
+npm run build:pages
+```
+
+Po pushu na `main` workflow `.github/workflows/deploy-pages.yml` publikuje katalog `out/` na:
+
+**https://archer87pl.github.io/ogrodelo.pl/**
+
+### Włączenie w repozytorium
+
+1. GitHub → **Settings** → **Pages**
+2. **Source:** GitHub Actions
+3. Push na `main` uruchomi build i deploy
+
+Kalkulatory pogodowe (nawadnianie, deszczówka) wołają Open-Meteo bezpośrednio z przeglądarki — bez serwera Node.
+
 ## SEO
 
 - Metadata i Open Graph na każdej stronie

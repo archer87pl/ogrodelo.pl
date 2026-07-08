@@ -15,6 +15,8 @@ import { FLOWERING_PRESETS_UNIQUE } from "@/lib/constants/flowering-catalog-pres
 import { MOWER_PRESETS } from "@/lib/constants/mower-presets";
 import { FLOWERING_PLANTS_LIST } from "@/lib/constants/flowering-plants";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = SITE_URL;
 

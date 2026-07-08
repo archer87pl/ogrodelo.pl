@@ -3,7 +3,12 @@ import type { CalculatorMeta } from "./constants/calculators";
 import { CALCULATORS } from "./constants/calculators";
 import { TOOL_COUNT } from "./constants/site-stats";
 
-export const SITE_URL = "https://www.ogrodelo.pl";
+const DEFAULT_SITE_URL =
+  process.env.GITHUB_PAGES === "true"
+    ? "https://archer87pl.github.io/ogrodelo.pl"
+    : "https://www.ogrodelo.pl";
+
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? DEFAULT_SITE_URL;
 const SITE_NAME = "Ogrodelo.pl";
 
 const DEFAULT_OG_IMAGE = {

@@ -24,16 +24,8 @@ import {
   type MulchType,
 } from "@/lib/calculators/irrigation";
 import type { IrrigationPreset } from "@/lib/constants/irrigation-presets";
-
-interface WeatherInfo {
-  avgTemp: number;
-  totalPrecipitation: number;
-  rainyDays: number;
-  locationName: string;
-  dailyPrecip: number[];
-  dailyTemp: number[];
-  dayNames: string[];
-}
+import { fetchWeatherForCity } from "@/lib/weather-client";
+import type { WeatherData } from "@/lib/weather";
 
 interface IrrigationCalculatorProps {
   preset?: IrrigationPreset;
@@ -63,7 +55,7 @@ export function IrrigationCalculator({ preset }: IrrigationCalculatorProps) {
   const [wind, setWind] = useState<WindExposure>(d.wind ?? "brak");
   const [mulch, setMulch] = useState<MulchType>(d.mulch ?? "brak");
   const [waterPrice, setWaterPrice] = useState(5.5);
-  const [weather, setWeather] = useState<WeatherInfo | null>(null);
+  const [weather, setWeather] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(false);
   const [showFormula, setShowFormula] = useState(false);
   const [weatherFetched, setWeatherFetched] = useState(false);
@@ -111,11 +103,8 @@ export function IrrigationCalculator({ preset }: IrrigationCalculatorProps) {
   async function fetchWeather() {
     setLoading(true);
     try {
-      const res = await fetch(
-        `/api/weather?city=${encodeURIComponent(location)}`
-      );
-      if (res.ok) {
-        const data = await res.json();
+      const data = await fetchWeatherForCity(location);
+      if (data) {
         setWeather(data);
       }
     } finally {
