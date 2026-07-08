@@ -2,7 +2,7 @@ import { copyFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const outDir = "out";
-const basePath = process.env.GITHUB_PAGES_BASE_PATH ?? "/ogrodelo.pl";
+const basePath = process.env.GITHUB_PAGES_BASE_PATH ?? "";
 
 writeFileSync(join(outDir, ".nojekyll"), "");
 

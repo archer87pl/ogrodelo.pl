@@ -36,15 +36,21 @@ npm start
 Statyczny export (542 strony) z workflow CI:
 
 ```bash
-# lokalnie
+# lokalnie (custom domain — bez basePath)
 $env:GITHUB_PAGES="true"
+$env:NEXT_PUBLIC_SITE_URL="https://www.ogrodelo.pl"
+npm run build:pages
+
+# alternatywnie: github.io/project (wymaga basePath)
+$env:GITHUB_PAGES="true"
+$env:GITHUB_PAGES_BASE_PATH="/ogrodelo.pl"
 $env:NEXT_PUBLIC_SITE_URL="https://archer87pl.github.io/ogrodelo.pl"
 npm run build:pages
 ```
 
 Po pushu na `main` workflow `.github/workflows/deploy-pages.yml` publikuje katalog `out/` na:
 
-**https://archer87pl.github.io/ogrodelo.pl/**
+**https://www.ogrodelo.pl**
 
 ### Włączenie w repozytorium
 

@@ -5,7 +5,7 @@ import { TOOL_COUNT } from "./constants/site-stats";
 
 const DEFAULT_SITE_URL =
   process.env.GITHUB_PAGES === "true"
-    ? "https://archer87pl.github.io/ogrodelo.pl"
+    ? "https://www.ogrodelo.pl"
     : "https://www.ogrodelo.pl";
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? DEFAULT_SITE_URL;

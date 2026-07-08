@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const isGithubPages = process.env.GITHUB_PAGES === "true";
-const githubPagesBasePath = "/ogrodelo.pl";
+/** Empty for custom domain (ogrodelo.pl); set to /repo-name only for github.io/project URLs */
+const githubPagesBasePath = process.env.GITHUB_PAGES_BASE_PATH ?? "";
 
 const productionRedirects = [
   {
@@ -19,8 +20,9 @@ const productionRedirects = [
 const nextConfig: NextConfig = isGithubPages
   ? {
       output: "export",
-      basePath: githubPagesBasePath,
-      assetPrefix: githubPagesBasePath,
+      ...(githubPagesBasePath
+        ? { basePath: githubPagesBasePath, assetPrefix: githubPagesBasePath }
+        : {}),
       trailingSlash: true,
     }
   : {

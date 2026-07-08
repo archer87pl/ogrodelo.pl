@@ -34,7 +34,8 @@ jobs:
         run: npm run build:pages
         env:
           GITHUB_PAGES: "true"
-          NEXT_PUBLIC_SITE_URL: https://archer87pl.github.io/ogrodelo.pl
+          GITHUB_PAGES_BASE_PATH: ""
+          NEXT_PUBLIC_SITE_URL: https://www.ogrodelo.pl
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
