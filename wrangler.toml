@@ -1,3 +1,6 @@
-name = "ogrodelo-pl"
+name = "ogrodelo"
 compatibility_date = "2026-07-10"
-pages_build_output_dir = "out"
+
+[assets]
+directory = "./out"
+not_found_handling = "404-page"
