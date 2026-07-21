@@ -295,7 +295,7 @@ export function jsonLdFloweringPlant(plant: FloweringPlant, url: string) {
     author: {
       "@type": "Organization",
       name: "Ogrodelo.pl",
-      url: "https://www.ogrodelo.pl",
+      url: "https://ogrodelo.pl",
     },
   };
 }

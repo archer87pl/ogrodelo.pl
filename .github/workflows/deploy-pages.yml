@@ -35,7 +35,7 @@ jobs:
         env:
           GITHUB_PAGES: "true"
           GITHUB_PAGES_BASE_PATH: ""
-          NEXT_PUBLIC_SITE_URL: https://www.ogrodelo.pl
+          NEXT_PUBLIC_SITE_URL: https://ogrodelo.pl
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
